@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">PME</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_take_exam">Take Exam</string>
+    <string name="nav_item_performance_history">Performance History</string>
+    <string name="nav_item_review">Review</string>
+    <string name="nav_item_schedules">My Schedules</string>
+    <string name="nav_item_videos">Videos</string>
+    <string name="nav_item_about">About</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_take_exam</item>
+        <item>@string/nav_item_performance_history</item>
+        <item>@string/nav_item_review</item>
+        <item>@string/nav_item_schedules</item>
+        <item>@string/nav_item_videos</item>
+        <item>@string/nav_item_about</item>
+    </string-array>
+    <string-array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_home</item>
+    </string-array>
+
+    <string name="title_take_exam">Take Exam</string>
+    <string name="title_performance_history">Performance History</string>
+    <string name="title_review">Review</string>
+    <string name="title_schedules">My Schedules</string>
+    <string name="title_videos">Videos</string>
+    <string name="title_about">About</string>
+
+</resources>
