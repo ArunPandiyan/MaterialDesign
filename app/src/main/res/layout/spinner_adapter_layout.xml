@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="androidhive.info.materialdesign.activity.ExamFragment">
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="?android:attr/spinnerItemStyle"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ellipsize="marquee"
+    android:textAlignment="inherit"
+    android:layout_marginLeft="5px"
+    android:layout_marginTop="2px"
+    android:padding="3px"
+    android:textSize="22px"
+    android:textStyle="bold"
+    android:text="HELLo"
+    android:textColor="@color/textColorPrimary"/>
+    </RelativeLayout>

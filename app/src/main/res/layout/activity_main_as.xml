@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Knowledge Area "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColorPrimary"
+        android:prompt= "@string/prompt_text_knowledgearea"
+        />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:spinnerMode="dropdown"
+        android:paddingTop="5dp"
+        />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Advanced"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Process Group"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingTop="24dp"
+        android:textColor="@color/textColorPrimary"/>
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        
+        android:layout_height="68dp"
+        android:spinnerMode="dropdown"
+        android:prompt="@string/prompt_text_processgroup"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Process Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColorPrimary"/>
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="match_parent"
+        android:prompt="@string/prompt_text_processname"
+        android:layout_height="68dp" 
+        android:spinnerMode="dropdown"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Level"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColorPrimary"
+        />
+
+    <Spinner
+        android:id="@+id/spinner4"
+        android:layout_width="match_parent"
+        android:layout_height="68dp" 
+        android:spinnerMode="dropdown"
+        android:prompt="@string/prompt_text_selectlevel"/>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:text="Next" />
+    </LinearLayout>
+    </LinearLayout>
+

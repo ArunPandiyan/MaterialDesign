@@ -36,5 +36,35 @@
     <string name="title_schedules">My Schedules</string>
     <string name="title_videos">Videos</string>
     <string name="title_about">About</string>
+<!--Added Newly-->
+    <string name="btn_facebook">Login Facebook</string>
+    <string name="btn_revoke_access">Revoke Access</string>
+    <string name="app_id">1626586530911257</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_section1">Dashboard</string>
+
+    <string name="createAccount">Create Account</string>
+    <string name="emailHint">Email</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="confirmPasswordHint">Confirm Password</string>
+
+    <string name="login_progress_signing_in">Signing in&#8230;</string>
+    <string name="login_progress_password_email">Sending email&#8230;</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_duplicate_email">This email address is already in use</string>
+    <string name="error_duplicate_username">This username is already in use</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_confirm_password">Passwords do not match</string>
+    <string name="error_field_required">This field is required</string>
+
+    <!--Prompt Texts-->
+    <string name="prompt_text_knowledgearea">Choose Knowledge Area</string>
+    <string name="prompt_text_processgroup">Choose Process Group</string>
+    <string name="prompt_text_processname">Choose Process Name</string>
+    <string name="prompt_text_selectlevel">Select your Difficulty Level</string>
 
 </resources>

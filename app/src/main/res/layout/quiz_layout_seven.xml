@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <CheckBox
+            android:id="@+id/rCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.90"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Mark for Review" />
+
+        <Button
+            android:id="@+id/showReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.03"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.84"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/qNo"
+                    android:layout_width="131dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:text="Q.1"
+                    android:background="@drawable/question_border"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/questionView"
+                android:layout_width="233dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:layout_width="28dp"
+                android:layout_height="30dp"
+                android:orientation="vertical" >
+
+                 <Button
+                    android:id="@+id/info"
+                    android:layout_width="28dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="i"
+                    
+                     />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+                
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+           
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.12"
+                android:orientation="vertical" >
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="50dp"
+                    android:checkedButton="@+id/sound"
+                    android:orientation="vertical" >
+
+                    <RadioButton
+                        android:id="@+id/RadioButton01"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.58"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <RadioButton
+                        android:id="@+id/RadioButton02"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.61"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <RadioButton
+                        android:id="@+id/RadioButton03"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.32"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <RadioButton
+                        android:id="@+id/RadioButton04"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.08"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+       
+
+</LinearLayout>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "androidhive.info.materialdesign"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -24,5 +24,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'de.hdodenhof:circleimageview:1.2.1'
-    compile project(':facebook')
+    compile 'com.google.android.gms:play-services:7.3.0'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.google.android.gms:play-services-base:7.3.0'
+    compile project(':libraries:facebook')
 }

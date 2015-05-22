@@ -151,7 +151,7 @@ public class MainActivity2 extends ActionBarActivity implements FragmentDrawer.F
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                fragment = new ExamFragment();
+                fragment = new ExxamFragment();
                 title = getString(R.string.title_take_exam);
                 break;
             case 1:
