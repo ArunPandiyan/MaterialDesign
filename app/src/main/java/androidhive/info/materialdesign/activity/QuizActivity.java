@@ -65,6 +65,7 @@ public class QuizActivity extends Activity{
 		  new AlertDialog.Builder(this)
 		    .setTitle("Message")
 		    .setMessage("Are you sure you want to quit this test?")
+
 		    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) { 
 		            // continue with delete

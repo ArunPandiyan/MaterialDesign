@@ -28,4 +28,7 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.google.android.gms:play-services-base:7.3.0'
     compile project(':libraries:facebook')
+    compile 'com.github.traex.rippleeffect:library:1.3'
+//    compile 'com.github.siriscac:RippleView:46a7109aa0'
+
 }

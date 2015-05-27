@@ -20,16 +20,16 @@ import androidhive.info.materialdesign.data.Quizdata;
 import androidhive.info.materialdesign.data.ResultData;
 import androidhive.info.materialdesign.parser.QuizJSONParser;
 import androidhive.info.materialdesign.R;
-
+//import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -412,8 +412,9 @@ public class ExamFragment extends Fragment {
         seekBar.setMax(data.size());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Select the number of Question out of " + String.valueOf(data.size()));
+        alertDialogBuilder.setTitle("Select the number of Question out of " + String.valueOf(data.size())+"\n");
         alertDialogBuilder.setView(linearLayout);
+//        alertDialogBuilder.setIcon(R.id.icon);
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("Ok",
