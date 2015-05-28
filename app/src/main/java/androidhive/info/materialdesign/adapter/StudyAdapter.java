@@ -66,20 +66,20 @@ public class StudyAdapter extends BaseAdapter {
 
 	    @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return 3;
+
+			return 3;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
+
+		return null;
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
+
+		return 0;
     }
 
 	     @Override

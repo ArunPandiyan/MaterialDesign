@@ -45,9 +45,11 @@ public class ModeActivity extends Fragment{
 		exam.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(getActivity(), MainActivity_as.class);
-				intent.putExtra("mode", "exam");
-				startActivity(intent);
+//				Intent intent = new Intent(getActivity(), MainActivity_as.class);
+//				intent.putExtra("mode", "exam");
+//				startActivity(intent);
+                Intent intent = new Intent(getActivity(), PerformanceActivity.class);
+                startActivity(intent);
 			}
 		});
 		return rootView;

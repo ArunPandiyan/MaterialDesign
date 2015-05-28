@@ -1,5 +1,5 @@
 package androidhive.info.materialdesign.adapter;
-
+// TODO change the ui for right or wrong
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,19 +58,16 @@ public class ExammodeAdapter extends BaseAdapter {
 
 	    @Override
      public int getCount() {
-         // TODO Auto-generated method stub
          return 3;
      }
 
      @Override
      public Object getItem(int position) {
-         // TODO Auto-generated method stub
          return null;
      }
 
      @Override
      public long getItemId(int position) {
-         // TODO Auto-generated method stub
          return 0;
      }
 

@@ -25,6 +25,9 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 	JSONObject jsonObj = null;
 	JSONArray jsonArray = null;
 	ExamFragment examFragment;
+    //edit
+    PerformanceFragment performanceFragment;
+
 	String url;
 	String requestType;
 	Context context;
@@ -93,6 +96,25 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 		url = urls;
 	}
 
+    //performance fragment ==> review test
+    public AsyncTaskCall(Activity context, String urls,
+                         String request) {
+
+        requestType = request;
+        activity = context;
+        url = urls;
+    }
+
+    //for performance fragment
+    public AsyncTaskCall(Activity context, PerformanceFragment pf,
+                         String urls, String request) {
+
+        requestType = request;
+        performanceFragment = pf;
+        activity = context;
+        url = urls;
+    }
+
 	ProgressDialog prog;
 	String jsonStr = null;
 	Handler innerHandler;
@@ -106,8 +128,8 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 		} else if (requestType.equals("review") || requestType.equals("result")) {
 			prog = new ProgressDialog(context);
 		} else if (requestType.equals("signup") || requestType.equals("signin")
-				|| requestType.equals("reviewhis")
-				|| requestType.equals("performhis") || requestType.equals("perreview")) {
+                || requestType.equals("reviewhis") || requestType.equals("performhis_frag")
+                || requestType.equals("performhis") || requestType.equals("perreview")) {
 			prog = new ProgressDialog(activity);
 		}
 
@@ -120,34 +142,31 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 	@Override
 	protected JSONObject doInBackground(String... params) {
 
-		// TODO Auto-generated method stub
 		if (requestType.equals("review") || requestType.equals("result")
 				|| requestType.equals("signup") || requestType.equals("signin")) {
 			MasterDownload httpPost = new MasterDownload();
 			try {
 				jsons = httpPost.post(params[0], parmsValue);
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 
 			MasterDownload downloader = new MasterDownload();
 			try {
-				
-				if (requestType.equals("perreview")) {
-					String json = downloader.queryRESTurl(url);
+
+                if (requestType.equals("perreview") || requestType.equals("perreview_frag")) {
+                    String json = downloader.queryRESTurl(url);
 					jsonObj = new JSONObject(json);
 				}else{
 				jsonObj = new JSONObject(downloader.queryRESTurl(url));
 				System.out.println("JSON for Selection" + jsonObj);
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+                e.printStackTrace();
 			}
 		}
 
@@ -162,23 +181,23 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 			try {
 				mainActivity.jsonParsing(json);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+                e.printStackTrace();
 			}
 
 		} else if (requestType.equals("study")) {
 			try {
 				studyFragment.Json(json);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+                e.printStackTrace();
 			}
 		} else if (requestType.equals("exam")) {
 			try {
 				examFragment.Json(json);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+                e.printStackTrace();
 			}
 		} else if (requestType.equals("review")) {
 		} else if (requestType.equals("result")) {
@@ -193,8 +212,8 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 				try {
 					((CreateAccountActivity) activity).finish(jsons);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+                    e.printStackTrace();
 				}
 			}
 		} else if (requestType.equals("signin")) {
@@ -202,8 +221,8 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 				try {
 					((LoginActivity) activity).login(jsons);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+                    e.printStackTrace();
 				}
 			}
 		} else if (requestType.equals("reviewhis")) {
@@ -211,26 +230,35 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 				try {
 					((ReviewHisActivity) activity).review(jsonObj);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+                    e.printStackTrace();
 				}
 			}
-		} else if (requestType.equals("performhis")) {
-			if (activity != null) {
+        } else if (requestType.equals("performhis")) {
+            if (activity != null) {
 				try {
 					((PerformanceActivity)activity).performHis(jsonObj);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+                    e.printStackTrace();
 				}
 			}
-		}else if (requestType.equals("perreview")) {
-			if (activity != null) {
+        } else if (requestType.equals("performhis_frag")) {
+            if (activity != null) {
+                try {
+                    ((PerformanceFragment) performanceFragment).performHis_frag(jsonObj);
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }
+        } else if (requestType.equals("perreview")) {
+            if (activity != null) {
 				try {
 					((PerformanceActivity)activity).performReviewJSON(jsonObj);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+                    e.printStackTrace();
 				}
 			}
 		}

@@ -83,7 +83,7 @@ public class StudyModeFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
         frag = this;
 
@@ -177,18 +177,18 @@ public class StudyModeFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
                 System.out.println(".....111.......");
 
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
                 System.out.println(".....222.......");
             }
 
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-                // TODO Auto-generated method stub
+
 //	            	String progressString = String.valueOf(arg1 * 10);
                 System.out.println(".....333......." + arg1);
                 textStart.setText(String.valueOf(arg1));
@@ -199,16 +199,16 @@ public class StudyModeFragment extends Fragment {
         seekGoal.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
 
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
             }
 
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-                // TODO Auto-generated method stub
+
 //	            	String progressString = String.valueOf(arg1 * 10);
                 textGoalStart.setText(String.valueOf(arg1) + "%");
 

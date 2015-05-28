@@ -40,7 +40,6 @@ public class PreviewActivity extends Activity {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		context = this;
 		 
@@ -198,7 +197,6 @@ public class PreviewActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 		sendMessage();
 	}

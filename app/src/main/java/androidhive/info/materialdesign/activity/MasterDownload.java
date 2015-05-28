@@ -78,7 +78,6 @@ public String post(String url,List<NameValuePair> params) throws ClientProtocolE
 		}
 		is.close();
 	} catch (UnsupportedEncodingException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 

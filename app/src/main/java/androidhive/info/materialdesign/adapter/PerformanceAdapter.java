@@ -63,7 +63,7 @@ public class PerformanceAdapter extends BaseAdapter {
 			row = mInflater
 					.inflate(R.layout.performancehis_item, parent, false);
 		}
-		
+
 		if (row != null) {
       		 viewHolder = new ViewHolderA();
       		viewHolder.quizname = (TextView)row.findViewById( R.id.quizname);
@@ -75,8 +75,8 @@ public class PerformanceAdapter extends BaseAdapter {
       		 viewHolder.result =  (TextView)row.findViewById( R.id.result);
       		viewHolder.nextReview = (Button)row.findViewById(R.id.nextReview);
 
-      		 
-      	 }else{
+
+		}else{
       		 viewHolder = (ViewHolderA) row.getTag();
       	 }
 		viewHolder.quizname.setText(resData.get(position).getQuizName());
@@ -89,7 +89,8 @@ public class PerformanceAdapter extends BaseAdapter {
 		viewHolder.nextReview.setId(resData.get(position).getTestID());
 		viewHolder.nextReview.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	((PerformanceActivity)context).performReview(v.getId());
+				int d = v.getId();
+				((PerformanceActivity)context).performReview(v.getId());
             }
   		});
 		// TODO Auto-generated method stub

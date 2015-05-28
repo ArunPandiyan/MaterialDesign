@@ -78,7 +78,7 @@ public class ExamFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
         frag = this;
 
@@ -145,15 +145,15 @@ public class ExamFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
             }
 
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-                // TODO Auto-generated method stub
+
 //	            	String progressString = String.valueOf(arg1 * 10);
                 textStart.setText(String.valueOf(arg1));
                 count = arg1;
@@ -163,16 +163,16 @@ public class ExamFragment extends Fragment {
         seekGoal.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
 
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
+
             }
 
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-                // TODO Auto-generated method stub
+
 //	            	String progressString = String.valueOf(arg1 * 10);
                 textGoalStart.setText(String.valueOf(arg1)+"%");
 
@@ -557,11 +557,14 @@ public class ExamFragment extends Fragment {
 
         linearLayout.setLayoutParams(params);
 
-        linearLayout.addView(showInfoView,numPicerParams);
+        linearLayout.addView(showInfoView, numPicerParams);
 
         proName.setText(dataSource.getProcessname());
+        proName.setTextColor(Color.parseColor("#000000"));
         proGroup.setText(dataSource.getProcessgroup());
+        proGroup.setTextColor(Color.parseColor("#000000"));
         knAria.setText(dataSource.getKnowledgeArea());
+        knAria.setTextColor(Color.parseColor("#000000"));
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(linearLayout);

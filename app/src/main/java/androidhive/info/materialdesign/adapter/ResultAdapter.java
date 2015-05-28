@@ -51,20 +51,20 @@ public ResultAdapter(Context conte,ResultData form,int count,int device,ExamFrag
 
    @Override
 public int getCount() {
-  // TODO Auto-generated method stub
-  return 6;
+
+       return 6;
 }
 
 @Override
 public Object getItem(int position) {
-  // TODO Auto-generated method stub
-  return null;
+
+    return null;
 }
 
 @Override
 public long getItemId(int position) {
-  // TODO Auto-generated method stub
-  return 0;
+
+    return 0;
 }
 
     @Override
