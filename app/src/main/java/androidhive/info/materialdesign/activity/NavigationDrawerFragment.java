@@ -4,6 +4,7 @@ package androidhive.info.materialdesign.activity;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.media.Image;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,8 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidhive.info.materialdesign.R;
 
@@ -98,25 +102,25 @@ public class NavigationDrawerFragment extends Fragment {
 			Bundle savedInstanceState) {
 		mDrawerListView = (ListView) inflater.inflate(
 				R.layout.fragment_navigation_drawer, container, false);
-		
-		mDrawerListView
+        ImageView profile_img = (ImageView) mDrawerListView.findViewById(R.id.imageView);
+
+        mDrawerListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						selectItem(position);
-					}
-				});
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActivity(),
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        selectItem(position);
+                    }
+                });
+        mDrawerListView.setAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, new String[] {
 						getString(R.string.title_section1),
 						
 						 }));
-		
-		
-		
-		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
 	}
 

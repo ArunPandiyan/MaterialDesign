@@ -428,7 +428,7 @@ public class StudyModeFragment extends Fragment {
         seekBar.setMax(data.size());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Select the number of Question out of " + String.valueOf(data.size()) + "\n ");
+        alertDialogBuilder.setTitle("Select the number of Question out of " + String.valueOf(data.size()) + "\n");
         alertDialogBuilder.setView(linearLayout);
         alertDialogBuilder
                 .setCancelable(false)

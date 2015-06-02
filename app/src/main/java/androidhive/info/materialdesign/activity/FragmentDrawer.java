@@ -16,6 +16,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
 import androidhive.info.materialdesign.R;
 import androidhive.info.materialdesign.adapter.NavigationDrawerAdapter;
 import androidhive.info.materialdesign.model.NavDrawerItem;
+import androidhive.info.materialdesign.model.CircleTransform;
 
 
 public class FragmentDrawer extends Fragment {
@@ -75,7 +79,9 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-
+        ImageView profile_img = (ImageView) layout.findViewById(R.id.imageView);
+        String imgurl = "https://lh3.googleusercontent.com/-KxKO2NMUlYc/AAAAAAAAAAI/AAAAAAAAABA/baAVwH0RqYs/s46-c-k-no/photo.jpg";
+        Glide.with(getActivity()).load(imgurl).override(70, 70).transform(new CircleTransform(getActivity())).into(profile_img);
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -15,12 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+
 import androidhive.info.materialdesign.R;
 
 public class ModeActivity extends Fragment{
 	ImageView study;
-	ImageView exam;
-	View rootView;
+    ImageView exam, usr;
+    View rootView;
 	ModeActivity frag;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
