@@ -3,7 +3,12 @@ package androidhive.info.materialdesign.activity;
  * Created by Technibits-13 on 15-May-2015.
  */
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -15,6 +20,8 @@ import androidhive.info.materialdesign.R;
 
 //Added from PerformanceActivity
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +37,9 @@ import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PerformanceFragment extends Fragment {
     ListView listView;
@@ -91,7 +100,7 @@ public class PerformanceFragment extends Fragment {
     public void performReview_frag(int id) {
 
         String urls = "http://jmbok.avantgoutrestaurant.com/and/performance_review1.php?testid=" + id;
-        AsyncTaskCall ask = new AsyncTaskCall(getActivity(), urls, "perreview_frag");
+        AsyncTaskCall_frag ask = new AsyncTaskCall_frag(getActivity(), urls, "perreview_frag", this);
         ask.execute(urls);
     }
 
@@ -104,23 +113,54 @@ public class PerformanceFragment extends Fragment {
 
             QuizJSONParser jsonParser = new QuizJSONParser();
             jsonParser.jsonArrayName = "markforviewlist";
-            data = jsonParser.performReviewJsonParsing(strJson);
+            if (strJson != null) {
+                data = jsonParser.performReviewJsonParsing(strJson);
+                int count = data.size();
+                Intent intent = new Intent(getActivity(), PreviewActivity.class);
+                intent.putExtra("data", data);
+                intent.putExtra("count", count);
+                startActivity(intent);
+            } else {
+                quit();
+            }
 //
 //			  for (int i = 0; i < data.size(); i++) {
 //				  Quizdata value = data.get(i);
 //				  list.add(value.getQuestion());
 //			}
-            int count = data.size();
-            Intent intent = new Intent(getActivity(), PreviewActivity.class);
-            intent.putExtra("data", data);
-            intent.putExtra("count", count);
-            startActivity(intent);
 
-        } catch (Exception e) {
-            // TODO: handle exception
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
+    /*
+    Confirming the empty JSON Object
+     */
+    public void quit() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Warning")
+                .setMessage("Ooops!! Information you're looking for is not Available.")
+
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+//                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    /*
+    @params JSONObject strJson
+     */
     public void performHis_frag(JSONObject strJson) throws JSONException {
         try {
 //			JSONObject json = new JSONObject(strJson);
@@ -145,6 +185,93 @@ public class PerformanceFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Errorin_", "");
             e.printStackTrace();
+        }
+    }
+
+    public class AsyncTaskCall_frag extends AsyncTask<String, String, JSONObject> {
+        JSONObject jsonObj = null;
+
+        //edit
+        PerformanceFragment performanceFragment;
+        ProgressDialog prog;
+        String url;
+        String requestType;
+        Context context;
+        List<NameValuePair> parmsValue;
+        Activity activity;
+        String jsons;
+
+        public AsyncTaskCall_frag(Activity context, String urls,
+                                  String request, PerformanceFragment pf) {
+
+            requestType = request;
+            activity = context;
+            url = urls;
+            performanceFragment = pf;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (requestType.equals("perreview_frag")) {
+                prog = new ProgressDialog(getActivity());
+            }
+
+            prog.setCancelable(false);
+            prog.setCanceledOnTouchOutside(false);
+            prog.setMessage("Loading....");
+            prog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+            if (requestType.equals("review") || requestType.equals("result")
+                    || requestType.equals("signup") || requestType.equals("signin")) {
+                MasterDownload httpPost = new MasterDownload();
+                try {
+                    jsons = httpPost.post(params[0], parmsValue);
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                MasterDownload downloader = new MasterDownload();
+                try {
+
+                    if (requestType.equals("perreview") || requestType.equals("perreview_frag")) {
+                        String json = downloader.queryRESTurl(url);
+                        jsonObj = new JSONObject(json);
+                    } else {
+                        jsonObj = new JSONObject(downloader.queryRESTurl(url));
+                        System.out.println("JSON for Selection" + jsonObj);
+                    }
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            return jsonObj;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+
+            if (requestType.equals("perreview_frag")) {
+                if (activity != null) {
+                    try {
+                        ((PerformanceFragment) performanceFragment).performReviewJSON_frag(jsonObj);
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+            prog.dismiss();
         }
     }
 }

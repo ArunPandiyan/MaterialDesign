@@ -16,7 +16,8 @@
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="413dp"
-        android:layout_weight="0.35" >
+        android:layout_weight="0.35"
+        android:listSelector="@xml/list_row_selector">
 
     </ListView>
 

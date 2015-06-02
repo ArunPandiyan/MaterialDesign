@@ -128,8 +128,10 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 		} else if (requestType.equals("review") || requestType.equals("result")) {
 			prog = new ProgressDialog(context);
 		} else if (requestType.equals("signup") || requestType.equals("signin")
-                || requestType.equals("reviewhis") || requestType.equals("performhis_frag")
-                || requestType.equals("performhis") || requestType.equals("perreview")) {
+				|| requestType.equals("reviewhis")
+				|| requestType.equals("performhis") || requestType.equals("perreview")) {
+			prog = new ProgressDialog(activity);
+		} else if (requestType.equals("performhis_frag")) {
 			prog = new ProgressDialog(activity);
 		}
 

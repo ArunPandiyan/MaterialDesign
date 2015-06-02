@@ -425,9 +425,10 @@ public class LoginActivity extends Activity implements OnClickListener,
 				
 				Toast.makeText(getApplicationContext(), mes,
 						   Toast.LENGTH_LONG).show();
-				
-				Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-	            startActivity(intent);
+
+//				Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				startActivity(intent);
 				
 				finish();
 				

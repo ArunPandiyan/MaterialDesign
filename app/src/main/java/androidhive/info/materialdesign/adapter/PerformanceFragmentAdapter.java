@@ -97,7 +97,7 @@ public class PerformanceFragmentAdapter extends BaseAdapter {
         viewHolder.nextReview.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int d = v.getId();
-                (pf).performReview_frag(v.getId());
+                pf.performReview_frag(v.getId());
             }
         });
 

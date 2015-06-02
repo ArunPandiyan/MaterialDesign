@@ -612,7 +612,7 @@ public class ExamFragment extends Fragment {
         params.add(new BasicNameValuePair("Percentage", String.valueOf(resData.getPercentage())));
         params.add(new BasicNameValuePair("Result", resData.getResult()));
         params.add(new BasicNameValuePair("Timespent", timer));
-        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+        params.add(new BasicNameValuePair("userid", "android@gmail.com")); //TODO: get from preference
         params.add(new BasicNameValuePair("testid", testID));
         params.add(new BasicNameValuePair("questionid", questionid));
         params.add(new BasicNameValuePair("options", optionVlaue));

@@ -22,12 +22,12 @@
         <item>@string/nav_item_about</item>
     </string-array>
     <string-array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_home</item>
+        <item>@mipmap/start_exam</item>
+        <item>@mipmap/performance_history</item>
+        <item>@mipmap/review</item>
+        <item>@mipmap/schedule</item>
+        <item>@mipmap/videos</item>
+        <item>@mipmap/about</item>
     </string-array>
 
     <string name="title_take_exam">Take Exam</string>
