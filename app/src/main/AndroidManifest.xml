@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="androidhive.info.materialdesign" >
+    package="technibits.com.pme">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="technibits.com.pme.activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,53 +17,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="androidhive.info.materialdesign.activity.MainActivity"
+            android:name="technibits.com.pme.activity.MainActivity"
 
             android:label="@string/app_name" >
         </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.QuizActivity"
+        android:name="technibits.com.pme.activity.QuizActivity"
         android:label="@string/app_name" >
     </activity>
 
     <activity
-        android:name="androidhive.info.materialdesign.activity.ModeActivity"
-        android:parentActivityName="androidhive.info.materialdesign.activity.MainActivity"
+        android:name="technibits.com.pme.activity.ModeActivity"
+        android:parentActivityName="technibits.com.pme.activity.MainActivity"
         android:label="@string/app_name" >
     </activity>
 
     <activity
-        android:name="androidhive.info.materialdesign.activity.MainActivity_as"
+        android:name="technibits.com.pme.activity.MainActivity_as"
         android:label="@string/app_name"
-        android:parentActivityName="androidhive.info.materialdesign.activity.MainActivity">
+        android:parentActivityName="technibits.com.pme.activity.MainActivity">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="androidhive.info.materialdesign.activity.MainActivity"/>
+            android:value="technibits.com.pme.activity.MainActivity" />
 
 
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.CreateAccountActivity"
+        android:name="technibits.com.pme.activity.CreateAccountActivity"
         android:label="@string/app_name" >
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.DashboardActivity"
+        android:name="technibits.com.pme.activity.DashboardActivity"
         android:label="@string/app_name" >
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.PerformanceActivity"
+        android:name="technibits.com.pme.activity.PerformanceActivity"
         android:label="@string/app_name" >
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.ReviewHisActivity"
+        android:name="technibits.com.pme.activity.ReviewHisActivity"
         android:label="@string/app_name" >
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.PreviewActivity"
+        android:name="technibits.com.pme.activity.PreviewActivity"
         android:label="@string/app_name" >
     </activity>
     <activity
-        android:name="androidhive.info.materialdesign.activity.SettingActivity"
+        android:name="technibits.com.pme.activity.SettingActivity"
         android:label="@string/app_name" >
     </activity>
     </application>
