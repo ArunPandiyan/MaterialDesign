@@ -410,7 +410,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 				String email = json.getString("email");
 				String mobile = json.getString("mobile");
 				String country = json.getString("country");
-				
+				String image_url = "http://jmbok.avantgoutrestaurant.com/and/images/Dummy_profile_pic.png";
+
 				db = new DBConnection(this);
 				db.open();
 				ContentValues inst = new ContentValues();
@@ -421,6 +422,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 				inst.put("email", email);
 				inst.put("country", country);
 				inst.put("mobile", mobile);
+				inst.put("imageurl", image_url);
+
 				db.insert(inst, "user");
 				
 				Toast.makeText(getApplicationContext(), mes,

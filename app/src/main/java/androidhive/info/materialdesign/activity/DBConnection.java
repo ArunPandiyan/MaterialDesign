@@ -1,5 +1,4 @@
 package androidhive.info.materialdesign.activity;
-import androidhive.info.materialdesign.activity.MainActivity_as;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DBConnection extends SQLiteOpenHelper {
 
@@ -253,6 +251,7 @@ public class DBConnection extends SQLiteOpenHelper {
 		return name;
 	}
 
+
 	public boolean executeUpdate(String sql) throws SQLException {
 //		L.debug(TAG + "::executeUpdate()::sql --> " + sql);
 		boolean qryExecuted = false;
@@ -327,7 +326,7 @@ public class DBConnection extends SQLiteOpenHelper {
 //					 varchar(550), password varchar(550), country varchar(550), mobile varchar(550))
 			;
 			myDataBase
-					.execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550))");
+					.execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550),imageurl varchar(550))");
 		} catch (Exception e) {
 
 		}
@@ -416,6 +415,38 @@ public class DBConnection extends SQLiteOpenHelper {
 		String name = "";
 		try {
 			Cursor cur1 = executeQuery("SELECT name FROM user");
+			cur1.moveToFirst();
+			while (cur1.isAfterLast() == false) {
+				name = cur1.getString(0);
+				cur1.moveToNext();
+			}
+			cur1.close();
+		} catch (Exception e) {
+
+		}
+		return name;
+	}
+
+	public String getuserEmail() {
+		String name = "";
+		try {
+			Cursor cur1 = executeQuery("SELECT email FROM user");
+			cur1.moveToFirst();
+			while (cur1.isAfterLast() == false) {
+				name = cur1.getString(0);
+				cur1.moveToNext();
+			}
+			cur1.close();
+		} catch (Exception e) {
+
+		}
+		return name;
+	}
+
+	public String getuserImageurl() {
+		String name = "";
+		try {
+			Cursor cur1 = executeQuery("SELECT imageurl FROM user");
 			cur1.moveToFirst();
 			while (cur1.isAfterLast() == false) {
 				name = cur1.getString(0);

@@ -3,6 +3,7 @@ package androidhive.info.materialdesign.activity;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -40,7 +41,11 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
-
+    private String userName = null;
+    private String userEmail_str = null;
+    private String userImageurl = null;
+    //    private UserBean usr=new UserBean();
+    private DBConnection db;
     public FragmentDrawer() {
 
     }
@@ -62,11 +67,36 @@ public class FragmentDrawer extends Fragment {
         }
         return data;
     }
+//    public UserBean getUserBean() {
+//        UserBean userBean=new UserBean();
+//        String name = "";
+//        Cursor cur = db.executeQuery("select * from user");
+//        cur.moveToFirst();
+//        if (cur.isAfterLast() == false) {
+//            userBean.setName(cur.getString(0));
+//            userBean.setLastname(cur.getString(1));
+//            userBean.setEmail(cur.getString(2));// string 3 is password we dont need this
+//            userBean.setCountry(cur.getString(4));
+//            userBean.setMobile(cur.getString(5));
+//            userBean.setImage_url(cur.getString(6));
+//
+//            cur.moveToNext();
+//        }
+//        cur.close();
+//        return userBean;
+//    } --------------------------no need----------------------------
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new DBConnection(getActivity());
+        db.open();
+        userName = db.getuserName();
+        userEmail_str = db.getuserEmail();
+        userImageurl = db.getuserImageurl();
 
+//        usr=getUserBean();---no need
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
         ImageView imgIcon = (ImageView) getActivity().findViewById(R.id.icon);
@@ -77,11 +107,15 @@ public class FragmentDrawer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflating view layout
+
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         ImageView profile_img = (ImageView) layout.findViewById(R.id.imageView);
-        String imgurl = "https://lh3.googleusercontent.com/-KxKO2NMUlYc/AAAAAAAAAAI/AAAAAAAAABA/baAVwH0RqYs/s46-c-k-no/photo.jpg";
-        Glide.with(getActivity()).load(imgurl).override(70, 70).transform(new CircleTransform(getActivity())).into(profile_img);
+        TextView username = (TextView) layout.findViewById(R.id.user_name);
+        TextView userEmail = (TextView) layout.findViewById(R.id.userEmail);
+        username.setText(userName);
+        userEmail.setText(userEmail_str);
+        Glide.with(getActivity()).load(userImageurl).override(70, 70).transform(new CircleTransform(getActivity())).into(profile_img);
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
