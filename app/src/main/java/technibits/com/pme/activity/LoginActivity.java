@@ -266,25 +266,39 @@ public class LoginActivity extends Activity implements OnClickListener,
                 String personGooglePlusProfile = currentPerson.getUrl();
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
+
                 Log.e(TAG, "Name: " + personName + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + email
                         + ", Image: " + personPhotoUrl + "Location" + location);
 
-
+                personPhotoUrl = personPhotoUrl.substring(0, personPhotoUrl.length() - 2) + PROFILE_PIC_SIZE;
                 String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("email", email));
+                ArrayList params = new ArrayList();
+                params.add(email);
                 params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
                 params.add(new BasicNameValuePair("confirmpassword", password.getText().toString().trim()));
-                AsyncTaskCall ask = new AsyncTaskCall(this, "signin", params);
-                ask.execute(url);
+//                ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+//                params.add(new BasicNameValuePair("email", email));
+//                params.add(new BasicNameValuePair("email", email));
+//                params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
+//                params.add(new BasicNameValuePair("confirmpassword", password.getText().toString().trim()));
+//                Bundle extra = new Bundle();
+//                extra.putAll("objects", params);
+                Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                intent.putExtra("name", personName);
+                intent.putExtra("email", email);
+                intent.putExtra("image_url", personPhotoUrl);
+                startActivity(intent);
+                finish();
+//                AsyncTaskCall ask = new AsyncTaskCall(this, "signin", params);
+//                ask.execute(url);
 
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
                 // replacing sz=X
-                personPhotoUrl = personPhotoUrl.substring(0,
-                        personPhotoUrl.length() - 2)
-                        + PROFILE_PIC_SIZE;
+//                personPhotoUrl = personPhotoUrl.substring(0,
+//                        personPhotoUrl.length() - 2)
+//                        + PROFILE_PIC_SIZE;
 
                 // new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
 
@@ -327,6 +341,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 //			intent.putExtra("mode", "exam");                                                                                                                                     
                 startActivity(intent);
                 break;
+
             case R.id.login:
 
                 String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";

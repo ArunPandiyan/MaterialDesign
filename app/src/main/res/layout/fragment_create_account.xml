@@ -6,7 +6,7 @@
         android:id="@+id/etUsername"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="25dp"
         android:hint="@string/usernameHint"
         android:inputType="text"
@@ -17,7 +17,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etUsername"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="25dp"
         android:hint="@string/emailHint"
         android:inputType="textEmailAddress" />
@@ -27,7 +27,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etEmail"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="25dp"
         android:hint="@string/passwordHint"
         android:inputType="textPassword"
@@ -38,40 +38,92 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/etPassword"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="25dp"
         android:hint="@string/confirmPasswordHint"
         android:inputType="textPassword" />
 
-    
-
-    <EditText
-        android:id="@+id/etmobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/etPasswordConfirm"
-        android:layout_alignRight="@+id/etPasswordConfirm"
-        android:layout_below="@+id/etPasswordConfirm"
-        android:layout_marginTop="25dp"
-        android:inputType="number"
-        android:hint="Mobile Number"
-        android:ems="10" />
-
     <Spinner
         android:id="@+id/spinnercountry"
         android:layout_width="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_height="50dp"
+        android:spinnerMode="dropdown"
+        android:layout_below="@+id/etPasswordConfirm"
+        android:layout_toRightOf="@+id/flag"
+        android:layout_toEndOf="@+id/flag" />
+
+    <EditText
+        android:id="@+id/etmobile"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/etmobile"
-        android:layout_alignRight="@+id/etmobile"
-        android:layout_below="@+id/etmobile"
-        android:spinnerMode="dropdown" />
+        android:paddingBottom="10dp"
+        android:layout_alignRight="@+id/etPasswordConfirm"
+        android:layout_below="@+id/spinnercountry"
+        android:layout_marginTop="25dp"
+        android:inputType="number"
+        android:hint="Mobile Number"
+        android:ems="10"
+        android:maxLength="10" />
+
+
     
     <Button
         android:id="@+id/btnCreateAccount"
-        android:layout_width="250dp"
+        android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:layout_alignLeft="@+id/spinnercountry"
-        android:layout_below="@+id/spinnercountry"
-        android:text="@string/createAccount" />
+        android:text="@string/createAccount"
+        android:layout_above="@+id/signoutall"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/user_img"
+        android:paddingTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_above="@+id/etEmail"
+        android:layout_toLeftOf="@+id/etUsername"
+        android:layout_toStartOf="@+id/etUsername" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Signin with another G+ Account"
+        android:id="@+id/signoutall"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold"
+        android:textColor="#ff0c00"
+        android:singleLine="false" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:id="@+id/flag"
+
+        android:layout_below="@+id/etPasswordConfirm"
+        android:layout_alignLeft="@+id/etPasswordConfirm"
+        android:layout_alignStart="@+id/etPasswordConfirm"
+        android:layout_alignBottom="@+id/spinnercountry" />
+
+    <EditText
+        android:id="@+id/etcountrycode"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:inputType="number"
+        android:text="  --"
+        android:ems="10"
+        android:editable="false"
+
+        android:layout_alignBaseline="@+id/etmobile"
+        android:layout_alignBottom="@+id/btnCreateAccount"
+        android:layout_toLeftOf="@+id/etmobile"
+        android:layout_toStartOf="@+id/etmobile" />
+
 
 </RelativeLayout>
