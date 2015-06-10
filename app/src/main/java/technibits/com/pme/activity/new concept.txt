@@ -1,0 +1,3 @@
+Bottomsheet for explanation of questions in exam and study mode.
+
+https://github.com/Flipboard/bottomsheet

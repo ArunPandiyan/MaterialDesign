@@ -26,7 +26,7 @@ public class PreviewActivity extends Activity {
     boolean pCheck;
     boolean nCheck;
     Quizdata dataSource;
-    int count;
+    int count, position;
     String select;
     int iNext = 0;
     ListView list;
@@ -66,11 +66,12 @@ public class PreviewActivity extends Activity {
 
         count = getIntent().getExtras().getInt("count");
         select = getIntent().getExtras().getString("review");
+        position = getIntent().getExtras().getInt("question_no");
 
 //		 count = data.size();
 
         if (data.size() > 0) {
-            dataSource = data.get(0);
+            dataSource = data.get(position);
             adapter = new PreviewAdapter(context, dataSource, iNext, device, select);
 //			 adapter.resData = resData;
             list.setAdapter(adapter);

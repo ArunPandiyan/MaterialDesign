@@ -83,6 +83,13 @@ public class LoginActivity extends Activity implements OnClickListener,
     //	private LoginButton loginBtn;
     private TextView username;
 
+    String personName = null,
+            lastname = null,
+            location = null,
+            personPhotoUrl = null,
+            personGooglePlusProfile = null,
+            email = null;
+
     //	private UiLifecycleHelper uiHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,9 +260,10 @@ public class LoginActivity extends Activity implements OnClickListener,
     // }
 
     /**
-     * Fetching user's information name, email, profile pic
+     * Fetching user's information name, email, profile pic from google+
+     * user:arun
      */
-    private void getProfileInformation() {
+    private void getProfileInformation(String oldmethod_removethisparameter) {
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person currentPerson = Plus.PeopleApi
@@ -299,6 +307,90 @@ public class LoginActivity extends Activity implements OnClickListener,
 //                personPhotoUrl = personPhotoUrl.substring(0,
 //                        personPhotoUrl.length() - 2)
 //                        + PROFILE_PIC_SIZE;
+
+                // new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
+
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Person information is null", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Fetching user's information name, email, profile pic
+     */
+    private void getProfileInformation() {
+        try {
+            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+                Person currentPerson = Plus.PeopleApi
+                        .getCurrentPerson(mGoogleApiClient);
+                personName = currentPerson.getDisplayName();
+                lastname = currentPerson.getNickname();
+                location = currentPerson.getCurrentLocation();
+                personPhotoUrl = currentPerson.getImage().getUrl();
+                personGooglePlusProfile = currentPerson.getUrl();
+                email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+
+                Log.e(TAG, "Name: " + personName + ", plusProfile: "
+                        + personGooglePlusProfile + ", email: " + email
+                        + ", Image: " + personPhotoUrl + "Location" + location);
+
+
+//---------------------------------------G+ login with server----------------------------------------------------------
+                int rowCount = 0;
+                try {
+                    db = new technibits.com.pme.activity.DBConnection(this);
+
+                    db.createDataBase();
+                    db.open();
+                    rowCount = db.getProfilesCount("user");
+                    db.close();
+                    db = null;
+                } catch (Exception e) {
+//			db = new DBConnection(MainActivity);
+                    e.printStackTrace();
+                }
+
+                if (rowCount == 0) {
+//			Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                    String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/register";
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    params.add(new BasicNameValuePair("name", personName));
+                    params.add(new BasicNameValuePair("lastname", "fromGplus"));
+                    params.add(new BasicNameValuePair("email", email));
+                    params.add(new BasicNameValuePair("password", "fromGplus"));
+                    params.add(new BasicNameValuePair("confirmpassword", "fromGplus"));
+                    params.add(new BasicNameValuePair("mobile", "fromGplus"));
+                    params.add(new BasicNameValuePair("country", "fromGplus"));
+                    params.add(new BasicNameValuePair("code", "0"));
+                    AsyncTaskCall ask = new AsyncTaskCall(this, "Gplussignup", params);
+                    ask.execute(url);
+                } else {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+
+//---------------------------------------G+ login with server ends-----------------------------------------------------
+
+
+//                String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";
+//                List<NameValuePair> params = new ArrayList<NameValuePair>();
+//                params.add(new BasicNameValuePair("email", email));
+//                params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
+//                params.add(new BasicNameValuePair("confirmpassword", password.getText().toString().trim()));
+//                AsyncTaskCall ask = new AsyncTaskCall(this,"signin",params);
+//                ask.execute(url);
+
+                // by default the profile url gives 50x50 px image only
+                // we can replace the value with whatever dimension we want by
+                // replacing sz=X
+                personPhotoUrl = personPhotoUrl.substring(0,
+                        personPhotoUrl.length() - 2)
+                        + PROFILE_PIC_SIZE;
 
                 // new LoadProfileImage(imgProfilePic).execute(personPhotoUrl);
 
@@ -516,5 +608,44 @@ public class LoginActivity extends Activity implements OnClickListener,
 		uiHelper.onSaveInstanceState(savedState);
 	}*/
 
+    public void finishGplus(String strJson) throws JSONException {
+        try {
+            JSONObject json = new JSONObject(strJson);
+            String error = json.getString("error");
+            String mes = json.getString("message");
+            System.out.println("  " + error + " " + mes);
+            if (error.equals("true")) {
+                Toast.makeText(getApplicationContext(), mes,
+                        Toast.LENGTH_LONG).show();
+//				finish();
+            } else {
+                CreateUserinPhone(personName, lastname, email, personPhotoUrl);
+                Toast.makeText(getApplicationContext(), mes,
+                        Toast.LENGTH_LONG).show();
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+//                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//		finish();
+    }
 
+    void CreateUserinPhone(String personName, String lastname, String email, String personPhotoUrl) {
+        db = new DBConnection(this);
+        db.open();
+        ContentValues inst = new ContentValues();
+
+        inst.put("name", personName);
+        inst.put("password", "fromGplus");
+        inst.put("lastname", lastname);
+        inst.put("email", email);
+        inst.put("country", "fromGplus");
+        inst.put("mobile", "fromGplus");
+        inst.put("imageurl", personPhotoUrl);
+
+        db.insert(inst, "user");
+    }
 }

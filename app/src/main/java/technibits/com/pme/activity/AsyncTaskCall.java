@@ -24,6 +24,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     ExamFragment examFragment;
     //edit
     PerformanceFragment performanceFragment;
+    ReviewFragment reviewFragment;
 
     String url;
     String requestType;
@@ -94,10 +95,11 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     }
 
     //performance fragment ==> review test
-    public AsyncTaskCall(Activity context, String urls,
-                         String request) {
+    public AsyncTaskCall(Activity context, ReviewFragment rf,
+                         String urls, String request) {
 
         requestType = request;
+        reviewFragment = rf;
         activity = context;
         url = urls;
     }
@@ -112,6 +114,16 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
         url = urls;
     }
 
+    //for review fragment
+    public AsyncTaskCall(Activity context, String urls,
+                         String request) {
+
+        requestType = request;
+        activity = context;
+        url = urls;
+    }
+
+
     ProgressDialog prog;
     String jsonStr = null;
     Handler innerHandler;
@@ -124,8 +136,8 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             prog = new ProgressDialog(activity);
         } else if (requestType.equals("review") || requestType.equals("result")) {
             prog = new ProgressDialog(context);
-        } else if (requestType.equals("signup") || requestType.equals("signin")
-                || requestType.equals("reviewhis")
+        } else if (requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup")
+                || requestType.equals("reviewhis_frag") || requestType.equals("reviewhis")
                 || requestType.equals("performhis") || requestType.equals("perreview")) {
             prog = new ProgressDialog(activity);
         } else if (requestType.equals("performhis_frag")) {
@@ -142,7 +154,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     protected JSONObject doInBackground(String... params) {
 
         if (requestType.equals("review") || requestType.equals("result")
-                || requestType.equals("signup") || requestType.equals("signin")) {
+                || requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup")) {
             MasterDownload httpPost = new MasterDownload();
             try {
                 jsons = httpPost.post(params[0], parmsValue);
@@ -199,6 +211,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                 e.printStackTrace();
             }
         } else if (requestType.equals("review")) {
+            //TODO: add delete function
         } else if (requestType.equals("result")) {
             if (studyFragment != null) {
                 studyFragment.showResult();
@@ -229,6 +242,14 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                 try {
                     ((ReviewHisActivity) activity).review(jsonObj);
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (requestType.equals("reviewhis_frag")) {
+            if (activity != null) {
+                try {
+                    ((ReviewFragment) reviewFragment).review(jsonObj);
+                } catch (JSONException e) {
 
                     e.printStackTrace();
                 }
@@ -242,6 +263,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                     e.printStackTrace();
                 }
             }
+
         } else if (requestType.equals("performhis_frag")) {
             if (activity != null) {
                 try {
@@ -255,6 +277,15 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             if (activity != null) {
                 try {
                     ((PerformanceActivity) activity).performReviewJSON(jsonObj);
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }
+        } else if (requestType.equals("Gplussignup")) {
+            if (activity != null) {
+                try {
+                    ((LoginActivity) activity).finishGplus(jsons);
                 } catch (JSONException e) {
 
                     e.printStackTrace();

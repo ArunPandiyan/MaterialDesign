@@ -9,6 +9,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import technibits.com.pme.R;
 import technibits.com.pme.activity.AsyncTaskCall;
@@ -110,6 +112,7 @@ public class PreviewAdapter extends BaseAdapter {
             viewHolder.reviewBox = (CheckBox) row.findViewById(R.id.rCheckBox);
 
             viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
+//            viewHolder.infoButton = (Button) row.findViewById(R.id.info);
 
         } else {
             viewHolder = (ViewHolderA) row.getTag();
@@ -161,6 +164,7 @@ public class PreviewAdapter extends BaseAdapter {
                 viewHolder.radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                         ansOption = "yes";
                         data.setIsAnswer(1);
                         int answer = Integer.valueOf(data.getAnswer());
@@ -182,9 +186,13 @@ public class PreviewAdapter extends BaseAdapter {
                         if (rButton != null) {
                             if (answer + 1 == selected) {
                                 rButton.setBackgroundColor(Color.GREEN);
+                                String dd = rButton.getText().toString();
                             } else {
+
                                 rButton.setBackgroundColor(Color.RED);
                                 data.setWrongAnswer(selected);
+                                String dd = rButton.getText().toString();
+                                System.out.println(dd);
                             }
                         }
 

@@ -79,6 +79,9 @@ public class StudyModeFragment extends Fragment {
 
     }
 
+    public StudyModeFragment() {
+
+    }
     public StudyModeFragment(String url) {
         this.url = url;
     }
@@ -383,7 +386,7 @@ public class StudyModeFragment extends Fragment {
                 alertDialog.show();
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle("No records found for your search !! ");
 

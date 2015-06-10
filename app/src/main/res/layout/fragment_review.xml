@@ -71,12 +71,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_sign_in"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
-
         <Button
             android:id="@+id/btn_sign_out"
             android:layout_width="fill_parent"
@@ -91,13 +85,6 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_revoke_access"
             android:visibility="gone" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="butn"
-            android:id="@+id/buttonact"
-            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 

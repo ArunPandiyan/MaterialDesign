@@ -84,7 +84,7 @@ public class PerformanceActivity extends Activity {
             startActivity(intent);
 
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 
@@ -109,7 +109,7 @@ public class PerformanceActivity extends Activity {
             listView.setAdapter(adapter);
 
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 }

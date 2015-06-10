@@ -106,7 +106,7 @@ public class ReviewHisActivity extends Activity {
 //				
 //			}
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 

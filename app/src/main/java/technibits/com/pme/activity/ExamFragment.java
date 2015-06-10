@@ -375,7 +375,6 @@ public class ExamFragment extends Fragment {
                 alertDialog.show();
             }
         } catch (Exception e) {
-            // TODO: handle exception
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle("No records found for your search !! ");
 

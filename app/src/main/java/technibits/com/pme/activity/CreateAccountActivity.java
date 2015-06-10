@@ -17,6 +17,10 @@ import android.content.IntentSender;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,7 +52,7 @@ import technibits.com.pme.model.CircleTransform;
  *
  * @author Trey Robinson
  */
-public class CreateAccountActivity extends Activity implements OnClickListener, GoogleApiClient.ConnectionCallbacks,
+public class CreateAccountActivity extends AppCompatActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     protected static final String EXTRA_EMAIL = "com.keyconsultant.parse.logintutorial.fragment.extra.EMAIL";
@@ -70,11 +74,12 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
     private String mEmail;
     private String mUsername;
     private String mPassword;
-    private String mConfirmPassword, mMobileNumber, mCountry;
+    private String mConfirmPassword, mMobileNumber, mCountry, selectedCountry, mCountrycode;
     private boolean mIntentInProgress;
     private ConnectionResult mConnectionResult;
     private boolean mSignInClicked;
     private static final int RC_SIGN_IN = 0;
+    private Toolbar mToolbar;
 
     /**
      * Factory method for creating fragment instances.
@@ -91,6 +96,7 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
         super.onStart();
         mGoogleApiClient.connect();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -106,19 +112,28 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
             String personName = intent.getStringExtra("name");
             String email = intent.getStringExtra("email");
             String personPhotoUrl = intent.getStringExtra("image_url");
+            if (personName != null) {
+                mUserNameEditText.setText(personName);
+                mEmailEditText.setText(email);
 
-            mUserNameEditText.setText(personName);
-            mEmailEditText.setText(email);
-
-            mUserNameEditText.setKeyListener(null);
-            mEmailEditText.setKeyListener(null);
-            Glide.with(this).load(personPhotoUrl).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
+                mUserNameEditText.setKeyListener(null);
+                mEmailEditText.setKeyListener(null);
+                Glide.with(this).load(personPhotoUrl).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
+            }
+            String dummy = "http://jmbok.avantgoutrestaurant.com/and/images/Dummy_profile_pic.png";
+            Glide.with(this).load(dummy).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
         }
 
 
     }
 
     void InitUI() {
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        mToolbar.setTitle("Create Your Account here...");
 
         mUserNameEditText = (EditText) findViewById(R.id.etUsername);
         mEmailEditText = (EditText) findViewById(R.id.etEmail);
@@ -128,11 +143,12 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
         etcountrycode = (EditText) findViewById(R.id.etcountrycode);
         mUserImage = (ImageView) findViewById(R.id.user_img);
         flag = (ImageView) findViewById(R.id.flag);
+        mCountrySpinner = (Spinner) findViewById(R.id.spinnercountry);
 
         mCreateAccountButton = (Button) findViewById(R.id.btnCreateAccount);
         signoutall = (Button) findViewById(R.id.signoutall);
         mCreateAccountButton.setOnClickListener(this);
-
+        etcountrycode.setKeyListener(null);
         String rs = "res/drawable/afghanistan.png";
         Glide.with(this).load(rs).override(70, 70).into(flag);
 
@@ -189,7 +205,7 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                String selectedCountry = (String) p.getSelectedItem();
+                selectedCountry = (String) p.getSelectedItem();
                 int selectedPosition = fCountry.indexOf(selectedCountry);
                 String correspondingCode = fCode.get(selectedPosition);
                 String corresponding_image = fCountry_img.get(selectedPosition);
@@ -205,7 +221,6 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -236,14 +251,17 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
                     });
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnCreateAccount:
-                if (mPasswordEditText.getText().toString().equals(mConfirmPasswordEditText.getText().toString())) {
-                    createAccount();
-                } else
-                    Toast.makeText(this, "Password is not same !", Toast.LENGTH_SHORT);
+                createAccount(v);
+
+                //Toast.makeText(this, "Password is not same !", Toast.LENGTH_SHORT);
+//                Snackbar.make(v, "not same", Snackbar.LENGTH_LONG)
+                //.setAction(R.string.snackbar_action, myOnClickListener)
+//                        .show(); // Don’t forget to show!
                 break;
 
 
@@ -256,7 +274,7 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
      * Some front end validation is done that is not monitored by the service.
      * If the form is complete then the information is passed to the service.
      */
-    private void createAccount() {
+    private void createAccount(View v) {
 //		clearErrors();
 
         boolean cancel = false;
@@ -268,41 +286,19 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
         mPassword = mPasswordEditText.getText().toString();
         mConfirmPassword = mConfirmPasswordEditText.getText().toString();
         mMobileNumber = mMobileEditText.getText().toString();
-        int pos = mCountrySpinner.getSelectedItemPosition();
-        mCountry = countries.get(pos);
+        mCountrycode = etcountrycode.getText().toString();
+//        int pos = mCountrySpinner.getSelectedItemPosition();
+//        mCountry = countries.get(pos);
 
         // Check for a valid confirm username.
         if (TextUtils.isEmpty(mUsername)) {
-            mUserNameEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
+            mUserNameEditText.setError(Html.fromHtml("<font color='red'>Enter Your Name here!</font>"));
+            Snackbar.make(v, "Empty Name", Snackbar.LENGTH_LONG).show();
+            //.setAction(R.string.snackbar_action, myOnClickListener)
+
             mUserNameEditText.requestFocus();
             cancel = true;
-        } else if (TextUtils.isEmpty(mMobileNumber)) {
-            mMobileEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
-            mMobileEditText.requestFocus();
-            cancel = true;
-        } else if (TextUtils.isEmpty(mConfirmPassword)) {
-            mConfirmPasswordEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
-            mConfirmPasswordEditText.requestFocus();
-            cancel = true;
-        } else if (mPassword != null && !mConfirmPassword.equals(mPassword)) {
-            System.out.println("" + mPassword + "  " + mConfirmPassword);
-            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
-            mPasswordEditText.requestFocus();
-            cancel = true;
-        }
-        // Check for a valid password.
-        else if (TextUtils.isEmpty(mPassword)) {
-            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
-//            focusView = mPasswordEditText;
-            cancel = true;
-        } else if (mPassword.length() < 4) {
-            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
-//            focusView = mPasswordEditText;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        else if (TextUtils.isEmpty(mEmail)) {
+        } else if (TextUtils.isEmpty(mEmail)) {
             mEmailEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
 //            focusView = mEmailEditText;
             cancel = true;
@@ -310,7 +306,33 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
             mEmailEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
 //            focusView = mEmailEditText;
             cancel = true;
-        } else if (!cancel) {
+        } else if (TextUtils.isEmpty(mPassword)) {
+            mMobileEditText.setError(Html.fromHtml("<font color='red'>Enter Your Password!</font>"));
+            mMobileEditText.requestFocus();
+            cancel = true;
+        } else if (mPassword.length() < 4) {
+            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Password is too short !</font>"));
+//            focusView = mPasswordEditText;
+            cancel = true;
+        } else if (TextUtils.isEmpty(mConfirmPassword)) {
+            mConfirmPasswordEditText.setError(Html.fromHtml("<font color='red'>Empty confirm password!</font>"));
+            mConfirmPasswordEditText.requestFocus();
+            cancel = true;
+        } else if (TextUtils.isEmpty(mMobileNumber)) {
+            mMobileEditText.setError(Html.fromHtml("<font color='red'>Invalid Mobile Number input!</font>"));
+            mMobileEditText.requestFocus();
+            cancel = true;
+        }
+//        else if (mPassword != null && !mConfirmPassword.equals(mPassword)) {
+//            System.out.println("" + mPassword + "  " + mConfirmPassword);
+//            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Ooops! Password doesn't Match !</font>"));
+//            mPasswordEditText.requestFocus();
+//            cancel = true;
+//        }
+
+
+        // Check for a valid email address.
+        else if (!cancel) {
             String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/register";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("name", mUsername));
@@ -318,8 +340,8 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
             params.add(new BasicNameValuePair("email", mEmail));
             params.add(new BasicNameValuePair("password", mPassword));
             params.add(new BasicNameValuePair("confirmpassword", mConfirmPassword));
-            params.add(new BasicNameValuePair("mobile", mMobileNumber));
-            params.add(new BasicNameValuePair("country", mCountry));
+            params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
+            params.add(new BasicNameValuePair("country", selectedCountry));
             params.add(new BasicNameValuePair("code", "0"));
             AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
             ask.execute(url);
@@ -374,7 +396,7 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
                 finish();
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 //		finish();
     }
@@ -415,8 +437,8 @@ public class CreateAccountActivity extends Activity implements OnClickListener, 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //Back buttons was pressed, do whatever logic you want
-            revokeGplusAccess();
-            signOutFromGplus();
+//            revokeGplusAccess();
+//            signOutFromGplus();
             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
