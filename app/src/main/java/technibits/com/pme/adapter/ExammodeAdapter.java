@@ -238,7 +238,7 @@ public class ExammodeAdapter extends BaseAdapter {
                         if (answer + 1 == selected) {
                             int caCount = resData.getCorrectAnswers() + 1;
                             resData.setCorrectAnswers(caCount);
-                            rButton.setBackgroundColor(Color.GREEN);
+                            rButton.setBackgroundColor(Color.parseColor("#00C853"));
                         } else {
                             rButton.setBackgroundColor(Color.RED);
                             data.setWrongAnswer(selected);

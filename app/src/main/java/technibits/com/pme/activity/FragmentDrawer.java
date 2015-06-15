@@ -130,6 +130,7 @@ public class FragmentDrawer extends Fragment {
             public void onLongClick(View view, int position) {
 
             }
+
         }));
 
         return layout;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import technibits.com.pme.R;
 import technibits.com.pme.adapter.PreviewAdapter;
+import technibits.com.pme.adapter.TestAdapter;
 import technibits.com.pme.data.Quizdata;
 
 import android.app.Activity;
@@ -112,11 +113,9 @@ public class PreviewActivity extends Activity {
             public void onClick(View v) {
                 if (next.getText().toString().equals("Next")) {
                     priv.setEnabled(true);
-
                     if (iNext == 0) {
                         iNext = 1;
                         pCheck = true;
-
                     }
                     if (nCheck) {
                         iNext++;
@@ -124,13 +123,11 @@ public class PreviewActivity extends Activity {
                     if (iNext < count) {
                         dataSource = data.get(iNext);
                         PreviewAdapter adapter = new PreviewAdapter(context, dataSource, iNext, device, select);
-
                         list.setAdapter(adapter);
                         priv.setEnabled(true);
                         iNext++;
                         pCheck = true;
                         nCheck = false;
-
                     }
                     if (iNext == count) {
 //						next.setEnabled(false);
@@ -138,19 +135,14 @@ public class PreviewActivity extends Activity {
 //	            		next.setBackgroundColor(Color.RED);
                         iNext = count - 1;
                         pCheck = false;
-
-
                     }
 
                 } else {
                     finish();
                 }
-
-
             }
-
-
         });
+
 
         priv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

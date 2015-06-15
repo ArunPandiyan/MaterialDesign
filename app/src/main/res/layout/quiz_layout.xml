@@ -123,7 +123,7 @@
                     android:id="@+id/RadioButton02"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <RadioButton
                     android:id="@+id/RadioButton03"

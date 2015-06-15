@@ -27,14 +27,15 @@ import android.widget.Toast;
 import technibits.com.pme.R;
 import technibits.com.pme.activity.AsyncTaskCall;
 import technibits.com.pme.activity.MasterDownload;
-//import androidhive.info.pme.activity.R;
-import technibits.com.pme.activity.StudyModeFragment;
+import technibits.com.pme.activity.PreviewActivity;
+import technibits.com.pme.activity.ReviewFragment;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 
+
 public class PreviewAdapter extends BaseAdapter {
     private Context context;
-    StudyModeFragment activity;
+    ReviewFragment activity;
 
     Quizdata data;
     String formID;
@@ -46,10 +47,11 @@ public class PreviewAdapter extends BaseAdapter {
     public ResultData resData;
     String urlMark = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review.php";
     String urlRemove = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review-delete.php";
-
+    public RadioButton rButton = null;
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
     MasterDownload httpRequest;
     public String ansOption;
+    PreviewActivity previewActivity;
 
     public PreviewAdapter(Context conte, Quizdata form, int qNO, int device, String strSelect) {
         super();
@@ -58,6 +60,7 @@ public class PreviewAdapter extends BaseAdapter {
         queNo = qNO + 1;
         size = device;
         select = strSelect;
+//        previewActivity=pv;
     }
 
     @Override
@@ -158,57 +161,64 @@ public class PreviewAdapter extends BaseAdapter {
 //					System.out.println("Wrong " + data.getWrongAnswer());
 //					System.out.println("ans " + data.getIsAnswer());
             final View uiview = row;
-
+//            viewHolder.rButton1.setBackgroundColor(Color.YELLOW);
 
             if (select != null) {
                 viewHolder.radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
-
+                        viewHolder.radioGroup = (RadioGroup) uiview.findViewById(R.id.radioGroup);
+                        viewHolder.rButton1 = (RadioButton) uiview.findViewById(R.id.RadioButton01);
+                        viewHolder.rButton2 = (RadioButton) uiview.findViewById(R.id.RadioButton02);
+                        viewHolder.rButton3 = (RadioButton) uiview.findViewById(R.id.RadioButton03);
+                        viewHolder.rButton4 = (RadioButton) uiview.findViewById(R.id.RadioButton04);
                         ansOption = "yes";
                         data.setIsAnswer(1);
                         int answer = Integer.valueOf(data.getAnswer());
-                        int selected = -1;
-                        RadioButton rButton = null;
+                    int selected = -1;
+
                         if (checkedId == R.id.RadioButton01) {
-                            selected = 1;
-                            rButton = viewHolder.rButton1;
+                        selected = 1;
+                        rButton = viewHolder.rButton1;
+                            viewHolder.rButton1.setBackgroundColor(Color.YELLOW);
+
                         } else if (checkedId == R.id.RadioButton02) {
-                            selected = 2;
-                            rButton = viewHolder.rButton2;
+                        selected = 2;
+                        rButton = viewHolder.rButton2;
                         } else if (checkedId == R.id.RadioButton03) {
-                            selected = 3;
-                            rButton = viewHolder.rButton3;
+                        selected = 3;
+                        rButton = viewHolder.rButton3;
                         } else if (checkedId == R.id.RadioButton04) {
-                            selected = 4;
-                            rButton = viewHolder.rButton4;
-                        }
-                        if (rButton != null) {
-                            if (answer + 1 == selected) {
-                                rButton.setBackgroundColor(Color.GREEN);
-                                String dd = rButton.getText().toString();
-                            } else {
+                        selected = 4;
+                        rButton = viewHolder.rButton4;
+                    }
+                    if (rButton != null) {
+                        if (answer + 1 == selected) {
+                            rButton.setBackgroundColor(Color.parseColor("#00C853"));
+                            String dd = rButton.getText().toString();
+                            rButton.setText("Correct answer");
+                        } else {
 
-                                rButton.setBackgroundColor(Color.RED);
-                                data.setWrongAnswer(selected);
-                                String dd = rButton.getText().toString();
-                                System.out.println(dd);
-                            }
+                            rButton.setBackgroundColor(Color.RED);
+                            data.setWrongAnswer(selected);
+                            String dd = rButton.getText().toString();
+                            System.out.println(dd);
                         }
+                    }
 
-                        if (answer == 0) {
-                            viewHolder.rButton1.setBackgroundColor(Color.GREEN);
-                        } else if (answer == 1) {
-                            viewHolder.rButton2.setBackgroundColor(Color.GREEN);
-                        } else if (answer == 2) {
-                            viewHolder.rButton3.setBackgroundColor(Color.GREEN);
-                        } else if (answer == 3) {
-                            viewHolder.rButton4.setBackgroundColor(Color.GREEN);
-                        }
+                    if (answer == 0) {
+                        viewHolder.rButton1.setBackgroundColor(Color.parseColor("#00C853"));
+                    } else if (answer == 1) {
+                        viewHolder.rButton2.setBackgroundColor(Color.parseColor("#00C853"));
+                    } else if (answer == 2) {
+                        viewHolder.rButton3.setBackgroundColor(Color.parseColor("#00C853"));
+                    } else if (answer == 3) {
+                        viewHolder.rButton4.setBackgroundColor(Color.parseColor("#00C853"));
+                    }
 
-                        for (int i = 0; i < viewHolder.radioGroup.getChildCount(); i++) {
-                            viewHolder.radioGroup.getChildAt(i).setEnabled(false);
-                        }
+//                        for (int i = 0; i < viewHolder.radioGroup.getChildCount(); i++) {
+//                            viewHolder.radioGroup.getChildAt(i).setEnabled(false);
+//                        }
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", "android@gmail.com"));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
@@ -221,7 +231,7 @@ public class PreviewAdapter extends BaseAdapter {
                 if (data.getIsAnswer() == 1) {
                     int wrong = data.getWrongAnswer();
                     int selected = -1;
-                    RadioButton rButton = null;
+
                     if (wrong == 1) {
                         selected = 1;
                         rButton = viewHolder.rButton1;
@@ -240,33 +250,35 @@ public class PreviewAdapter extends BaseAdapter {
                     if (rButton != null) {
                         if (answer + 1 == selected) {
 
-                            rButton.setBackgroundColor(Color.GREEN);
+                            rButton.setBackgroundColor(Color.parseColor("#00C853"));
                         } else {
                             rButton.setBackgroundColor(Color.RED);
-                        }
+                    }
                     }
 
                     if (answer == 0) {
-                        viewHolder.rButton1.setBackgroundColor(Color.GREEN);
+                        viewHolder.rButton1.setBackgroundColor(Color.parseColor("#00C853"));
                     } else if (answer == 1) {
-                        viewHolder.rButton2.setBackgroundColor(Color.GREEN);
+                        viewHolder.rButton2.setBackgroundColor(Color.parseColor("#00C853"));
                     } else if (answer == 2) {
-                        viewHolder.rButton3.setBackgroundColor(Color.GREEN);
+                        viewHolder.rButton3.setBackgroundColor(Color.parseColor("#00C853"));
                     } else if (answer == 3) {
-                        viewHolder.rButton4.setBackgroundColor(Color.GREEN);
+                        viewHolder.rButton4.setBackgroundColor(Color.parseColor("#00C853"));
                     }
 
 
                     for (int i = 0; i < viewHolder.radioGroup.getChildCount(); i++) {
                         viewHolder.radioGroup.getChildAt(i).setEnabled(false);
-                    }
+                }
 
 
                 }
-            }
+        }
 
 
-        } else {
+    } else
+
+        {
             viewHolder.answerLayout.setVisibility(View.GONE);
             viewHolder.questionLayout.setVisibility(View.GONE);
             viewHolder.reviewLayout.setVisibility(View.GONE);
@@ -290,10 +302,10 @@ public class PreviewAdapter extends BaseAdapter {
         RadioGroup radioGroup;
 
 
-        RadioButton rButton1;
-        RadioButton rButton2;
-        RadioButton rButton3;
-        RadioButton rButton4;
+        public RadioButton rButton1;
+        public RadioButton rButton2;
+        public RadioButton rButton3;
+        public RadioButton rButton4;
 
         CheckBox reviewBox;
 

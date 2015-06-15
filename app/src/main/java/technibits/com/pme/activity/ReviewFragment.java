@@ -122,7 +122,7 @@ public class ReviewFragment extends Fragment {
             for (int i = 0; i < data.size(); i++) {
                 Quizdata value = data.get(i);
                 list.add(value.getQuestion());
-            }
+            }//android.R.layout.simple_list_item_1
             adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
             listView.setAdapter(adapter);
 
@@ -166,7 +166,7 @@ public class ReviewFragment extends Fragment {
 //			  Log.d("receiver", "Got message: " + value.getQuestion());
                     list.add(value.getQuestion());
                 }
-
+//android.R.layout.simple_list_item_1
                 adapter = new ArrayAdapter<String>(activity,
                         android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);

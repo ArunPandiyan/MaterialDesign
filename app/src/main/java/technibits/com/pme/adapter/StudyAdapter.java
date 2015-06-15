@@ -1,6 +1,5 @@
 package technibits.com.pme.adapter;
 
-
 import android.content.Context;
 import android.graphics.Color;
 
@@ -33,7 +32,6 @@ import technibits.com.pme.R;
 import technibits.com.pme.activity.StudyModeFragment;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
-
 
 public class StudyAdapter extends BaseAdapter {
     private Context context;
@@ -193,7 +191,6 @@ public class StudyAdapter extends BaseAdapter {
             viewHolder.rButton2.setText(data.getOptionB());
             viewHolder.rButton3.setText(data.getOptionC());
             viewHolder.rButton4.setText(data.getOptionD());
-//					System.out.println("Wrong " + data.getWrongAnswer());
 //					System.out.println("ans " + data.getIsAnswer());
             final View uiview = row;
 
@@ -219,20 +216,25 @@ public class StudyAdapter extends BaseAdapter {
                 if (rButton != null) {
                     if (answer + 1 == selected) {
 
-                        rButton.setBackgroundColor(Color.GREEN);
+                        rButton.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        rButton.setBackgroundColor(Color.RED);
+                        rButton.setTextColor(Color.RED);
+                        rButton.setButtonDrawable(R.drawable.image_wrong);
                     }
                 }
 
                 if (answer == 0) {
-                    viewHolder.rButton1.setBackgroundColor(Color.GREEN);
+                    viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
+                    viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                 } else if (answer == 1) {
-                    viewHolder.rButton2.setBackgroundColor(Color.GREEN);
+                    viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
+                    viewHolder.rButton2.setButtonDrawable(R.drawable.image_right);
                 } else if (answer == 2) {
-                    viewHolder.rButton3.setBackgroundColor(Color.GREEN);
+                    viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
+                    viewHolder.rButton3.setButtonDrawable(R.drawable.image_right);
                 } else if (answer == 3) {
-                    viewHolder.rButton4.setBackgroundColor(Color.GREEN);
+                    viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
+                    viewHolder.rButton4.setButtonDrawable(R.drawable.image_right);
                 }
 
 
@@ -267,7 +269,7 @@ public class StudyAdapter extends BaseAdapter {
                             if (answer + 1 == selected) {
                                 int caCount = resData.getCorrectAnswers() + 1;
                                 resData.setCorrectAnswers(caCount);
-                                rButton.setBackgroundColor(Color.GREEN);
+                                rButton.setTextColor(Color.parseColor("#00C853"));
                             } else {
                                 rButton.setBackgroundColor(Color.RED);
                                 data.setWrongAnswer(selected);
@@ -275,13 +277,13 @@ public class StudyAdapter extends BaseAdapter {
                         }
 
                         if (answer == 0) {
-                            viewHolder.rButton1.setBackgroundColor(Color.GREEN);
+                            viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
                         } else if (answer == 1) {
-                            viewHolder.rButton2.setBackgroundColor(Color.GREEN);
+                            viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
                         } else if (answer == 2) {
-                            viewHolder.rButton3.setBackgroundColor(Color.GREEN);
+                            viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
                         } else if (answer == 3) {
-                            viewHolder.rButton4.setBackgroundColor(Color.GREEN);
+                            viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
                         }
 
 
