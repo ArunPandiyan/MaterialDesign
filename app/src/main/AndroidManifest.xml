@@ -46,9 +46,6 @@
             android:name="technibits.com.pme.activity.DashboardActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name="technibits.com.pme.activity.GoogleplusActivity"
-            android:label="@string/app_name"></activity>
-        <activity
             android:name="technibits.com.pme.activity.PerformanceActivity"
             android:label="@string/app_name"></activity>
         <activity

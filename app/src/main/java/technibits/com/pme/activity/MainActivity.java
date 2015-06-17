@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         drawerFragment.setDrawerListener(this);
 
         // display the first navigation drawer view on app launch
-        displayView(0);
+        displayView(3);
     }
 
 
@@ -108,7 +108,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_videos);
                 break;
             case 5:
-                fragment = new AboutFragment();
+//                fragment = new AboutFragment();
+                fragment = new ExxamFragment();
                 title = getString(R.string.title_about);
                 break;
             default:
