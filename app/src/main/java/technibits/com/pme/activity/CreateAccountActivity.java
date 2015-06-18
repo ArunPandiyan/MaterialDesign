@@ -120,7 +120,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
                 mEmailEditText.setKeyListener(null);
                 Glide.with(this).load(personPhotoUrl).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
             }
-            String dummy = "http://jmbok.avantgoutrestaurant.com/and/images/Dummy_profile_pic.png";
+            String dummy = "http://jmbok.techtestbox.com/and/images/Dummy_profile_pic.png";
             Glide.with(this).load(dummy).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
         }
 
@@ -333,7 +333,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         // Check for a valid email address.
         else if (!cancel) {
-            String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/register";
+            String url = "http://jmbok.techtestbox.com/profile/v1/register";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("name", mUsername));
             params.add(new BasicNameValuePair("lastname", "mUsername"));

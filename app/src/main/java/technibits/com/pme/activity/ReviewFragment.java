@@ -78,7 +78,7 @@ public class ReviewFragment extends Fragment {
 
         data = new ArrayList<Quizdata>();
 
-        String urls = "http://www.jmbok.avantgoutrestaurant.com/and/mark-for-view.php?userid=android@gmail.com";
+        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=android@gmail.com";
         AsyncTaskCall ask = new AsyncTaskCall(activity, this, urls, "reviewhis_frag");
         ask.execute(urls);//getActivity(), this, urls, "performhis_frag"
 

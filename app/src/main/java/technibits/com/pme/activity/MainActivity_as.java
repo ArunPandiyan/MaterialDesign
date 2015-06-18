@@ -224,7 +224,7 @@ public class MainActivity_as extends ActionBarActivity {
         if (rowCount > 0) {
             spinnerAdapter();
         } else {
-            String urls = "http://www.jmbok.avantgoutrestaurant.com/and/all-in-one.php";
+            String urls = "http://www.jmbok.techtestbox.com/and/all-in-one.php";
             AsyncTaskCall ask = new AsyncTaskCall(this, urls, "selection");
             ask.execute(urls);
         }

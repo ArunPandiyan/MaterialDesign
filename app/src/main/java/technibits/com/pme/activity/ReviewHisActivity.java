@@ -44,7 +44,7 @@ public class ReviewHisActivity extends Activity {
 
         data = new ArrayList<Quizdata>();
 
-        String urls = "http://www.jmbok.avantgoutrestaurant.com/and/mark-for-view.php?userid=android@gmail.com";
+        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=android@gmail.com";
         AsyncTaskCall ask = new AsyncTaskCall(this, urls, "reviewhis");
         ask.execute(urls);
 

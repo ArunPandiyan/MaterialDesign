@@ -88,7 +88,7 @@ public class PerformanceFragment extends Fragment {
         }
 
 
-        String urls = "http://jmbok.avantgoutrestaurant.com/and/performance-history.php?userid=android@gmail.com";
+        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=android@gmail.com";
         AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "performhis_frag");
         ask.execute(urls);
         return rootView;
@@ -96,7 +96,7 @@ public class PerformanceFragment extends Fragment {
 
     public void performReview_frag(int id) {
 
-        String urls = "http://jmbok.avantgoutrestaurant.com/and/performance_review1.php?testid=" + id;
+        String urls = "http://jmbok.techtestbox.com/and/performance_review1.php?testid=" + id;
         AsyncTaskCall_frag ask = new AsyncTaskCall_frag(getActivity(), urls, "perreview_frag", this);
         ask.execute(urls);
     }

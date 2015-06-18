@@ -7,6 +7,8 @@
     <color name="navigationBarColor">#000000</color>
     <color name="nativeTextColor">#000000</color>
     <color name="colorAccent">#F50057</color>
+    <color name="accent_700">#FF4081</color>
+
 
     <!--listview modifications-->
     <color name="genre">#666666</color>
@@ -24,4 +26,10 @@
     <color name="feed_item_border">#c2c3c8</color>
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
+
+    <!--remider colors-->
+    <color name="bkg">#F3E5F5</color>
+    <color name="activ">#BA68C8</color>
+    <color name="inactiv">#E1BEE7</color>
+    <color name="bkg2">#F3E5F5</color>
 </resources>

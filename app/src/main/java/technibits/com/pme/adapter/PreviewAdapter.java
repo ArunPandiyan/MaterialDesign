@@ -45,8 +45,8 @@ public class PreviewAdapter extends BaseAdapter {
     int size;
     String select;
     public ResultData resData;
-    String urlMark = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review.php";
-    String urlRemove = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review-delete.php";
+    String urlMark = "http://jmbok.techtestbox.com/and/mark-for-review.php";
+    String urlRemove = "http://jmbok.techtestbox.com/and/mark-for-review-delete.php";
     public RadioButton rButton = null;
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
     MasterDownload httpRequest;

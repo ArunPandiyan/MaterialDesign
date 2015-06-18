@@ -53,7 +53,7 @@ public class ExxamFragment extends Fragment {
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getActivity(), MainActivity_as.class);
+                Intent intent = new Intent(getActivity(), technibits.com.pme.alarmactivity.MainActivity.class);
                 intent.putExtra("mode", "study");
                 startActivity(intent);
             }

@@ -67,4 +67,9 @@
     <string name="prompt_text_processname">Choose Process Name</string>
     <string name="prompt_text_selectlevel">Select your Difficulty Level</string>
 
+    <!--remaider texts-->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_repeating">Delete repeating</string>
+    <string name="delete_all">Delete all</string>
 </resources>

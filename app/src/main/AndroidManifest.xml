@@ -3,6 +3,7 @@
     package="technibits.com.pme">
 
     <application
+        android:name=".alarmactivity.RemindMe"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -57,10 +58,32 @@
         <activity
             android:name="technibits.com.pme.activity.SettingActivity"
             android:label="@string/app_name"></activity>
+
+        <activity
+            android:name="technibits.com.pme.activity.ToolBarAnim"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name="technibits.com.pme.alarmactivity.MainActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name="technibits.com.pme.alarmactivity.AddAlarmActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name="technibits.com.pme.alarmactivity.SettingsActivity"></activity>
+
+        <receiver android:name="technibits.com.pme.alarmactivity.AlarmSetter">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="technibits.com.pme.alarmactivity.AlarmReceiver"></receiver>
+
+        <service android:name="technibits.com.pme.alarmactivity.AlarmService"></service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

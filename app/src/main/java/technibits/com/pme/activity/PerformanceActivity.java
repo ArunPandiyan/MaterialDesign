@@ -48,7 +48,7 @@ public class PerformanceActivity extends Activity {
         }
 
 
-        String urls = "http://jmbok.avantgoutrestaurant.com/and/performance-history.php?userid=android@gmail.com";
+        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=android@gmail.com";
         AsyncTaskCall ask = new AsyncTaskCall(this, urls, "performhis");
         ask.execute(urls);
 
@@ -56,7 +56,7 @@ public class PerformanceActivity extends Activity {
 
     public void performReview(int id) {
 
-        String urls = "http://jmbok.avantgoutrestaurant.com/and/performance_review1.php?testid=" + id;
+        String urls = "http://jmbok.techtestbox.com/and/performance_review1.php?testid=" + id;
         AsyncTaskCall ask = new AsyncTaskCall(this, urls, "perreview");
         ask.execute(urls);
     }

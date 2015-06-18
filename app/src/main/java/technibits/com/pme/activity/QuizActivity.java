@@ -31,7 +31,7 @@ public class QuizActivity extends Activity {
         prMode = bundle.getString("prMode");
         mode = bundle.getString("mode");
 
-        String url = "http://www.jmbok.avantgoutrestaurant.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "";
+        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "";
         url = url.replace(" ", "");
         System.out.println("   " + url);
 

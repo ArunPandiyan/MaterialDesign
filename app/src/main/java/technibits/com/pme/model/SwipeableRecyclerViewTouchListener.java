@@ -128,6 +128,11 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
         handleTouchEvent(motionEvent);
     }
 
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+    }
+
     private boolean handleTouchEvent(MotionEvent motionEvent) {
         if (mViewWidth < 2) {
             mViewWidth = mRecyclerView.getWidth();

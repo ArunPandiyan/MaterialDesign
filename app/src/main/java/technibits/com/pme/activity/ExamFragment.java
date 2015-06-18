@@ -72,7 +72,7 @@ public class ExamFragment extends Fragment {
     Button next, exp;
     ResultData resData;
     int check = 0;
-    String urlFinish = "http://jmbok.avantgoutrestaurant.com/and/exam_result.php";
+    String urlFinish = "http://jmbok.techtestbox.com/and/exam_result.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -218,7 +218,7 @@ public class ExamFragment extends Fragment {
         });
 
         context = container.getContext();
-        String urls = url;//"http://www.jmbok.avantgoutrestaurant.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
+        String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
         AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "exam");
         ask.execute(urls);
 

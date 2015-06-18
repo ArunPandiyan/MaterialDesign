@@ -280,7 +280,7 @@ public class LoginActivity extends Activity implements OnClickListener,
                         + ", Image: " + personPhotoUrl + "Location" + location);
 
                 personPhotoUrl = personPhotoUrl.substring(0, personPhotoUrl.length() - 2) + PROFILE_PIC_SIZE;
-                String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";
+                String url = "http://jmbok.techtestbox.com/profile/v1/login";
                 ArrayList params = new ArrayList();
                 params.add(email);
                 params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
@@ -356,7 +356,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
                 if (rowCount == 0) {
 //			Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                    String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/register";
+                    String url = "http://jmbok.techtestbox.com/profile/v1/register";
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("name", personName));
                     params.add(new BasicNameValuePair("lastname", "fromGplus"));
@@ -377,7 +377,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 //---------------------------------------G+ login with server ends-----------------------------------------------------
 
 
-//                String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";
+//                String url = "http://jmbok.techtestbox.com/profile/v1/login";
 //                List<NameValuePair> params = new ArrayList<NameValuePair>();
 //                params.add(new BasicNameValuePair("email", email));
 //                params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
@@ -436,7 +436,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 
             case R.id.login:
 
-                String url = "http://jmbok.avantgoutrestaurant.com/profile/v1/login";
+                String url = "http://jmbok.techtestbox.com/profile/v1/login";
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("email", userName.getText().toString().trim()));
                 params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
@@ -512,7 +512,7 @@ public class LoginActivity extends Activity implements OnClickListener,
                 String email = json.getString("email");
                 String mobile = json.getString("mobile");
                 String country = json.getString("country");
-                String image_url = "http://jmbok.avantgoutrestaurant.com/and/images/Dummy_profile_pic.png";
+                String image_url = "http://jmbok.techtestbox.com/and/images/Dummy_profile_pic.png";
 
                 db = new DBConnection(this);
                 db.open();

@@ -44,8 +44,8 @@ public class StudyAdapter extends BaseAdapter {
     int queNo;
     int size;
     public ResultData resData;
-    String urlMark = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review.php";
-    String urlRemove = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review-delete.php";
+    String urlMark = "http://jmbok.techtestbox.com/and/mark-for-review.php";
+    String urlRemove = "http://jmbok.techtestbox.com/and/mark-for-review-delete.php";
 
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
     MasterDownload httpRequest;

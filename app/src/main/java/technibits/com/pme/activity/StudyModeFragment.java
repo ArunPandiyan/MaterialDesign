@@ -66,7 +66,7 @@ public class StudyModeFragment extends Fragment {
     RelativeLayout linearLayout;
     Button priv;
     Button next, exp;
-    String urlFinish = "http://jmbok.avantgoutrestaurant.com/and/study_result.php";
+    String urlFinish = "http://jmbok.techtestbox.com/and/study_result.php";
     public int answer;
     ResultData resData;
     private Toolbar mToolbar;
@@ -210,7 +210,7 @@ public class StudyModeFragment extends Fragment {
 
 
         context = container.getContext();
-        String urls = url;//"http://www.jmbok.avantgoutrestaurant.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
+        String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
         AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "study");
         ask.execute(urls);
 

@@ -30,8 +30,8 @@ import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 
 public class ExammodeAdapter extends BaseAdapter {
-    String urlMark = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review.php";
-    String urlRemove = "http://jmbok.avantgoutrestaurant.com/and/mark-for-review-delete.php";
+    String urlMark = "http://jmbok.techtestbox.com/and/mark-for-review.php";
+    String urlRemove = "http://jmbok.techtestbox.com/and/mark-for-review-delete.php";
     private Context context;
     ExamFragment activity;
     Quizdata data;

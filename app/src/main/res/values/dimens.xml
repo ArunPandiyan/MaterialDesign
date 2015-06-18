@@ -18,9 +18,13 @@
     <dimen name="feed_item_border_width">1dp</dimen>
 
 
-    <dimen name="fab_button_diameter">56dp</dimen>
-    <dimen name="fab_button_margin_bottom">16dp</dimen>
-    <dimen name="fab_button_margin_right">16dp</dimen>
-    <dimen name="elevation_low">1dp</dimen>
-    <dimen name="elevation_high">8dp</dimen>
+    <dimen name="fab_elevation">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_elevation_press">12dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="statusbar_size">24dp</dimen>
+    <dimen name="cardview_toolbar_spacer">16dp</dimen>
+    <dimen name="toolbar_double_height">112dp</dimen>
+
+
 </resources>
