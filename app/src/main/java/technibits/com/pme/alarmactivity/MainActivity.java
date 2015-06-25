@@ -46,14 +46,14 @@ public class MainActivity extends ListActivity {
     private TextView rangeText;
 //	private ViewSwitcher vs;
 
-    private SQLiteDatabase db;
+
     private Typeface font;
     private AlertDialog disclaimer;
 
     public final Calendar cal = Calendar.getInstance();
     public final Date dt = new Date();
     private String[] monthArr;
-
+    private SQLiteDatabase db;
     private Alarm alarm = new Alarm();
     private AlarmMsg alarmMsg = new AlarmMsg();
 
@@ -108,6 +108,9 @@ public class MainActivity extends ListActivity {
 //		vs = (ViewSwitcher) findViewById(R.id.view_switcher);
     }
 
+    /*
+    Tells user on which date are we looking into.
+     */
     private String getRangeStr() {
         int date = cal.get(Calendar.DATE);
         int month = cal.get(Calendar.MONTH);
@@ -240,26 +243,29 @@ public class MainActivity extends ListActivity {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             alarmMsg.setId(info.id);
             alarmMsg.load(db);
-            if (alarmMsg.getDateTime() < System.currentTimeMillis())
-                menu.removeItem(R.id.menu_edit);
+//            if (alarmMsg.getDateTime() < System.currentTimeMillis())
+//                menu.removeItem(R.id.menu_edit);
         }
     }
 
+    /*
+    Long press menu for deleting Alarms
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         boolean refresh = false;
 
         switch (item.getItemId()) {
-            case R.id.menu_edit:
-                alarmMsg.setId(info.id);
-                alarmMsg.load(db);
-                alarm.reset();
-                alarm.setId(alarmMsg.getAlarmId());
-                alarm.load(db);
-
-                showDialog(R.id.menu_edit);
-                break;
+//            case R.id.menu_edit:
+//                alarmMsg.setId(info.id);
+//                alarmMsg.load(db);
+//                alarm.reset();
+//                alarm.setId(alarmMsg.getAlarmId());
+//                alarm.load(db);
+//
+//                showDialog(R.id.menu_edit);
+//                break;
 
             case R.id.menu_delete:
                 RemindMe.dbHelper.cancelNotification(db, info.id, false);
@@ -300,39 +306,39 @@ public class MainActivity extends ListActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case R.id.menu_edit:
-                return new AlertDialog.Builder(this)
-                        .setTitle("Edit")
-                        .setView(getLayoutInflater().inflate(R.layout.edit, null))
-                        .setCancelable(false)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Dialog d = (Dialog) dialog;
-                                EditText msgEdit = (EditText) d.findViewById(R.id.msg_et);
-                                CheckBox soundCb = (CheckBox) d.findViewById(R.id.sound_cb);
-
-                                alarm.setSound(soundCb.isChecked());
-                                if (!TextUtils.isEmpty(msgEdit.getText())) {
-                                    alarm.setName(msgEdit.getText().toString());
-                                    alarm.persist(db);
-
-                                    SimpleCursorAdapter adapter = (SimpleCursorAdapter) getListAdapter();
-                                    adapter.getCursor().requery();
-                                    adapter.notifyDataSetChanged();
-
-                                } else {
-                                    Toast.makeText(MainActivity.this, "Enter a message", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .create();
-        }
+//        switch (id) {
+//            case R.id.menu_edit:
+//                return new AlertDialog.Builder(this)
+//                        .setTitle("Edit")
+//                        .setView(getLayoutInflater().inflate(R.layout.edit, null))
+//                        .setCancelable(false)
+//                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                Dialog d = (Dialog) dialog;
+//                                EditText msgEdit = (EditText) d.findViewById(R.id.msg_et);
+//                                CheckBox soundCb = (CheckBox) d.findViewById(R.id.sound_cb);
+//
+//                                alarm.setSound(soundCb.isChecked());
+//                                if (!TextUtils.isEmpty(msgEdit.getText())) {
+//                                    alarm.setName(msgEdit.getText().toString());
+//                                    alarm.persist(db);
+//
+//                                    SimpleCursorAdapter adapter = (SimpleCursorAdapter) getListAdapter();
+//                                    adapter.getCursor().requery();
+//                                    adapter.notifyDataSetChanged();
+//
+//                                } else {
+//                                    Toast.makeText(MainActivity.this, "Enter a message", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        })
+//                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        })
+//                        .create();
+//        }
         return super.onCreateDialog(id);
     }
 
@@ -340,13 +346,13 @@ public class MainActivity extends ListActivity {
     protected void onPrepareDialog(int id, Dialog dialog) {
         super.onPrepareDialog(id, dialog);
         switch (id) {
-            case R.id.menu_edit:
-                EditText msgEdit = (EditText) dialog.findViewById(R.id.msg_et);
-                CheckBox soundCb = (CheckBox) dialog.findViewById(R.id.sound_cb);
-
-                msgEdit.setText(alarm.getName());
-                soundCb.setChecked(alarm.getSound());
-                break;
+//            case R.id.menu_edit:
+//                EditText msgEdit = (EditText) dialog.findViewById(R.id.msg_et);
+//                CheckBox soundCb = (CheckBox) dialog.findViewById(R.id.sound_cb);
+//
+//                msgEdit.setText(alarm.getName());
+//                soundCb.setChecked(alarm.getSound());
+//                break;
         }
     }
 

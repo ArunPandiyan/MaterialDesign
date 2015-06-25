@@ -6,23 +6,30 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import technibits.com.pme.R;
 
-public class QuizActivity extends Activity {
+public class QuizActivity extends AppCompatActivity {
 
     String knArea;
     String prGroup;
     String prName;
     String prMode;
     String mode;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+//        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        mToolbar.setTitle("testfromquizactivity");
         Bundle bundle = getIntent().getExtras();
 
         knArea = bundle.getString("knArea");

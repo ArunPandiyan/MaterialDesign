@@ -14,13 +14,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class PreviewActivity extends Activity {
+public class PreviewActivity extends AppCompatActivity {
     int device;
     Button priv;
     Button next;
@@ -34,6 +36,7 @@ public class PreviewActivity extends Activity {
     ArrayList<Quizdata> data;
     Context context;
     PreviewAdapter adapter;
+    Toolbar mToolbar;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,7 +62,10 @@ public class PreviewActivity extends Activity {
         } else {
             setContentView(R.layout.study_mode);
         }
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 //		 Bundle bundle = getIntent().getExtras();
         list = (ListView) findViewById(R.id.listView1);

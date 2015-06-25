@@ -23,13 +23,16 @@ public class PerformanceActivity extends Activity {
     ArrayList<ResultData> rsuData;
     ArrayList<Quizdata> data;
     int device;
+    DBConnection db;
+    String useremail = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.performence_activity);
         listView = (ListView) findViewById(R.id.listView1);
-
+        db = new DBConnection(getApplicationContext());
+        useremail = db.getuserEmail().trim();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -48,7 +51,7 @@ public class PerformanceActivity extends Activity {
         }
 
 
-        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=android@gmail.com";
+        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=" + useremail;
         AsyncTaskCall ask = new AsyncTaskCall(this, urls, "performhis");
         ask.execute(urls);
 

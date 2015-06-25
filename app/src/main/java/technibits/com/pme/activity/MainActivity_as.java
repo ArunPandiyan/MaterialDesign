@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class MainActivity_as extends ActionBarActivity {
+public class MainActivity_as extends AppCompatActivity {
     DBConnection db;
     OnItemSelectedListener myListener;
     public MainActivity_as MainActivity_as;
@@ -46,6 +47,7 @@ public class MainActivity_as extends ActionBarActivity {
     String mode;
     Spinner spinner1, spinner2, spinner3, spinner4;
     TextView text1, text2, text3, text4;
+    CheckBox checkBox;
     Button next;
     String[] difficultylevel = {"Select All", "Beginner", "Inter mediator", "Expert"};
 
@@ -88,7 +90,7 @@ public class MainActivity_as extends ActionBarActivity {
         text2.setVisibility(View.GONE);
         text3.setVisibility(View.GONE);
 
-        CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox1);
+        checkBox = (CheckBox) findViewById(R.id.checkBox1);
         checkBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
@@ -197,12 +199,17 @@ public class MainActivity_as extends ActionBarActivity {
 
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent scheIntent = new Intent(MainActivity_as.this,
-                        QuizActivity.class);
+                Intent scheIntent = new Intent(MainActivity_as.this, QuizActivity.class);
                 scheIntent.putExtra("knArea", knArea);
-                scheIntent.putExtra("prGroup", prGroup);
-                scheIntent.putExtra("prName", prName);
-                scheIntent.putExtra("prMode", prMode);
+                if (checkBox.isChecked()) {
+                    scheIntent.putExtra("prGroup", prGroup);
+                    scheIntent.putExtra("prName", prName);
+                    scheIntent.putExtra("prMode", prMode);
+                } else {
+                    scheIntent.putExtra("prGroup", "SelectAll");
+                    scheIntent.putExtra("prName", "SelectAll");
+                    scheIntent.putExtra("prMode", "SelectAll");
+                }
                 scheIntent.putExtra("mode", mode);
                 startActivity(scheIntent);
             }

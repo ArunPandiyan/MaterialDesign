@@ -16,6 +16,7 @@ public class AlarmMsg extends AbstractModel {
     public static final String COL_ALARMID = "alarm_id";
     public static final String COL_DATETIME = "datetime";
     public static final String COL_STATUS = "status";
+    public static final String COL_SOUND = "sound";
 
     public static final String ACTIVE = "A";
     public static final String EXPIRED = "E";

@@ -14,62 +14,163 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/Schedule_name"
-                android:layout_marginTop="9dp"
-                android:layout_marginLeft="7dp"
-                android:layout_marginStart="7dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+    <!--android:text="Medium Text"-->
+    <!--android:id="@+id/Schedule_name"-->
+    <!--android:layout_marginTop="9dp"-->
+    <!--android:layout_marginLeft="7dp"-->
+    <!--android:layout_marginStart="7dp"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/textView7"
-                android:layout_below="@+id/Schedule_name"
-                android:layout_alignLeft="@+id/Schedule_name"
-                android:layout_alignStart="@+id/Schedule_name"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="11dp" />
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+    <!--android:text="Small Text"-->
+    <!--android:id="@+id/textView7"-->
+    <!--android:layout_below="@+id/Schedule_name"-->
+    <!--android:layout_alignLeft="@+id/Schedule_name"-->
+    <!--android:layout_alignStart="@+id/Schedule_name"-->
+    <!--android:layout_marginTop="11dp"-->
+    <!--android:layout_marginBottom="11dp" />-->
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/notification"
-                android:src="@drawable/bell_ring"
-                android:layout_marginRight="38dp"
-                android:layout_marginEnd="38dp"
-                android:layout_alignTop="@+id/Schedule_name"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp" />
-        </RelativeLayout>
+    <!--<ImageView-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:id="@+id/notification"-->
+    <!--android:src="@drawable/bell_ring"-->
+    <!--android:layout_marginRight="38dp"-->
+    <!--android:layout_marginEnd="38dp"-->
+    <!--android:layout_alignTop="@+id/Schedule_name"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_marginTop="10dp" />-->
+    <!--</RelativeLayout>-->
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="60dp"
-            android:id="@+id/imageView2"
-            android:src="@drawable/forward_arrow"
+    <!--<ImageView-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:id="@+id/imageView2"-->
+    <!--android:src="@drawable/forward_arrow"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentEnd="true" />-->
+
+    <!--</RelativeLayout>-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/month_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6sp"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:text="Jun"
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <TextView
+            android:id="@+id/year_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:text="2015"
+            android:layout_below="@+id/month_tv"
+            android:layout_alignRight="@+id/month_tv"
+            android:layout_alignEnd="@+id/month_tv" />
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="1sp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:text="18"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/year_tv"
+            android:layout_toStartOf="@+id/year_tv"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+
+        <TextView
+            android:id="@+id/Schedule_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/date_tv"
+            android:textColor="#587498"
+            android:textSize="24sp"
+            android:text="PMP Exam" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5sp"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:text="15:20"
+            android:layout_below="@+id/date_tv"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/notification"
+            android:src="@drawable/bell_ring"
+            android:layout_alignBottom="@+id/year_tv"
+            android:layout_alignRight="@+id/Schedule_name"
+            android:layout_alignEnd="@+id/Schedule_name" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/overflow"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            android:layout_alignBottom="@+id/month_tv"
+            android:layout_toRightOf="@+id/year_tv"
+            android:layout_toEndOf="@+id/year_tv"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/alarmid"
+            android:visibility="invisible"
+            android:layout_alignBottom="@+id/time_tv"
+            android:layout_toRightOf="@+id/time_tv"
+            android:layout_toEndOf="@+id/time_tv" />
+
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>
 
 

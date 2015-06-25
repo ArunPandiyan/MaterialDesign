@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,6 +28,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import technibits.com.pme.activity.AsyncTaskCall;
+import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.MasterDownload;
 import technibits.com.pme.R;
 import technibits.com.pme.activity.StudyModeFragment;
@@ -36,9 +38,9 @@ import technibits.com.pme.data.ResultData;
 public class StudyAdapter extends BaseAdapter {
     private Context context;
     StudyModeFragment activity;
-
+    DBConnection db;
     Quizdata data;
-    String formID;
+    String formID, useremail;
     EditText dateText;
     public ViewHolderA viewHolder;
     int queNo;
@@ -81,6 +83,8 @@ public class StudyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        db = new DBConnection(context);
+        useremail = db.getuserEmail().trim();
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (size == 7) {
@@ -113,7 +117,7 @@ public class StudyAdapter extends BaseAdapter {
 
             viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
 
-            viewHolder.infoButton = (Button) row.findViewById(R.id.info);
+            viewHolder.infoButton = (ImageButton) row.findViewById(R.id.info);
 
         } else {
             viewHolder = (ViewHolderA) row.getTag();
@@ -144,7 +148,7 @@ public class StudyAdapter extends BaseAdapter {
                         data.setISchecked(1);
                         data.setStatus("R");
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
@@ -344,7 +348,7 @@ public class StudyAdapter extends BaseAdapter {
 
         CheckBox reviewBox;
 
-        Button infoButton;
+        ImageButton infoButton;
 
     }
 

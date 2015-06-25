@@ -4,8 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-        
 
+    <RelativeLayout
+        android:id="@+id/yestest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
@@ -13,8 +16,32 @@
         android:layout_weight="0.18" >
 
     </ListView>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/notest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="There are No Questions to review !"
+            android:id="@+id/textView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Oops !"
+            android:id="@+id/textView13"
+            android:layout_above="@+id/textView"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 
 </LinearLayout>

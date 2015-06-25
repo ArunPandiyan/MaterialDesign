@@ -1,6 +1,7 @@
 package technibits.com.pme.activity;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -211,7 +212,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                 e.printStackTrace();
             }
         } else if (requestType.equals("review")) {
-            //TODO: add delete function
+            //TODO: add delete function--forgotten
         } else if (requestType.equals("result")) {
             if (studyFragment != null) {
                 studyFragment.showResult();
@@ -224,7 +225,6 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                 try {
                     ((CreateAccountActivity) activity).finish(jsons);
                 } catch (JSONException e) {
-
                     e.printStackTrace();
                 }
             }
@@ -233,7 +233,6 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                 try {
                     ((LoginActivity) activity).login(jsons);
                 } catch (JSONException e) {
-
                     e.printStackTrace();
                 }
             }

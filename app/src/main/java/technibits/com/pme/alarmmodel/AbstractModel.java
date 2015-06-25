@@ -6,9 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import technibits.com.pme.alarmactivity.Util;
 
-/**
- * @author appsrox.com
- */
+
 abstract class AbstractModel {
 
     static final String COL_ID = "_id";

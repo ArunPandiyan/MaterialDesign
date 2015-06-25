@@ -7,15 +7,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimary">
+        android:background="#fff">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
         <EditText
             android:id="@+id/msg_et"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:maxLines="2"
-            android:hint="Message"></EditText>
+            android:hint="Message"
+            android:paddingTop="15dp"></EditText>
 
         <CheckBox
             android:id="@+id/sound_cb"

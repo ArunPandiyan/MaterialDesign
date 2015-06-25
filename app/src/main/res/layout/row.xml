@@ -8,30 +8,40 @@
         android:id="@+id/month_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:paddingTop="6sp"
-        android:textColor="#777777"
-        android:textSize="9sp" />
+        android:textColor="#000000"
+        android:textSize="9sp"
+        android:text="Jun"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/year_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/month_tv"
-        android:textColor="#777777"
-        android:textSize="9sp" />
+        android:textColor="#000000"
+        android:textSize="9sp"
+        android:text="2015"
+        android:layout_below="@+id/month_tv"
+        android:layout_alignRight="@+id/month_tv"
+        android:layout_alignEnd="@+id/month_tv" />
 
     <TextView
         android:id="@+id/date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/year_tv"
         android:paddingRight="1sp"
-        android:textColor="#777777"
-        android:textSize="27sp" />
+        android:textColor="#000000"
+        android:textSize="27sp"
+        android:text="18"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/year_tv"
+        android:layout_toStartOf="@+id/year_tv" />
 
     <TextView
         android:id="@+id/msg_tv"
@@ -41,16 +51,30 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/date_tv"
         android:textColor="#587498"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:text="PMP Exam" />
 
     <TextView
         android:id="@+id/time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/msg_tv"
         android:paddingTop="5sp"
-        android:textColor="#777777"
-        android:textSize="12sp" />
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:text="15:20"
+        android:layout_below="@+id/date_tv"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/imageView3"
+        android:src="@drawable/bell_ring"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_above="@+id/time_tv"
+        android:layout_alignRight="@+id/msg_tv"
+        android:layout_alignEnd="@+id/msg_tv" />
 
 </RelativeLayout>

@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -73,6 +74,7 @@ public class ExamFragment extends Fragment {
     ResultData resData;
     int check = 0;
     String urlFinish = "http://jmbok.techtestbox.com/and/exam_result.php";
+    private Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,7 +127,8 @@ public class ExamFragment extends Fragment {
                     false);
         }
 
-
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        mToolbar.setTitle("Exam Mode");
         textTimer = (TextView) rootView.findViewById(R.id.timer);
         textTimer.setTextColor(Color.RED);
         LayoutInflater seakLayout = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -249,7 +252,6 @@ public class ExamFragment extends Fragment {
                 alert.show();
             }
         });
-
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (next.getText().toString().equals("Next")) {
@@ -548,8 +550,8 @@ public class ExamFragment extends Fragment {
 
         linearLayout = new RelativeLayout(context);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(550, 550);
-        RelativeLayout.LayoutParams numPicerParams = new RelativeLayout.LayoutParams(550, 550);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(850, 650);
+        RelativeLayout.LayoutParams numPicerParams = new RelativeLayout.LayoutParams(850, 650);
         numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         linearLayout.setLayoutParams(params);
@@ -569,8 +571,7 @@ public class ExamFragment extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 alertDialog.dismiss();
                                 linearLayout.removeView(showInfoView);
                             }
@@ -600,7 +601,7 @@ public class ExamFragment extends Fragment {
 
         System.out.println("resData.getTotalQuestion()  " + resData.getTotalQuestion() + "resData.getAttemptQuestions()   " + resData.getAttemptQuestions() + "  resData.getCorrectAnswers()  " + resData.getCorrectAnswers() + "  resData.getMarkedReview()  " + resData.getMarkedReview()
         );
-
+        DBConnection db = new DBConnection(getActivity());
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Totalquestion", String.valueOf(resData.getTotalQuestion())));
         params.add(new BasicNameValuePair("Attemptquestions", String.valueOf(resData.getAttemptQuestions())));
@@ -609,7 +610,7 @@ public class ExamFragment extends Fragment {
         params.add(new BasicNameValuePair("Percentage", String.valueOf(resData.getPercentage())));
         params.add(new BasicNameValuePair("Result", resData.getResult()));
         params.add(new BasicNameValuePair("Timespent", timer));
-        params.add(new BasicNameValuePair("userid", "android@gmail.com")); //TODO: get from preference
+        params.add(new BasicNameValuePair("userid", db.getuserEmail()));
         params.add(new BasicNameValuePair("testid", testID));
         params.add(new BasicNameValuePair("questionid", questionid));
         params.add(new BasicNameValuePair("options", optionVlaue));
@@ -629,6 +630,7 @@ public class ExamFragment extends Fragment {
         Intent intent = new Intent(getActivity(), PreviewActivity.class);
         intent.putExtra("data", data);
         intent.putExtra("count", count);
+        intent.putExtra("src_activity", "Exam Mode");
         startActivity(intent);
     }
 

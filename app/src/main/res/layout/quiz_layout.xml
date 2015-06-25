@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/review"
@@ -20,7 +20,8 @@
             android:id="@+id/showReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View" />
+            android:text="View"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +53,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:text="Q.1"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/textColorPrimary" />
 
                 </LinearLayout>
 
@@ -61,24 +63,24 @@
                     android:layout_width="233dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/textColorPrimary"
                     
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                <LinearLayout
+                <RelativeLayout
                 android:layout_width="28dp"
                 android:layout_height="30dp"
                 android:orientation="vertical" >
 
-                 <Button
+                    <ImageButton
                     android:id="@+id/info"
                     android:layout_width="28dp"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="i"
-                    
+                        android:src="@drawable/ic_info_black_24dp"
                      />
 
-            </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
         
@@ -117,7 +119,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                     />
+
+                    />
 
                 <RadioButton
                     android:id="@+id/RadioButton02"

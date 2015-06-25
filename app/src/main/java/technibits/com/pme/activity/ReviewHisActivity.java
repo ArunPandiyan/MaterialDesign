@@ -29,6 +29,7 @@ public class ReviewHisActivity extends Activity {
     int posRemove;
     ArrayAdapter<String> adapter;
     Activity activity;
+    DBConnection db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,8 @@ public class ReviewHisActivity extends Activity {
         setContentView(R.layout.reviewhis_activity);
         activity = this;
         listView = (ListView) findViewById(R.id.listView1);
-
+        db = new DBConnection(getApplicationContext());
+        String useremail = db.getuserEmail().trim();
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
@@ -44,7 +46,7 @@ public class ReviewHisActivity extends Activity {
 
         data = new ArrayList<Quizdata>();
 
-        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=android@gmail.com";
+        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + useremail;
         AsyncTaskCall ask = new AsyncTaskCall(this, urls, "reviewhis");
         ask.execute(urls);
 

@@ -4,6 +4,7 @@ package technibits.com.pme.activity;
  * Created by Technibits-13 on 15-May-2015.
  */
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,6 +14,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,9 +22,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import technibits.com.pme.R;
+import technibits.com.pme.alarmactivity.SettingsActivity;
 
 
-public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -43,9 +46,12 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
-
+        int d = getIntent().getIntExtra("fragmentNumber", 0);//getExtras("fragmentNumber");
+        if (getIntent().getIntExtra("fragmentNumber", 0) == 3) {
+            displayView(3);//set the desired fragment as current fragment to fragment pager
+        }
         // display the first navigation drawer view on app launch
-        displayView(5);
+        displayView(0);
     }
 
 
@@ -65,14 +71,14 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "Setting Can be invoked!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
-        if (id == R.id.action_search) {
-            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (id == R.id.action_search) {
+//            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -84,7 +90,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     private void displayView(int position) {
         Fragment fragment = null;
-        FragmentActivity frag = null;
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
@@ -125,8 +130,6 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             // set the toolbar title
             getSupportActionBar().setTitle(title);
         }
-        if (frag != null) {
 
-        }
     }
 }

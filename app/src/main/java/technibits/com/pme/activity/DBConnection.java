@@ -204,6 +204,9 @@ public class DBConnection extends SQLiteOpenHelper {
     }
 
     public Cursor executeQuery(String sql) throws SQLException {
+        String myPath = DB_PATH + DB_NAME;
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null,
+                SQLiteDatabase.OPEN_READWRITE);
 
 //		L.debug("sql --> " + sql);
         Cursor c = null;

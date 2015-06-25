@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import technibits.com.pme.R;
 import technibits.com.pme.activity.AsyncTaskCall;
+import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.MasterDownload;
 import technibits.com.pme.activity.PreviewActivity;
 import technibits.com.pme.activity.ReviewFragment;
@@ -43,7 +44,7 @@ public class PreviewAdapter extends BaseAdapter {
     public ViewHolderA viewHolder;
     int queNo;
     int size;
-    String select;
+    String select, useremail;
     public ResultData resData;
     String urlMark = "http://jmbok.techtestbox.com/and/mark-for-review.php";
     String urlRemove = "http://jmbok.techtestbox.com/and/mark-for-review-delete.php";
@@ -52,6 +53,7 @@ public class PreviewAdapter extends BaseAdapter {
     MasterDownload httpRequest;
     public String ansOption;
     PreviewActivity previewActivity;
+    private DBConnection db;
 
     public PreviewAdapter(Context conte, Quizdata form, int qNO, int device, String strSelect) {
         super();
@@ -84,6 +86,8 @@ public class PreviewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        db = new DBConnection(context);
+        useremail = db.getuserEmail().trim();
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (size == 7) {
@@ -180,7 +184,7 @@ public class PreviewAdapter extends BaseAdapter {
                         if (checkedId == R.id.RadioButton01) {
                         selected = 1;
                         rButton = viewHolder.rButton1;
-                            viewHolder.rButton1.setBackgroundColor(Color.YELLOW);
+                            viewHolder.rButton1.setTextColor(Color.YELLOW);
 
                         } else if (checkedId == R.id.RadioButton02) {
                         selected = 2;
@@ -194,33 +198,34 @@ public class PreviewAdapter extends BaseAdapter {
                     }
                     if (rButton != null) {
                         if (answer + 1 == selected) {
-                            rButton.setBackgroundColor(Color.parseColor("#00C853"));
-                            String dd = rButton.getText().toString();
-                            rButton.setText("Correct answer");
+                            rButton.setTextColor(Color.parseColor("#00C853"));
                         } else {
 
-                            rButton.setBackgroundColor(Color.RED);
+                            rButton.setTextColor(Color.RED);
                             data.setWrongAnswer(selected);
-                            String dd = rButton.getText().toString();
-                            System.out.println(dd);
+                            rButton.setButtonDrawable(R.drawable.image_wrong);
                         }
                     }
 
                     if (answer == 0) {
-                        viewHolder.rButton1.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 1) {
-                        viewHolder.rButton2.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton2.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 2) {
-                        viewHolder.rButton3.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton3.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 3) {
-                        viewHolder.rButton4.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton4.setButtonDrawable(R.drawable.image_right);
                     }
 
 //                        for (int i = 0; i < viewHolder.radioGroup.getChildCount(); i++) {
 //                            viewHolder.radioGroup.getChildAt(i).setEnabled(false);
 //                        }
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
@@ -250,20 +255,25 @@ public class PreviewAdapter extends BaseAdapter {
                     if (rButton != null) {
                         if (answer + 1 == selected) {
 
-                            rButton.setBackgroundColor(Color.parseColor("#00C853"));
+                            rButton.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            rButton.setBackgroundColor(Color.RED);
+                            rButton.setTextColor(Color.RED);
+                            rButton.setButtonDrawable(R.drawable.image_wrong);
                     }
                     }
 
                     if (answer == 0) {
-                        viewHolder.rButton1.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 1) {
-                        viewHolder.rButton2.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton2.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 2) {
-                        viewHolder.rButton3.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton3.setButtonDrawable(R.drawable.image_right);
                     } else if (answer == 3) {
-                        viewHolder.rButton4.setBackgroundColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
+                        viewHolder.rButton4.setButtonDrawable(R.drawable.image_right);
                     }
 
 

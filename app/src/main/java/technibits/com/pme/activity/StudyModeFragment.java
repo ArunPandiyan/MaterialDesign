@@ -70,6 +70,7 @@ public class StudyModeFragment extends Fragment {
     public int answer;
     ResultData resData;
     private Toolbar mToolbar;
+    private JSONObject firstresult;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -289,7 +290,6 @@ public class StudyModeFragment extends Fragment {
                     }
                     resData.setTotalQuestion(count);
 
-
                     getresult();
                     System.out.println("count  " + count + "perInt   " + proportionCorrect + "  percentage  " + percentage + "  answer  " + resData.getCorrectAnswers());
                 }
@@ -352,6 +352,7 @@ public class StudyModeFragment extends Fragment {
         try {
             QuizJSONParser jsonParser = new QuizJSONParser();
             jsonParser.jsonArrayName = "knowledgearea";
+
             data = jsonParser.testJsonParsing(json);
             retakedata = jsonParser.testJsonParsing(json);
             if (data.size() > 0) {
@@ -565,7 +566,7 @@ public class StudyModeFragment extends Fragment {
         String testID = UUID.randomUUID().toString();
         System.out.println("resData.getTotalQuestion()  " + resData.getTotalQuestion() + "resData.getAttemptQuestions()   " + resData.getAttemptQuestions() + "  resData.getCorrectAnswers()  " + resData.getCorrectAnswers() + "  resData.getMarkedReview()  " + resData.getMarkedReview()
         );
-
+        DBConnection db = new DBConnection(getActivity());
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Totalquestion", String.valueOf(resData.getTotalQuestion())));
         params.add(new BasicNameValuePair("Attemptquestions", String.valueOf(resData.getAttemptQuestions())));
@@ -573,7 +574,7 @@ public class StudyModeFragment extends Fragment {
         params.add(new BasicNameValuePair("Markedreview", String.valueOf(resData.getMarkedReview())));
         params.add(new BasicNameValuePair("Percentage", String.valueOf(resData.getPercentage())));
         params.add(new BasicNameValuePair("Result", resData.getResult()));
-        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+        params.add(new BasicNameValuePair("userid", db.getuserEmail()));//"android@gmail.com"));xvc
         params.add(new BasicNameValuePair("testid", testID));
 
         AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);

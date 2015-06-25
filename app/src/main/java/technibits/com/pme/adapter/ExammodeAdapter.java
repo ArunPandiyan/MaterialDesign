@@ -1,5 +1,5 @@
 package technibits.com.pme.adapter;
-// TODO change the ui for right or wrong
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -25,6 +26,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import technibits.com.pme.R;
 import technibits.com.pme.activity.AsyncTaskCall;
+import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.ExamFragment;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
@@ -42,6 +44,8 @@ public class ExammodeAdapter extends BaseAdapter {
     int size;
     public ResultData resData;
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
+    private DBConnection db;
+    public String useremail = null;
 
     public ExammodeAdapter(Context conte, Quizdata form, int qNO, int device, ExamFragment exaFrg, ResultData resD) {
         super();
@@ -72,6 +76,8 @@ public class ExammodeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        db = new DBConnection(context);
+        useremail = db.getuserEmail().trim();
         final String rowId = Integer.valueOf(position).toString();
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,7 +102,7 @@ public class ExammodeAdapter extends BaseAdapter {
 
             viewHolder.radioGroup = (RadioGroup) row.findViewById(R.id.radioGroup);
 
-            viewHolder.infoButton = (Button) row.findViewById(R.id.info);
+            viewHolder.infoButton = (ImageButton) row.findViewById(R.id.info);
 
             viewHolder.rButton1 = (RadioButton) row.findViewById(R.id.RadioButton01);
             viewHolder.rButton2 = (RadioButton) row.findViewById(R.id.RadioButton02);
@@ -133,7 +139,7 @@ public class ExammodeAdapter extends BaseAdapter {
                         data.setISchecked(1);
                         data.setStatus("R");
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
@@ -144,7 +150,7 @@ public class ExammodeAdapter extends BaseAdapter {
 
                         data.setISchecked(0);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));//android@gmail.com
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
@@ -260,7 +266,7 @@ public class ExammodeAdapter extends BaseAdapter {
                         viewHolder.reviewBox.setChecked(false);
                         data.setISchecked(0);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
@@ -308,7 +314,7 @@ public class ExammodeAdapter extends BaseAdapter {
         CheckBox reviewBox;
 
         Button showReview;
-        Button infoButton;
+        ImageButton infoButton;
 
     }
 

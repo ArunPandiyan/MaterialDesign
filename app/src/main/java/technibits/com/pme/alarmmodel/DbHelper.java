@@ -182,6 +182,33 @@ public class DbHelper extends SQLiteOpenHelper {
         return db.rawQuery(sql, null);
     }
 
+    private final String listfromdb = Util.concat("SELECT ",
+            "a." + Alarm.COL_NAME + ", ",
+            "am." + AlarmMsg.COL_ID + ", ",
+            "am." + AlarmMsg.COL_DATETIME + ", ",
+            "am." + AlarmMsg.COL_STATUS + ", ",
+            "a." + AlarmMsg.COL_SOUND,
+            " FROM " + Alarm.TABLE_NAME + " AS a",
+            " JOIN " + AlarmMsg.TABLE_NAME + " AS am",
+            " ON a." + Alarm.COL_ID + " = am." + AlarmMsg.COL_ALARMID);
+
+    /**
+     * @param db
+     * @param args {startTime, endTime}
+     * @return cursor
+     */
+    public Cursor getNotifications(SQLiteDatabase db, String... args) {
+        String selection = "am." + AlarmMsg.COL_STATUS + " != '" + AlarmMsg.CANCELLED + "'";
+        selection += (args != null && args.length > 0 && args[0] != null) ? " AND am." + AlarmMsg.COL_DATETIME + " >= " + args[0] : "";
+        selection += (args != null && args.length > 1 && args[1] != null) ? " AND am." + AlarmMsg.COL_DATETIME + " <= " + args[1] : "";
+
+        String sql = Util.concat(listfromdb,
+                " WHERE " + selection,
+                " ORDER BY am." + AlarmMsg.COL_DATETIME + " ASC");
+
+        return db.rawQuery(sql, null);
+    }
+
     public int cancelNotification(SQLiteDatabase db, long id, boolean isAlarmId) {
         ContentValues cv = new ContentValues();
         cv.put(AlarmMsg.COL_STATUS, AlarmMsg.CANCELLED);

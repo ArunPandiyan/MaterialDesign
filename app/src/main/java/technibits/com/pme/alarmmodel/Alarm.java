@@ -8,9 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import technibits.com.pme.alarmactivity.Util;
 
-/**
- * @author appsrox.com
- */
+
 public class Alarm extends AbstractModel {
 
     public static final String TABLE_NAME = "alarm";

@@ -7,10 +7,15 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +33,8 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import technibits.com.pme.R;
+import technibits.com.pme.activity.*;
+import technibits.com.pme.adapter.ScheduleListAdapter;
 import technibits.com.pme.alarmmodel.Alarm;
 import technibits.com.pme.alarmmodel.AlarmMsg;
 import technibits.com.pme.alarmmodel.AlarmTime;
@@ -36,7 +43,7 @@ import technibits.com.pme.alarmmodel.DbHelper;
 /**
  * @author appsrox.com
  */
-public class AddAlarmActivity extends Activity {
+public class AddAlarmActivity extends AppCompatActivity {
 
 //	private static final String TAG = "AddAlarmActivity";
 
@@ -62,6 +69,7 @@ public class AddAlarmActivity extends Activity {
     private EditText daysEdit;
     private EditText monthsEdit;
     private EditText yearsEdit;
+    private Toolbar mToolbar;
 
     private SQLiteDatabase db;
 
@@ -88,6 +96,10 @@ public class AddAlarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle("New Reminder");
         setContentView(R.layout.add);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setTitle("Add Your Schedule");
         findViews();
         db = RemindMe.db;
 
@@ -245,8 +257,18 @@ public class AddAlarmActivity extends Activity {
         service.putExtra(AlarmMsg.COL_ALARMID, String.valueOf(alarmId));
         service.setAction(AlarmService.POPULATE);
         startService(service);
-
+//        Intent intent = new Intent(this, technibits.com.pme.activity.MainActivity.class);
+//        intent.putExtra("fragmentNumber",3); //for example
+//        startActivity(intent);
         finish();
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+//        transaction.replace(R.id.fragment_container, myFragment);
+
+//if you with to add it to backStack, do this, otherwise skip the line below
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+
     }
 
     public void onClick(View v) {

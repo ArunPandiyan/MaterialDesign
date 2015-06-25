@@ -86,9 +86,9 @@ public class PerformanceFragment extends Fragment {
         } else if (smallestWidth >= 600) {
             device = 7; //Device is a 7" tablet
         }
-
-
-        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=android@gmail.com";
+        DBConnection dbConnection = new DBConnection(getActivity());
+//        dbConnection.getuserEmail();
+        String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=" + dbConnection.getuserEmail().trim();
         AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "performhis_frag");
         ask.execute(urls);
         return rootView;

@@ -59,7 +59,7 @@ public class QuizJSONParser {
     }
 
     public ArrayList<Quizdata> reviewJsonParsing(JSONObject json) throws JSONException {
-        System.out.println("" + json);
+//        System.out.println("" + json);
 
         JSONArray quizArray = json.getJSONArray("markforviewlist");
 //		 Quizdata dataSource = new Quizdata();

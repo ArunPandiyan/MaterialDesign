@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,10 +50,12 @@ public class ReviewFragment extends Fragment {
     int posRemove;
     ArrayAdapter<String> adapter;
     Activity activity;
+    RelativeLayout notest;
+    RelativeLayout yestest;
 
     private Button btnSignOut, btnRevokeAccess, buttonact;
     private ImageView imgProfilePic;
-    private TextView txtName, txtEmail;
+    private TextView txtName, txtEmail, emptylist;
     private LinearLayout llProfileLayout;
 
     public ReviewFragment() {
@@ -70,15 +74,18 @@ public class ReviewFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.reviewhis_activity, container, false);
         listView = (ListView) rootView.findViewById(R.id.listView1);
-
+        notest = (RelativeLayout) rootView.findViewById(R.id.notest);
+        yestest = (RelativeLayout) rootView.findViewById(R.id.yestest);
         LocalBroadcastManager.getInstance(activity).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-event-name"));
 
         list = new ArrayList<String>();
 
         data = new ArrayList<Quizdata>();
-
-        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=android@gmail.com";
+        DBConnection dbConnection = new DBConnection(getActivity());
+//String email=      dbConnection.getuserEmail();
+        String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + dbConnection.getuserEmail().trim();
+        ;
         AsyncTaskCall ask = new AsyncTaskCall(activity, this, urls, "reviewhis_frag");
         ask.execute(urls);//getActivity(), this, urls, "performhis_frag"
 
@@ -96,6 +103,7 @@ public class ReviewFragment extends Fragment {
                 intent.putExtra("review", "select");
                 intent.putExtra("count", 1);
                 intent.putExtra("question_no", position);
+                intent.putExtra("src_activity", "Review Questions");
                 startActivity(intent);
 //					}
 
@@ -114,18 +122,24 @@ public class ReviewFragment extends Fragment {
 //			String error = json.getString("error");
 //			String mes = json.getString("message");
             System.out.println("  " + strJson);
-
-            QuizJSONParser jsonParser = new QuizJSONParser();
+            String quizArray = strJson.getString("success");
+            if (quizArray.equalsIgnoreCase("0")) {
+                yestest.setVisibility(View.GONE);
+                notest.setVisibility(View.VISIBLE);
+            } else {
+                QuizJSONParser jsonParser = new QuizJSONParser();
 //			 jsonParser.jsonArrayName =  "markforviewlist";
-            data = jsonParser.reviewJsonParsing(strJson);
 
-            for (int i = 0; i < data.size(); i++) {
-                Quizdata value = data.get(i);
-                list.add(value.getQuestion());
-            }//android.R.layout.simple_list_item_1
-            adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
-            listView.setAdapter(adapter);
+                data = jsonParser.reviewJsonParsing(strJson);
 
+                for (int i = 0; i < data.size(); i++) {
+                    Quizdata value = data.get(i);
+                    list.add(value.getQuestion());
+                }//android.R.layout.simple_list_item_1
+
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(adapter);
+            }
 //			if (error.equals("true")) {
 //				Toast.makeText(getApplicationContext(), mes,
 //						   Toast.LENGTH_LONG).show();
@@ -156,6 +170,7 @@ public class ReviewFragment extends Fragment {
             if (message != null) {
                 if (message.equals("yes")) {
                     data.remove(posRemove);
+
                     listView.invalidateViews();
                     adapter.notifyDataSetChanged();
                 }
@@ -173,6 +188,10 @@ public class ReviewFragment extends Fragment {
 
 //	    Log.d("receiver", "Got message: " + message);
 //	    Log.d("receiver", "Got message: " + posRemove);
+                if (data.size() == 0) {
+                    yestest.setVisibility(View.GONE);
+                    notest.setVisibility(View.VISIBLE);
+                }
 
             } else {
                 Snackbar.make(getView(), "No Change Occured", Snackbar.LENGTH_LONG).show();
