@@ -84,6 +84,7 @@ public class PerformanceActivity extends Activity {
             Intent intent = new Intent(PerformanceActivity.this, PreviewActivity.class);
             intent.putExtra("data", data);
             intent.putExtra("count", count);
+            intent.putExtra("src_activity", "Performance History");
             startActivity(intent);
 
         } catch (Exception e) {

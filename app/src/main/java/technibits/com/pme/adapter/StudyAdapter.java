@@ -85,6 +85,7 @@ public class StudyAdapter extends BaseAdapter {
         View row = convertView;
         db = new DBConnection(context);
         useremail = db.getuserEmail().trim();
+        db.close();
         LayoutInflater mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (size == 7) {
@@ -94,30 +95,7 @@ public class StudyAdapter extends BaseAdapter {
         }
         if (row != null) {
 
-            viewHolder = new ViewHolderA();
-
-            viewHolder.reviewLayout = (LinearLayout) row.findViewById(R.id.review);
-
-            viewHolder.questionLayout = (LinearLayout) row.findViewById(R.id.question);
-
-            viewHolder.answerLayout = (LinearLayout) row.findViewById(R.id.answer);
-
-            viewHolder.questionView = (TextView) viewHolder.questionLayout.findViewById(R.id.questionView);
-
-            viewHolder.textQno = (TextView) row.findViewById(R.id.qNo);
-
-            viewHolder.radioGroup = (RadioGroup) row.findViewById(R.id.radioGroup);
-
-            viewHolder.rButton1 = (RadioButton) row.findViewById(R.id.RadioButton01);
-            viewHolder.rButton2 = (RadioButton) row.findViewById(R.id.RadioButton02);
-            viewHolder.rButton3 = (RadioButton) row.findViewById(R.id.RadioButton03);
-            viewHolder.rButton4 = (RadioButton) row.findViewById(R.id.RadioButton04);
-
-            viewHolder.reviewBox = (CheckBox) row.findViewById(R.id.rCheckBox);
-
-            viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
-
-            viewHolder.infoButton = (ImageButton) row.findViewById(R.id.info);
+            inflateViews(row);
 
         } else {
             viewHolder = (ViewHolderA) row.getTag();
@@ -159,7 +137,7 @@ public class StudyAdapter extends BaseAdapter {
                     } else {
                         data.setISchecked(0);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                        params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
@@ -221,6 +199,7 @@ public class StudyAdapter extends BaseAdapter {
                     if (answer + 1 == selected) {
 
                         rButton.setTextColor(Color.parseColor("#00C853"));
+
                     } else {
                         rButton.setTextColor(Color.RED);
                         rButton.setButtonDrawable(R.drawable.image_wrong);
@@ -230,15 +209,19 @@ public class StudyAdapter extends BaseAdapter {
                 if (answer == 0) {
                     viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
                     viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
+
                 } else if (answer == 1) {
                     viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
                     viewHolder.rButton2.setButtonDrawable(R.drawable.image_right);
+
                 } else if (answer == 2) {
                     viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
                     viewHolder.rButton3.setButtonDrawable(R.drawable.image_right);
+
                 } else if (answer == 3) {
                     viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
                     viewHolder.rButton4.setButtonDrawable(R.drawable.image_right);
+
                 }
 
 
@@ -274,20 +257,26 @@ public class StudyAdapter extends BaseAdapter {
                                 int caCount = resData.getCorrectAnswers() + 1;
                                 resData.setCorrectAnswers(caCount);
                                 rButton.setTextColor(Color.parseColor("#00C853"));
+                                rButton.setButtonDrawable(R.drawable.image_right);
                             } else {
                                 rButton.setBackgroundColor(Color.RED);
+                                rButton.setButtonDrawable(R.drawable.image_wrong);
                                 data.setWrongAnswer(selected);
                             }
                         }
 
                         if (answer == 0) {
                             viewHolder.rButton1.setTextColor(Color.parseColor("#00C853"));
+                            viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                         } else if (answer == 1) {
                             viewHolder.rButton2.setTextColor(Color.parseColor("#00C853"));
+                            viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                         } else if (answer == 2) {
                             viewHolder.rButton3.setTextColor(Color.parseColor("#00C853"));
+                            viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                         } else if (answer == 3) {
                             viewHolder.rButton4.setTextColor(Color.parseColor("#00C853"));
+                            viewHolder.rButton1.setButtonDrawable(R.drawable.image_right);
                         }
 
 
@@ -299,7 +288,7 @@ public class StudyAdapter extends BaseAdapter {
                             viewHolder.reviewBox.setChecked(false);
                             data.setISchecked(0);
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
-                            params.add(new BasicNameValuePair("userid", "android@gmail.com"));
+                            params.add(new BasicNameValuePair("userid", useremail));
                             params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlRemove);
@@ -313,6 +302,7 @@ public class StudyAdapter extends BaseAdapter {
                         resData.setAttemptQuestions(atCount);
                         viewHolder.reviewBox.setEnabled(false);
                         activity.refersh();
+
                     }
                 });
             }
@@ -327,6 +317,33 @@ public class StudyAdapter extends BaseAdapter {
 
     }
 
+    public void inflateViews(View row) {
+
+        viewHolder = new ViewHolderA();
+
+        viewHolder.reviewLayout = (LinearLayout) row.findViewById(R.id.review);
+
+        viewHolder.questionLayout = (LinearLayout) row.findViewById(R.id.question);
+
+        viewHolder.answerLayout = (LinearLayout) row.findViewById(R.id.answer);
+
+        viewHolder.questionView = (TextView) viewHolder.questionLayout.findViewById(R.id.questionView);
+
+        viewHolder.textQno = (TextView) row.findViewById(R.id.qNo);
+
+        viewHolder.radioGroup = (RadioGroup) row.findViewById(R.id.radioGroup);
+
+        viewHolder.rButton1 = (RadioButton) row.findViewById(R.id.RadioButton01);
+        viewHolder.rButton2 = (RadioButton) row.findViewById(R.id.RadioButton02);
+        viewHolder.rButton3 = (RadioButton) row.findViewById(R.id.RadioButton03);
+        viewHolder.rButton4 = (RadioButton) row.findViewById(R.id.RadioButton04);
+
+        viewHolder.reviewBox = (CheckBox) row.findViewById(R.id.rCheckBox);
+
+        viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
+
+        viewHolder.infoButton = (ImageButton) row.findViewById(R.id.info);
+    }
 
     static class ViewHolderA {
 

@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 
 import technibits.com.pme.R;
 import technibits.com.pme.alarmmodel.Alarm;
@@ -32,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Alarm alarm = new Alarm(alarmId);
         alarm.load(RemindMe.db);
 
-        Notification n = new Notification(R.mipmap.ic_launcher, alarm.getName(), System.currentTimeMillis());
+        Notification n = new Notification(R.mipmap.app_logo, alarm.getName(), System.currentTimeMillis());
         PendingIntent pi = PendingIntent.getActivity(context, 0, new Intent(), 0);
 
         n.setLatestEventInfo(context, "Remind Me", alarm.getName(), pi);

@@ -5,14 +5,19 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
+import com.google.api.services.youtube.YouTube;
+import technibits.com.pme.youtube.YouTubeProvider;
+import technibits.com.pme.youtube.YouTubeUtil;
+
 import technibits.com.pme.R;
 import technibits.com.pme.alarmmodel.DbHelper;
 
 /**
  * @author appsrox.com
  */
-public class RemindMe extends Application {
+public class RemindMe extends Application implements YouTubeProvider {
 
+    private YouTube mYouTube;
 //	private static final String TAG = "RemindMe";
 
     public static DbHelper dbHelper;
@@ -31,7 +36,7 @@ public class RemindMe extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mYouTube = YouTubeUtil.createDefaultYouTube("youtube-example-application");
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -63,4 +68,8 @@ public class RemindMe extends Application {
         return sp.getString(RINGTONE_PREF, android.provider.Settings.System.DEFAULT_NOTIFICATION_URI.toString());
     }
 
+    @Override
+    public YouTube getYouTube() {
+        return mYouTube;
+    }
 }

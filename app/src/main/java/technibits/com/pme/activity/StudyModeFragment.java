@@ -40,10 +40,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class StudyModeFragment extends Fragment {
-    int check = 0;
+    int check = 0,mark=0;
     Context context;
     ArrayList<Quizdata> data;
     ArrayList<Quizdata> retakedata;
+    ArrayList<Quizdata> fornexttest;
     ListView list;
     int count;
     int iNext = 1;
@@ -83,6 +84,7 @@ public class StudyModeFragment extends Fragment {
     public StudyModeFragment() {
 
     }
+
     public StudyModeFragment(String url) {
         this.url = url;
     }
@@ -95,8 +97,7 @@ public class StudyModeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
         resData = new ResultData();
 
@@ -124,10 +125,9 @@ public class StudyModeFragment extends Fragment {
         }
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mToolbar.setTitle("Study Mode");
-//		 .getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         reviewView = mInflater.inflate(R.layout.show_review, container, false);
 
@@ -355,6 +355,9 @@ public class StudyModeFragment extends Fragment {
 
             data = jsonParser.testJsonParsing(json);
             retakedata = jsonParser.testJsonParsing(json);
+            if(mark==0){
+                fornexttest=retakedata;
+            }mark=1;
             if (data.size() > 0) {
 
                 count = data.size();
@@ -590,16 +593,20 @@ public class StudyModeFragment extends Fragment {
     public void reTake() {
 
         data.clear();
-        data = new ArrayList<Quizdata>(retakedata);
-//		data = retakedata;
+        resData = new ResultData();
+        iNext = 1;
+        data = new ArrayList<Quizdata>(fornexttest);
+        dataSource=null;
+        dataSource=new Quizdata();
         if (data.size() > 0) {
             dataSource = data.get(0);
-            StudyAdapter adapter = new StudyAdapter(context, dataSource, 0, device, frag, resData);
-//			 adapter.resData = resData;
+
+            StudyAdapter adapter = new StudyAdapter(getActivity(), dataSource, 0, device, frag, resData);
             list.setAdapter(adapter);
             alertDialog.dismiss();
             linearLayout.removeView(resultView);
             next.setText("Next");
+            next.setEnabled(true);
         }
     }
 

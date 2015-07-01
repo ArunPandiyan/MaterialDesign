@@ -397,6 +397,9 @@ public class ExamFragment extends Fragment {
 
     }
 
+    /*
+        Choose number of questions to take test.
+     */
     public void show() {
 
         RelativeLayout linearLayout = new RelativeLayout(context);
@@ -445,7 +448,11 @@ public class ExamFragment extends Fragment {
 
     }
 
-
+    /*
+        Shows list of questions with status of 1. Answered,
+                                               2. Marked for review,
+                                               3. Not Answered.
+     */
     public void showReview() {
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -522,6 +529,7 @@ public class ExamFragment extends Fragment {
         alertDialog.show();
 
         check = 0;
+
         alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
 
             @Override
@@ -615,7 +623,7 @@ public class ExamFragment extends Fragment {
         params.add(new BasicNameValuePair("questionid", questionid));
         params.add(new BasicNameValuePair("options", optionVlaue));
 
-
+        db.close();
         AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
         ask.examFragment = this;
         ask.execute(urlFinish);
@@ -637,6 +645,7 @@ public class ExamFragment extends Fragment {
     public void reTake() {
 
         data.clear();
+        resData=new ResultData();
         data = new ArrayList<Quizdata>(retakedata);
 //		data = retakedata;
         if (data.size() > 0) {
@@ -679,6 +688,7 @@ public class ExamFragment extends Fragment {
             textTimer.setText("Time Up!!");
         }
     }
+
 
 
 }

@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -52,14 +53,13 @@ import technibits.com.pme.model.CircleTransform;
  *
  * @author Trey Robinson
  */
-public class CreateAccountActivity extends AppCompatActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class CreateAccountActivity extends AppCompatActivity implements OnClickListener {
 
     protected static final String EXTRA_EMAIL = "com.keyconsultant.parse.logintutorial.fragment.extra.EMAIL";
     protected static final String EXTRA_USERNAME = "com.keyconsultant.parse.logintutorial.fragment.extra.USERNAME";
     protected static final String EXTRA_PASSWORD = "com.keyconsultant.parse.logintutorial.fragment.extra.PASSWORD";
     protected static final String EXTRA_CONFIRM = "com.keyconsultant.parse.logintutorial.fragment.extra.CONFIRMPASSWORD";
-    private GoogleApiClient mGoogleApiClient;
+
     private EditText mUserNameEditText;
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
@@ -69,7 +69,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
     private ImageView mUserImage, flag;
     private Spinner mCountrySpinner;
     private Button mCreateAccountButton;
-    private Button signoutall;
+    private Button btnUpdateAccount;
     ArrayList<String> countries;
     private String mEmail;
     private String mUsername;
@@ -80,6 +80,11 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
     private boolean mSignInClicked;
     private static final int RC_SIGN_IN = 0;
     private Toolbar mToolbar;
+    ArrayAdapter<String> dataAdapter;
+    ArrayList<String> country;
+    ArrayList<String> code;
+    ArrayList<String> country_img;
+    private Spinner p=null;
 
     /**
      * Factory method for creating fragment instances.
@@ -94,7 +99,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -102,13 +107,44 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_create_account);
+        String mode=getIntent().getExtras().getString("mode");
         InitUI();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this).addApi(Plus.API)
-                .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+        if(mode.equals("update")){
+            DBConnection db=new DBConnection(getApplicationContext());
+            db.open();
+            Cursor cursor=db.QueryEngine("SELECT * FROM USER");
+            try {
+                if (cursor.moveToFirst()) {
+                    String name=cursor.getString(0);
+                    mUserNameEditText.setText(cursor.getString(0));
+//                    String lastname   = .setText(cursor.getString(1));
+                    mEmailEditText.setText(cursor.getString(2));
+                    mEmailEditText.setEnabled(false);
+                    mPasswordEditText.setText(cursor.getString(3));
+                    String coum=cursor.getString(4);
+                    p.setSelection(((ArrayAdapter<String>)p.getAdapter()).getPosition(cursor.getString(4)));
+                    String mobile     = cursor.getString(5);
+                    mobile=mobile.substring(3,mobile.length());
+                    mMobileEditText.setText(mobile);
+                    String image_url  = cursor.getString(6);
+                    Glide.with(this).load(image_url).override(70, 70).transform(new CircleTransform(this)).into(mUserImage);
+
+
+                }
+
+            } finally {
+                db.close();
+                cursor.close();
+            }
+            mCreateAccountButton.setVisibility(View.GONE);
+        }else if (mode.equals("create")){
+
+            btnUpdateAccount.setVisibility(View.GONE);
+        }
+
+
         Intent intent = getIntent();
-        if (intent != null) {
+        if (intent != null && mode.equals("create") ) {
             String personName = intent.getStringExtra("name");
             String email = intent.getStringExtra("email");
             String personPhotoUrl = intent.getStringExtra("image_url");
@@ -129,6 +165,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
     void InitUI() {
 
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
@@ -146,22 +183,24 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
         mCountrySpinner = (Spinner) findViewById(R.id.spinnercountry);
 
         mCreateAccountButton = (Button) findViewById(R.id.btnCreateAccount);
-        signoutall = (Button) findViewById(R.id.signoutall);
+        btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
+
+
         mCreateAccountButton.setOnClickListener(this);
         etcountrycode.setKeyListener(null);
         String rs = "res/drawable/afghanistan.png";
         Glide.with(this).load(rs).override(70, 70).into(flag);
 
-        signoutall.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                revokeGplusAccess();
-                signOutFromGplus();
-                Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        signoutall.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                revokeGplusAccess();
+//                signOutFromGplus();
+//                Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 //        Locale[] locale = Locale.getAvailableLocales();
 //        countries = new ArrayList<String>();
 //        String country;
@@ -179,9 +218,9 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
         Resources r = getResources();
         TypedArray countrieCodes = r.obtainTypedArray(R.array.countries);
 
-        ArrayList<String> country = new ArrayList<String>();
-        ArrayList<String> code = new ArrayList<String>();
-        ArrayList<String> country_img = new ArrayList<String>();
+        country     = new ArrayList<String>();
+        code        = new ArrayList<String>();
+        country_img = new ArrayList<String>();
 
         int cpt = countrieCodes.length();
         for (int i = 0; i < cpt; ++i) {
@@ -198,8 +237,8 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
         final ArrayList<String> fCountry_img = country_img;
 
 
-        final Spinner p = (Spinner) findViewById(R.id.spinnercountry);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, country);
+        p = (Spinner) findViewById(R.id.spinnercountry);
+        dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, country);
         p.setAdapter(dataAdapter);
         p.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -227,30 +266,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
     }
 
-    private void signOutFromGplus() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-            mGoogleApiClient.connect();
 
-        }
-    }
-
-    private void revokeGplusAccess() {
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient)
-                    .setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status arg0) {
-                            Log.e("CreateAccountActivity", "User access revoked!");
-                            mGoogleApiClient.connect();
-
-                        }
-
-                    });
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -332,6 +348,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
 
         // Check for a valid email address.
+
         else if (!cancel) {
             String url = "http://jmbok.techtestbox.com/profile/v1/register";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -368,17 +385,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
     }
 
 
-    private void resolveSignInError() {
-        if (mConnectionResult.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (IntentSender.SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }
-    }
+
 
     public void finish(String strJson) throws JSONException {
         try {
@@ -399,38 +406,6 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             e.printStackTrace();
         }
 //		finish();
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (!result.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
-                    0).show();
-            return;
-        }
-
-        if (!mIntentInProgress) {
-            // Store the ConnectionResult for later usage
-            mConnectionResult = result;
-
-            if (mSignInClicked) {
-                // The user has already clicked 'sign-in' so we attempt to
-                // resolve all
-                // errors until the user is signed in, or they cancel.
-                resolveSignInError();
-            }
-        }
-
     }
 
     @Override

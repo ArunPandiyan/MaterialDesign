@@ -89,6 +89,7 @@ public class LoginActivity extends Activity implements OnClickListener,
             personPhotoUrl = null,
             personGooglePlusProfile = null,
             email = null;
+    String logout_string=null;
 
     //	private UiLifecycleHelper uiHelper;
     @Override
@@ -98,6 +99,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 //		uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+// logout_string=getIntent().getExtras().getString("logout_string");
 
         int rowCount = 0;
         try {
@@ -163,6 +165,9 @@ public class LoginActivity extends Activity implements OnClickListener,
                 .addScope(Plus.SCOPE_PLUS_LOGIN).build();
         signOutFromGplus();
         revokeGplusAccess();
+        if (logout_string=="true" ){
+            signOutFromGplus();
+        }
     }
 
     protected void onStart() {
@@ -430,7 +435,7 @@ public class LoginActivity extends Activity implements OnClickListener,
             case R.id.signUP:
                 // Signin button clicked
                 Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
-//			intent.putExtra("mode", "exam");                                                                                                                                     
+			    intent.putExtra("mode", "create");
                 startActivity(intent);
                 break;
 
@@ -463,7 +468,7 @@ public class LoginActivity extends Activity implements OnClickListener,
     /**
      * Sign-out from google
      */
-    private void signOutFromGplus() {
+    public void signOutFromGplus() {
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
             mGoogleApiClient.disconnect();

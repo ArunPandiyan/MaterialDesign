@@ -116,6 +116,7 @@ public class PerformanceFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PreviewActivity.class);
                 intent.putExtra("data", data);
                 intent.putExtra("count", count);
+                intent.putExtra("src_activity", "Performance History");
                 startActivity(intent);
             } else {
                 quit();

@@ -86,10 +86,17 @@
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:text="@string/createAccount"
-        android:layout_above="@+id/signoutall"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
+        <Button
+            android:id="@+id/btnUpdateAccount"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="@string/updateAccount"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -100,17 +107,7 @@
         android:layout_toLeftOf="@+id/etUsername"
         android:layout_toStartOf="@+id/etUsername" />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Signin with another G+ Account"
-        android:id="@+id/signoutall"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="normal|bold"
-        android:textColor="#ff0c00"
-        android:singleLine="false" />
+
 
     <ImageView
         android:layout_width="50dp"

@@ -13,11 +13,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,7 +39,7 @@ public class PreviewActivity extends AppCompatActivity {
     Context context;
     PreviewAdapter adapter;
     Toolbar mToolbar;
-
+    String title=null;
     @SuppressWarnings("unchecked")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,8 @@ public class PreviewActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 //		 Bundle bundle = getIntent().getExtras();
         list = (ListView) findViewById(R.id.listView1);
@@ -74,7 +77,10 @@ public class PreviewActivity extends AppCompatActivity {
         count = getIntent().getExtras().getInt("count");
         select = getIntent().getExtras().getString("review");
         position = getIntent().getExtras().getInt("question_no");
-
+        title=getIntent().getExtras().getString("src_activity");
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //		 count = data.size();
 
         if (data.size() > 0) {
@@ -193,7 +199,18 @@ public class PreviewActivity extends AppCompatActivity {
         super.onBackPressed();
         sendMessage();
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                super.onBackPressed();
+                sendMessage();
+//                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void sendMessage() {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("custom-event-name");

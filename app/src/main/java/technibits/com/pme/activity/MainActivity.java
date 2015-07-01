@@ -5,6 +5,7 @@ package technibits.com.pme.activity;
  */
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -16,27 +17,54 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.Plus;
+
 import technibits.com.pme.R;
 import technibits.com.pme.alarmactivity.SettingsActivity;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener,GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     private TypedArray navMenuIcons;
+    public DBConnection db;
+    private GoogleApiClient mGoogleApiClient;
+    private static final int RC_SIGN_IN = 0;
+
+    /**
+     * A flag indicating that a PendingIntent is in progress and prevents us
+     * from starting further intents.
+     */
+    private boolean mIntentInProgress;
+
+    private boolean mSignInClicked;
+
+    private ConnectionResult mConnectionResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db=new DBConnection(getApplicationContext());
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this).addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -72,6 +100,22 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        if (id == R.id.action_logout) {
+            db.open();
+            db.dropTable();
+            signOutFromGplus();
+            revokeGplusAccess();
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        if (id == R.id.action_profile) {
+            Intent intent=new Intent(this,CreateAccountActivity.class);
+            intent.putExtra("mode", "update");
+            startActivity(intent);
             return true;
         }
 
@@ -132,4 +176,92 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         }
 
     }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mSignInClicked = false;
+//        Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (!result.hasResolution()) {
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
+                    0).show();
+            return;
+        }
+
+        if (!mIntentInProgress) {
+            // Store the ConnectionResult for later usage
+            mConnectionResult = result;
+
+            if (mSignInClicked) {
+                // The user has already clicked 'sign-in' so we attempt to
+                // resolve all
+                // errors until the user is signed in, or they cancel.
+                resolveSignInError();
+            }
+        }
+
+    }
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    /**
+     * Method to resolve any signin errors
+     */
+    private void resolveSignInError() {
+        if (mConnectionResult.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+            } catch (IntentSender.SendIntentException e) {
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
+    }
+    public void signOutFromGplus() {
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+
+        }
+    }
+
+    /**
+     * Revoking access from google
+     */
+    private void revokeGplusAccess() {
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient)
+                    .setResultCallback(new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status arg0) {
+                            Log.e(TAG, "User access revoked!");
+                            mGoogleApiClient.connect();
+
+                        }
+
+                    });
+        }
+    }
+
 }

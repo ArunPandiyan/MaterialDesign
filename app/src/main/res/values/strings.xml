@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">PME</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_profile">Profile</string>
     <string name="action_search">Search</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
@@ -46,6 +48,7 @@
     <string name="title_section1">Dashboard</string>
 
     <string name="createAccount">Create Account</string>
+    <string name="updateAccount">Update Account</string>
     <string name="emailHint">Email</string>
     <string name="usernameHint">Username</string>
     <string name="passwordHint">Password</string>
@@ -72,4 +75,6 @@
     <string name="delete">Delete</string>
     <string name="delete_repeating">Delete repeating</string>
     <string name="delete_all">Delete all</string>
+    <!-- youtube-->
+    <string name="error_player">There was an error initializing the YouTubePlayer.</string>
 </resources>

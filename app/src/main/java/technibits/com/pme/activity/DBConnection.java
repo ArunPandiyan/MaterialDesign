@@ -350,6 +350,8 @@ public class DBConnection extends SQLiteOpenHelper {
         }
     }
 
+
+
     public ArrayList<HashMap<Integer, String>> fetchDropDownValues(
             String tableName) {
         ArrayList<HashMap<Integer, String>> arrDrodown = new ArrayList<HashMap<Integer, String>>();

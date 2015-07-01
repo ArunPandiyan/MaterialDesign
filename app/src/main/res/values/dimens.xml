@@ -26,5 +26,8 @@
     <dimen name="cardview_toolbar_spacer">16dp</dimen>
     <dimen name="toolbar_double_height">112dp</dimen>
 
+    <dimen name="youtube_image_width">100dp</dimen>
+    <dimen name="youtube_image_height">100dp</dimen>
+
 
 </resources>
