@@ -107,7 +107,7 @@ public class ShowReviewAdapter extends BaseAdapter {
                 } else if (status.equals("A")) {
                     viewHolder.showAns.setText("Answerd(Q) " + qNo);
                     viewHolder.showAns.setId(position);
-                    viewHolder.showAns.setTextColor(Color.GREEN);
+                    viewHolder.showAns.setTextColor(Color.parseColor("#00C853"));
 //							viewHolder.showAns.setEnabled(true);
 //							viewHolder.showReview.setEnabled(false);
 //							viewHolder.showunAnswer.setEnabled(false);
