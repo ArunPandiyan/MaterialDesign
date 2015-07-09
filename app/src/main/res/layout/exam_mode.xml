@@ -5,9 +5,14 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+    </android.support.design.widget.AppBarLayout>
         <TextView
         android:id="@+id/timer"
         android:layout_width="match_parent"

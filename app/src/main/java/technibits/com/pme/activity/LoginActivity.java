@@ -1,6 +1,8 @@
 package technibits.com.pme.activity;
 
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -47,7 +51,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-public class LoginActivity extends Activity implements OnClickListener,
+public class LoginActivity extends AppCompatActivity implements OnClickListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -68,7 +72,7 @@ public class LoginActivity extends Activity implements OnClickListener,
     private boolean mIntentInProgress;
 
     private boolean mSignInClicked;
-
+    private Toolbar mToolbar;
     private ConnectionResult mConnectionResult;
 
     private SignInButton btnSignIn;
@@ -98,7 +102,9 @@ public class LoginActivity extends Activity implements OnClickListener,
 //		uiHelper = new UiLifecycleHelper(this, statusCallback);
 //		uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        setSupportActionBar(mToolbar);
 // logout_string=getIntent().getExtras().getString("logout_string");
 
         int rowCount = 0;
@@ -141,8 +147,8 @@ public class LoginActivity extends Activity implements OnClickListener,
         userName = (EditText) findViewById(R.id.editUserName);
         password = (EditText) findViewById(R.id.editPassword);
 
-        userName.setText("asgurumoorthy@gmail.com");
-        password.setText("qwert");
+//        userName.setText("asgurumoorthy@gmail.com");
+//        password.setText("qwert");
 
         btnSignIn = (SignInButton) findViewById(R.id.btn_sign_in);
 
@@ -361,15 +367,17 @@ public class LoginActivity extends Activity implements OnClickListener,
 
                 if (rowCount == 0) {
 //			Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                    SessionIdentifierGenerator nextSession=new SessionIdentifierGenerator();
+                    String pwd=nextSession.nextSessionId();
                     String url = "http://jmbok.techtestbox.com/profile/v1/register";
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("name", personName));
                     params.add(new BasicNameValuePair("lastname", "fromGplus"));
                     params.add(new BasicNameValuePair("email", email));
-                    params.add(new BasicNameValuePair("password", "fromGplus"));
-                    params.add(new BasicNameValuePair("confirmpassword", "fromGplus"));
-                    params.add(new BasicNameValuePair("mobile", "fromGplus"));
-                    params.add(new BasicNameValuePair("country", "fromGplus"));
+                    params.add(new BasicNameValuePair("password", pwd));
+                    params.add(new BasicNameValuePair("confirmpassword", pwd));
+                    params.add(new BasicNameValuePair("mobile", "Not Entered"));
+                    params.add(new BasicNameValuePair("country", "Not Selected"));
                     params.add(new BasicNameValuePair("code", "0"));
                     AsyncTaskCall ask = new AsyncTaskCall(this, "Gplussignup", params);
                     ask.execute(url);
@@ -407,7 +415,13 @@ public class LoginActivity extends Activity implements OnClickListener,
             e.printStackTrace();
         }
     }
+    public final class SessionIdentifierGenerator {
+        private SecureRandom random = new SecureRandom();
 
+        public String nextSessionId() {
+            return new BigInteger(130, random).toString(32);
+        }
+    }
     @Override
     public void onConnectionSuspended(int arg0) {
         mGoogleApiClient.connect();

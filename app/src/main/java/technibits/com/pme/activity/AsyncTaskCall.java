@@ -64,6 +64,15 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
         this.parmsValue = params;
     }
 
+    public AsyncTaskCall(ChangepasswordActivity context, String request,
+                         List<NameValuePair> params) {
+
+        requestType = request;
+        this.context = context;
+        this.parmsValue = params;
+        activity = context;
+    }
+
     public AsyncTaskCall(CreateAccountActivity context, String request,
                          List<NameValuePair> params) {
 
@@ -135,7 +144,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             prog = new ProgressDialog(mainActivity);
         } else if (requestType.equals("study") || requestType.equals("exam")) {
             prog = new ProgressDialog(activity);
-        } else if (requestType.equals("review") || requestType.equals("result")) {
+        } else if (requestType.equals("review") || requestType.equals("result")|| requestType.equals("changepass")) {
             prog = new ProgressDialog(context);
         } else if (requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup")
                 || requestType.equals("reviewhis_frag") || requestType.equals("reviewhis")
@@ -155,7 +164,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     protected JSONObject doInBackground(String... params) {
 
         if (requestType.equals("review") || requestType.equals("result")
-                || requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup")) {
+                || requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup") ||requestType.equals("changepass")) {
             MasterDownload httpPost = new MasterDownload();
             try {
                 jsons = httpPost.post(params[0], parmsValue);
@@ -224,6 +233,14 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             if (activity != null) {
                 try {
                     ((CreateAccountActivity) activity).finish(jsons);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else if (requestType.equals("changepass")) {
+            if (activity != null) {
+                try {
+                    ((ChangepasswordActivity) activity).changedPassword(jsons);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

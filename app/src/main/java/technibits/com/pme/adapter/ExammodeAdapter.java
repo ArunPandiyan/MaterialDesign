@@ -46,11 +46,12 @@ public class ExammodeAdapter extends BaseAdapter {
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
     private DBConnection db;
     public String useremail = null;
-
+    boolean isTaken=true;
     public ExammodeAdapter(Context conte, Quizdata form, int qNO, int device, ExamFragment exaFrg, ResultData resD) {
         super();
         context = conte;
         data = form;
+        data.setExamAnswer(0);
         queNo = qNO + 1;
         size = device;
         activity = exaFrg;
@@ -76,13 +77,15 @@ public class ExammodeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+
         db = new DBConnection(context);
         useremail = db.getuserEmail().trim();
         final String rowId = Integer.valueOf(position).toString();
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (size == 7) {
-            row = mInflater.inflate(R.layout.quiz_layout_seven, parent, false);
+//            row = mInflater.inflate(R.layout.quiz_layout_seven, parent, false);
+            row = mInflater.inflate(R.layout.quiz_layout, parent, false);
+
         } else {
             row = mInflater.inflate(R.layout.quiz_layout, parent, false);
         }
@@ -110,8 +113,9 @@ public class ExammodeAdapter extends BaseAdapter {
             viewHolder.rButton4 = (RadioButton) row.findViewById(R.id.RadioButton04);
 
             viewHolder.reviewBox = (CheckBox) row.findViewById(R.id.rCheckBox);
-
+            viewHolder.reviewBox.setChecked(false);
             viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
+
 
         } else {
             viewHolder = (ViewHolderA) row.getTag();
@@ -127,10 +131,10 @@ public class ExammodeAdapter extends BaseAdapter {
             } else {
                 viewHolder.reviewBox.setChecked(false);
             }
-            String review = data.getStatus();
+            final String review = data.getStatus();
             if (review != null) {
                 if (review.equals("A")) {
-                    viewHolder.reviewBox.setEnabled(false);
+//                    viewHolder.reviewBox.setEnabled(false);
                 }
             }
             viewHolder.reviewBox.setOnClickListener(new View.OnClickListener() {
@@ -138,14 +142,18 @@ public class ExammodeAdapter extends BaseAdapter {
                     if (((CheckBox) v).isChecked()) {
                         data.setISchecked(1);
                         data.setStatus("R");
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", useremail));
-                        params.add(new BasicNameValuePair("qid", data.getQuestionID()));
+                        if(data.getStatus().equals("R")) {
+                            List<NameValuePair> params = new ArrayList<NameValuePair>();
+                            params.add(new BasicNameValuePair("userid", useremail));
+                            params.add(new BasicNameValuePair("qid", data.getQuestionID()));
+                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+                            ask.execute(urlMark);
+                            if(isTaken || resData.getMarkedReview()==0) {
+                                int mrCount = resData.getMarkedReview() + 1;
+                                resData.setMarkedReview(mrCount);
+                            }
 
-                        AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                        ask.execute(urlMark);
-                        int mrCount = resData.getMarkedReview() + 1;
-                        resData.setMarkedReview(mrCount);
+                        }
                     } else {
 
                         data.setISchecked(0);
@@ -154,8 +162,11 @@ public class ExammodeAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
-                        int mrCount = resData.getMarkedReview() - 1;
-                        resData.setMarkedReview(mrCount);
+                        if(isTaken || resData.getMarkedReview()!=0) {
+                            int mrCount = resData.getMarkedReview() - 1;
+                            resData.setMarkedReview(mrCount);
+                        }
+                        isTaken=false;
                     }
                 }
             });
@@ -171,7 +182,7 @@ public class ExammodeAdapter extends BaseAdapter {
             viewHolder.answerLayout.setVisibility(View.GONE);
             viewHolder.questionView.setText(data.getQuestion());
             viewHolder.textQno.setText("Q." + String.valueOf(queNo));
-
+            viewHolder.infoButton.setVisibility(View.GONE);
             viewHolder.infoButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     activity.showInfo();
@@ -263,7 +274,7 @@ public class ExammodeAdapter extends BaseAdapter {
 
 
                     if (data.getISchecked() == 1) {
-                        viewHolder.reviewBox.setChecked(false);
+//                        viewHolder.reviewBox.setChecked(false);
                         data.setISchecked(0);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", useremail));
@@ -278,7 +289,7 @@ public class ExammodeAdapter extends BaseAdapter {
 
                     int atCount = resData.getAttemptQuestions() + 1;
                     resData.setAttemptQuestions(atCount);
-                    viewHolder.reviewBox.setEnabled(false);
+//                    viewHolder.reviewBox.setEnabled(false);
                     activity.refersh();
 
                 }

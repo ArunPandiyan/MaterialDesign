@@ -4,9 +4,14 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     >
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+    </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,8 +44,8 @@
         android:layout_height="wrap_content"
          android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Advanced"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         />
 
     <TextView
@@ -49,14 +54,13 @@
         android:layout_height="wrap_content"
         android:text="Process Group"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:paddingTop="24dp"
         android:textColor="@color/textColorPrimary"/>
 
     <Spinner
         android:id="@+id/spinner2"
         android:layout_width="match_parent"
-        
-        android:layout_height="68dp"
+
+        android:layout_height="60dp"
         android:spinnerMode="dropdown"
         android:prompt="@string/prompt_text_processgroup"/>
 
@@ -72,7 +76,7 @@
         android:id="@+id/spinner3"
         android:layout_width="match_parent"
         android:prompt="@string/prompt_text_processname"
-        android:layout_height="68dp" 
+        android:layout_height="60dp"
         android:spinnerMode="dropdown"/>
 
     <TextView
@@ -87,7 +91,7 @@
     <Spinner
         android:id="@+id/spinner4"
         android:layout_width="match_parent"
-        android:layout_height="68dp" 
+        android:layout_height="60dp"
         android:spinnerMode="dropdown"
         android:prompt="@string/prompt_text_selectlevel"/>
 

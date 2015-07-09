@@ -19,6 +19,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,8 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -85,6 +88,9 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
     ArrayList<String> code;
     ArrayList<String> country_img;
     private Spinner p=null;
+    private String mode=null;
+    DBConnection db;
+    
 
     /**
      * Factory method for creating fragment instances.
@@ -107,20 +113,21 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_create_account);
-        String mode=getIntent().getExtras().getString("mode");
+        mode=getIntent().getExtras().getString("mode");
         InitUI();
         if(mode.equals("update")){
-            DBConnection db=new DBConnection(getApplicationContext());
+            mCreateAccountButton.setVisibility(View.GONE);
+            db=new DBConnection(getApplicationContext());
             db.open();
             Cursor cursor=db.QueryEngine("SELECT * FROM USER");
             try {
                 if (cursor.moveToFirst()) {
-                    String name=cursor.getString(0);
                     mUserNameEditText.setText(cursor.getString(0));
-//                    String lastname   = .setText(cursor.getString(1));
                     mEmailEditText.setText(cursor.getString(2));
-                    mEmailEditText.setEnabled(false);
-                    mPasswordEditText.setText(cursor.getString(3));
+                    mEmailEditText.setKeyListener(null);
+                    mPassword=cursor.getString(3);
+                    mPasswordEditText.setVisibility(View.GONE);
+                    mConfirmPasswordEditText.setVisibility(View.GONE);
                     String coum=cursor.getString(4);
                     p.setSelection(((ArrayAdapter<String>)p.getAdapter()).getPosition(cursor.getString(4)));
                     String mobile     = cursor.getString(5);
@@ -133,11 +140,10 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
                 }
 
             } finally {
-                db.close();
+
                 cursor.close();
             }
-            mCreateAccountButton.setVisibility(View.GONE);
-        }else if (mode.equals("create")){
+                    }else if (mode.equals("create")){
 
             btnUpdateAccount.setVisibility(View.GONE);
         }
@@ -170,7 +176,17 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        mToolbar.setTitle("Create Your Account here...");
+        if(mode.equals("create")) {
+            getSupportActionBar().setTitle("Create Your Account");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }else {
+            getSupportActionBar().setTitle("Update Account");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mUserNameEditText = (EditText) findViewById(R.id.etUsername);
         mEmailEditText = (EditText) findViewById(R.id.etEmail);
@@ -180,41 +196,18 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
         etcountrycode = (EditText) findViewById(R.id.etcountrycode);
         mUserImage = (ImageView) findViewById(R.id.user_img);
         flag = (ImageView) findViewById(R.id.flag);
-        mCountrySpinner = (Spinner) findViewById(R.id.spinnercountry);
+//        mCountrySpinner = (Spinner) findViewById(R.id.spinnercountry);
 
         mCreateAccountButton = (Button) findViewById(R.id.btnCreateAccount);
         btnUpdateAccount = (Button) findViewById(R.id.btnUpdateAccount);
 
 
         mCreateAccountButton.setOnClickListener(this);
+        btnUpdateAccount.setOnClickListener(this);
         etcountrycode.setKeyListener(null);
         String rs = "res/drawable/afghanistan.png";
         Glide.with(this).load(rs).override(70, 70).into(flag);
 
-//        signoutall.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                revokeGplusAccess();
-//                signOutFromGplus();
-//                Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-//        Locale[] locale = Locale.getAvailableLocales();
-//        countries = new ArrayList<String>();
-//        String country;
-//        for (Locale loc : locale) {
-//            country = loc.getDisplayCountry();
-//            if (country.length() > 0 && !countries.contains(country)) {
-//                countries.add(country);
-//            }
-//        }
-//        Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
-//
-//        mCountrySpinner = (Spinner) findViewById(R.id.spinnercountry);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, countries);
-//        mCountrySpinner.setAdapter(adapter);
         Resources r = getResources();
         TypedArray countrieCodes = r.obtainTypedArray(R.array.countries);
 
@@ -280,11 +273,14 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 //                        .show(); // Don’t forget to show!
                 break;
 
-
+            case R.id.btnUpdateAccount:
+                updateAccount(v);
             default:
                 break;
         }
     }
+
+  
 
     /**
      * Some front end validation is done that is not monitored by the service.
@@ -308,40 +304,40 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         // Check for a valid confirm username.
         if (TextUtils.isEmpty(mUsername)) {
-            mUserNameEditText.setError(Html.fromHtml("<font color='red'>Enter Your Name here!</font>"));
+            mUserNameEditText.setError("Enter Your Name here!");
             Snackbar.make(v, "Empty Name", Snackbar.LENGTH_LONG).show();
             //.setAction(R.string.snackbar_action, myOnClickListener)
 
             mUserNameEditText.requestFocus();
             cancel = true;
         } else if (TextUtils.isEmpty(mEmail)) {
-            mEmailEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
+            mEmailEditText.setError("Incorrect input!");
 //            focusView = mEmailEditText;
             cancel = true;
         } else if (!mEmail.contains("@")) {
-            mEmailEditText.setError(Html.fromHtml("<font color='red'>Incorrect input!</font>"));
+            mEmailEditText.setError("Incorrect input!");
 //            focusView = mEmailEditText;
             cancel = true;
         } else if (TextUtils.isEmpty(mPassword)) {
-            mMobileEditText.setError(Html.fromHtml("<font color='red'>Enter Your Password!</font>"));
-            mMobileEditText.requestFocus();
+            mPasswordEditText.setError("Enter Your Password!");
+            mPasswordEditText.requestFocus();
             cancel = true;
         } else if (mPassword.length() < 4) {
-            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Password is too short !</font>"));
+            mPasswordEditText.setError("Password is too short !");
 //            focusView = mPasswordEditText;
             cancel = true;
         } else if (TextUtils.isEmpty(mConfirmPassword)) {
-            mConfirmPasswordEditText.setError(Html.fromHtml("<font color='red'>Empty confirm password!</font>"));
+            mConfirmPasswordEditText.setError("Empty confirm password!");
             mConfirmPasswordEditText.requestFocus();
             cancel = true;
         } else if (TextUtils.isEmpty(mMobileNumber)) {
-            mMobileEditText.setError(Html.fromHtml("<font color='red'>Invalid Mobile Number input!</font>"));
+            mMobileEditText.setError("Invalid Mobile Number input!");
             mMobileEditText.requestFocus();
             cancel = true;
         }
 //        else if (mPassword != null && !mConfirmPassword.equals(mPassword)) {
 //            System.out.println("" + mPassword + "  " + mConfirmPassword);
-//            mPasswordEditText.setError(Html.fromHtml("<font color='red'>Ooops! Password doesn't Match !</font>"));
+//            mPasswordEditText.setError("Ooops! Password doesn't Match !");
 //            mPasswordEditText.requestFocus();
 //            cancel = true;
 //        }
@@ -353,7 +349,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             String url = "http://jmbok.techtestbox.com/profile/v1/register";
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("name", mUsername));
-            params.add(new BasicNameValuePair("lastname", "mUsername"));
+            params.add(new BasicNameValuePair("lastname", "fromGplus"));
             params.add(new BasicNameValuePair("email", mEmail));
             params.add(new BasicNameValuePair("password", mPassword));
             params.add(new BasicNameValuePair("confirmpassword", mConfirmPassword));
@@ -372,6 +368,80 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
 
         }
 
+    }
+
+
+
+    private void updateAccount(View v) {
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Store values at the time of the login attempt.
+        mEmail = mEmailEditText.getText().toString();
+        mUsername = mUserNameEditText.getText().toString().trim();
+//        mPassword = mPasswordEditText.getText().toString();
+        mConfirmPassword = mConfirmPasswordEditText.getText().toString();
+        mMobileNumber = mMobileEditText.getText().toString();
+        mCountrycode = etcountrycode.getText().toString();
+//        int pos = mCountrySpinner.getSelectedItemPosition();
+//        mCountry = countries.get(pos);
+
+        // Check for a valid confirm username.
+        if (TextUtils.isEmpty(mUsername)) {
+            mUserNameEditText.setError("Enter Your Name here!");
+            mUserNameEditText.requestFocus();
+            cancel = true;
+        }  else if (TextUtils.isEmpty(mMobileNumber)) {
+            mMobileEditText.setError("Invalid Mobile Number input!");
+            mMobileEditText.requestFocus();
+            cancel = true;
+        }
+//        else if (mPassword != null && !mConfirmPassword.equals(mPassword)) {
+//            System.out.println("" + mPassword + "  " + mConfirmPassword);
+//            mPasswordEditText.setError("Ooops! Password doesn't Match !");
+//            mPasswordEditText.requestFocus();
+//            cancel = true;
+//        }
+
+
+        // Check for a valid email address.
+
+        else if (!cancel) {
+            String url = "http://jmbok.techtestbox.com/and/profile-update.php";
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("name", mUsername));
+            params.add(new BasicNameValuePair("lastname", "fromGplus"));
+            params.add(new BasicNameValuePair("email", mEmail));
+            params.add(new BasicNameValuePair("password", mPassword));
+            params.add(new BasicNameValuePair("confirmpassword", mPassword));
+            params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
+            params.add(new BasicNameValuePair("country", selectedCountry));
+            params.add(new BasicNameValuePair("code", "0"));
+            AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
+            ask.execute(url);
+            boolean tt=updateinPhoneDB();
+            if(tt){
+                Snackbar.make(v,"Updated Successfully",Snackbar.LENGTH_LONG).show();
+            }else{
+                Snackbar.make(v,"Updated Successfully",Snackbar.LENGTH_LONG).show();
+
+            }
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+//            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+//            UserManager.getInstance().signUp(mUsername.toLowerCase(Locale.getDefault()), mEmail, mPassword);
+
+        }
+    }
+
+    private boolean updateinPhoneDB() {
+        String sql="UPDATE user SET name='"+mUsername+"',mobile='"+mCountrycode + mMobileNumber+"',country='"+selectedCountry+"'  WHERE email='"+mEmail+"'";
+        db.open();
+        return  db.executeUpdate(sql);
     }
 
     /**
@@ -412,14 +482,52 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //Back buttons was pressed, do whatever logic you want
-//            revokeGplusAccess();
-//            signOutFromGplus();
-            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+            Intent intent=null;
+            if(mode.equals("create")) {
+                 intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+            }else{
+                 intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+            }
             startActivity(intent);
             finish();
 
         }
 
         return false;
+    }
+
+
+    protected void onDestroy(){
+    super.onDestroy();
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+    }
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+        @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+            if(mode.equals("update")) {
+                getMenuInflater().inflate(R.menu.reg_menu, menu);
+                return true;
+            } else {return true;}
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case R.id.action_changepassword:
+                Intent intent = new Intent(this, ChangepasswordActivity.class);
+                startActivity(intent);
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

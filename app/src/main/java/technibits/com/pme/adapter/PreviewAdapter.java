@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,6 +38,7 @@ import technibits.com.pme.data.ResultData;
 public class PreviewAdapter extends BaseAdapter {
     private Context context;
     ReviewFragment activity;
+    PreviewActivity pactivity;
 
     Quizdata data;
     String formID;
@@ -55,13 +57,14 @@ public class PreviewAdapter extends BaseAdapter {
     PreviewActivity previewActivity;
     private DBConnection db;
 
-    public PreviewAdapter(Context conte, Quizdata form, int qNO, int device, String strSelect) {
+    public PreviewAdapter(PreviewActivity previewActivity,Context conte, Quizdata form, int qNO, int device, String strSelect) {
         super();
         context = conte;
         data = form;
         queNo = qNO + 1;
         size = device;
         select = strSelect;
+        pactivity=previewActivity;
 //        previewActivity=pv;
     }
 
@@ -100,6 +103,8 @@ public class PreviewAdapter extends BaseAdapter {
             viewHolder = new ViewHolderA();
 
             viewHolder.reviewLayout = (LinearLayout) row.findViewById(R.id.review);
+
+            viewHolder.infoButton = (ImageButton) row.findViewById(R.id.info);
 
             viewHolder.questionLayout = (LinearLayout) row.findViewById(R.id.question);
 
@@ -146,6 +151,11 @@ public class PreviewAdapter extends BaseAdapter {
             if (select != null) {
                 viewHolder.reviewLayout.setVisibility(View.GONE);
             }
+            viewHolder.showReview.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    pactivity.showReview();
+                }
+            });
 
         } else if (position == 1) {
             viewHolder.questionLayout.setVisibility(View.VISIBLE);
@@ -153,6 +163,11 @@ public class PreviewAdapter extends BaseAdapter {
             viewHolder.answerLayout.setVisibility(View.GONE);
             viewHolder.questionView.setText(data.getQuestion());
             viewHolder.textQno.setText("Q." + String.valueOf(queNo));
+            viewHolder.infoButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    pactivity.showInfo();
+                }
+            });
         } else if (position == 2) {
             viewHolder.answerLayout.setVisibility(View.VISIBLE);
             viewHolder.questionLayout.setVisibility(View.GONE);
@@ -229,6 +244,7 @@ public class PreviewAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
                         AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                         ask.execute(urlRemove);
+//                        pactivity.sendMessage();
                     }
                 });
             } else {
@@ -318,6 +334,7 @@ public class PreviewAdapter extends BaseAdapter {
         public RadioButton rButton4;
 
         CheckBox reviewBox;
+        ImageButton infoButton;
 
     }
 

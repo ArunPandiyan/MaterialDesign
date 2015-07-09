@@ -41,7 +41,7 @@ import technibits.com.pme.R;
 public class ReviewFragment extends Fragment {
 
     // Logcat tag
-    private static final String TAG = "glogin";
+//    private static final String TAG = "changepassword_layout";
 
 
     ListView listView;
@@ -101,7 +101,7 @@ public class ReviewFragment extends Fragment {
 //						   intent.putExtras(bundleObject);
                 intent.putExtra("data", data);
                 intent.putExtra("review", "select");
-                intent.putExtra("count", 1);
+                intent.putExtra("count", 2);
                 intent.putExtra("question_no", position);
                 intent.putExtra("src_activity", "Review Questions");
                 startActivity(intent);
@@ -134,7 +134,10 @@ public class ReviewFragment extends Fragment {
 
                 for (int i = 0; i < data.size(); i++) {
                     Quizdata value = data.get(i);
-                    list.add(value.getQuestion());
+                    String question_cut=value.getQuestion();
+                    if(question_cut.length()<30){
+                        list.add(question_cut);
+                    }else{ list.add(question_cut.substring(0,36)+"..."); }
                 }//android.R.layout.simple_list_item_1
 
                 adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);
@@ -182,8 +185,7 @@ public class ReviewFragment extends Fragment {
                     list.add(value.getQuestion());
                 }
 //android.R.layout.simple_list_item_1
-                adapter = new ArrayAdapter<String>(activity,
-                        android.R.layout.simple_list_item_1, list);
+                adapter = new ArrayAdapter<String>(activity,android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
 
 //	    Log.d("receiver", "Got message: " + message);

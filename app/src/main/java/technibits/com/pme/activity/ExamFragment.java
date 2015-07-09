@@ -49,8 +49,9 @@ public class ExamFragment extends Fragment {
     Context context;
     ArrayList<Quizdata> data;
     ListView list;
-    int count;
-    int iNext = 1;
+    int count=1;
+    int goalPercent=1;
+    public int iNext = 1;
     ListView reviewListview;
     ListView resultListview;
     View showInfoView;
@@ -120,11 +121,11 @@ public class ExamFragment extends Fragment {
             device = 10;
         } else if (smallestWidth >= 600) {
             device = 7; //Device is a 7" tablet
-            rootView = inflater.inflate(R.layout.exam_mode_seven, container,
-                    false);
+//            rootView = inflater.inflate(R.layout.exam_mode_seven, container,false);
+            rootView = inflater.inflate(R.layout.exam_mode, container,false);
+
         } else {
-            rootView = inflater.inflate(R.layout.exam_mode, container,
-                    false);
+            rootView = inflater.inflate(R.layout.exam_mode, container,false);
         }
 
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -141,8 +142,10 @@ public class ExamFragment extends Fragment {
         textGoalend = (TextView) seakBarlayout.findViewById(R.id.goalend);
 
         seekBar = (SeekBar) seakBarlayout.findViewById(R.id.que_seekbar);
+        seekBar.setProgress(0);
         seekGoal = (SeekBar) seakBarlayout.findViewById(R.id.goal_seekbar);
         seekGoal.setMax(100);
+        seekGoal.setProgress(0);
 
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -157,8 +160,8 @@ public class ExamFragment extends Fragment {
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                textStart.setText(String.valueOf(arg1));
-                count = arg1;
+                textStart.setText(String.valueOf(arg1+1));
+                count = arg1+1;
             }
         });
 
@@ -176,12 +179,14 @@ public class ExamFragment extends Fragment {
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                textGoalStart.setText(String.valueOf(arg1) + "%");
+                textGoalStart.setText(String.valueOf(arg1+1) + "%");
+                goalPercent=arg1+1;
 
             }
         });
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         reviewView = mInflater.inflate(R.layout.show_review, container, false);
 
@@ -266,6 +271,7 @@ public class ExamFragment extends Fragment {
                     }
                     if (iNext < count) {
                         dataSource = data.get(iNext);
+                        dataSource.setExamAnswer(0);
                         ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, iNext, device, frag, resData);
                         list.setAdapter(adapter);
                         priv.setEnabled(true);
@@ -287,15 +293,37 @@ public class ExamFragment extends Fragment {
 //	        	  double perInt =  resData.getCorrectAnswers() / count;
                     int percentage = (int) (proportionCorrect * 100);
                     resData.setPercentage(percentage);
-                    if (percentage >= 50) {
+                    if (percentage >= goalPercent) {
                         resData.setResult("Pass");
                     } else {
                         resData.setResult("Fail");
                     }
                     resData.setTotalQuestion(count);
+//TODO: show dialog for finishing exam
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setTitle("Are you sure to finish exam?");
 
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                            int id) {
+                                            getresult();
+                                        }
+                                    })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    dialog.cancel();
+//                                    getActivity().finish();
+                                }
+                            });
 
-                    getresult();
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
                     System.out.println("count  " + count + "perInt   " + proportionCorrect + "  percentage  " + percentage + "  answer  " + resData.getCorrectAnswers());
                 }
 
@@ -336,6 +364,7 @@ public class ExamFragment extends Fragment {
             }
         });
 
+        exp.setVisibility(View.GONE);
         return rootView;
 
     }
@@ -347,7 +376,7 @@ public class ExamFragment extends Fragment {
             data = jsonParser.testJsonParsing(json);
             retakedata = jsonParser.testJsonParsing(json);
             if (data.size() > 0) {
-                count = data.size();
+//                count = data.size();
                 for (int i = 0; i < data.size(); i++) {
                     Quizdata list = data.get(i);
                     System.out.println("" + list.getQuestion());
@@ -430,7 +459,7 @@ public class ExamFragment extends Fragment {
                                 list.setVisibility(View.VISIBLE);
                                 priv.setVisibility(View.VISIBLE);
                                 next.setVisibility(View.VISIBLE);
-                                exp.setVisibility(View.VISIBLE);
+//                                exp.setVisibility(View.VISIBLE);
 
                             }
                         })
@@ -490,10 +519,21 @@ public class ExamFragment extends Fragment {
 
     }
 
+    /*
+    Used by showReview() to navigate to selected question from showreviewAdapter
+     */
     public void reviewNavication(int id) {
 
         if (data.size() > 0) {
             iNext = id;
+            if (iNext == 0) {
+                priv.setEnabled(false);
+                iNext = 0;
+                nCheck = false;
+
+            } else{
+                priv.setEnabled(true);
+            }
             dataSource = data.get(id);
             ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, id, device, frag, resData);
             list.setAdapter(adapter);
@@ -648,6 +688,7 @@ public class ExamFragment extends Fragment {
         resData=new ResultData();
         data = new ArrayList<Quizdata>(retakedata);
 //		data = retakedata;
+        iNext=0;
         if (data.size() > 0) {
             dataSource = data.get(0);
             ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, 0, device, frag, resData);

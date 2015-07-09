@@ -56,6 +56,7 @@ public class StudyAdapter extends BaseAdapter {
         super();
         context = conte;
         data = form;
+        data.setExamAnswer(0);
         queNo = qNO + 1;
         size = device;
         activity = studuyFrg;

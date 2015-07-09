@@ -3,11 +3,17 @@
 
     <!-- country list -->
     <string-array name="data000">
-        <item name="code">+93</item>
-        <item name="country">Afghanistan</item>
-        <item name="iso">AF</item>
-        <item name="flag">@drawable/afghanistan</item>
+        <item name="code">n/a</item>
+        <item name="country">Not Selected</item>
+        <item name="iso">NA</item>
+        <item name="flag">@drawable/not_selected</item>
     </string-array>
+    <!--<string-array name="data000">-->
+        <!--<item name="code">+93</item>-->
+        <!--<item name="country">Afghanistan</item>-->
+        <!--<item name="iso">AF</item>-->
+        <!--<item name="flag">@drawable/afghanistan</item>-->
+    <!--</string-array>-->
     <string-array name="data001">
         <item name="code">+355</item>
         <item name="country">Albania</item>

@@ -1,139 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:layout_height="fill_parent">
+    >
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-    <RelativeLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
-
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/usernameHint"
-        android:inputType="text"
-        android:maxLength="15" />
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etUsername"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/emailHint"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etEmail"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/passwordHint"
-        android:inputType="textPassword"
-        android:maxLength="10" />
-
-    <EditText
-        android:id="@+id/etPasswordConfirm"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etPassword"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="25dp"
-        android:hint="@string/confirmPasswordHint"
-        android:inputType="textPassword" />
-
-    <Spinner
-        android:id="@+id/spinnercountry"
-        android:layout_width="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_height="50dp"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/etPasswordConfirm"
-        android:layout_toRightOf="@+id/flag"
-        android:layout_toEndOf="@+id/flag" />
-
-    <EditText
-        android:id="@+id/etmobile"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:layout_alignRight="@+id/etPasswordConfirm"
-        android:layout_below="@+id/spinnercountry"
-        android:layout_marginTop="25dp"
-        android:inputType="number"
-        android:hint="Mobile Number"
-        android:ems="10"
-        android:maxLength="10" />
-
-
-    
-    <Button
-        android:id="@+id/btnCreateAccount"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:text="@string/createAccount"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-        <Button
-            android:id="@+id/btnUpdateAccount"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:text="@string/updateAccount"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/user_img"
-        android:paddingTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_above="@+id/etEmail"
-        android:layout_toLeftOf="@+id/etUsername"
-        android:layout_toStartOf="@+id/etUsername" />
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetUsername"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:hint="@string/usernameHint"
+                    android:inputType="text"
+                    android:maxLength="15" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetEmail"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/wetUsername"
+                android:layout_alignLeft="@+id/wetUsername"
+                android:layout_alignStart="@+id/wetUsername">
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="25dp"
+                    android:hint="@string/emailHint"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetPassword"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/wetEmail"
+                android:layout_alignLeft="@+id/wetEmail"
+                android:layout_alignStart="@+id/wetEmail">
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="25dp"
+                    android:hint="@string/passwordHint"
+                    android:inputType="textPassword"
+                    android:maxLength="10" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetPasswordConfirm"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/wetPassword"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <EditText
+                    android:id="@+id/etPasswordConfirm"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/etPassword"
+                    android:layout_marginTop="25dp"
+                    android:hint="@string/confirmPasswordHint"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnercountry"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@+id/wetPasswordConfirm"
+                android:layout_toEndOf="@+id/flag"
+                android:layout_toRightOf="@+id/flag"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:spinnerMode="dropdown" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetmobile"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/wetcountrycode"
+                android:layout_alignLeft="@+id/spinnercountry"
+                android:layout_alignStart="@+id/spinnercountry">
+
+                <EditText
+                    android:id="@+id/etmobile"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/etPasswordConfirm"
+                    android:layout_below="@+id/spinnercountry"
+                    android:layout_marginTop="25dp"
+                    android:ems="10"
+                    android:hint="Mobile Number"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:paddingBottom="10dp" />
+            </android.support.design.widget.TextInputLayout>
 
 
+            <Button
+                android:id="@+id/btnCreateAccount"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btnUpdateAccount"
+                android:text="@string/createAccount" />
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:id="@+id/flag"
+            <Button
+                android:id="@+id/btnUpdateAccount"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="@string/updateAccount"
+                android:layout_below="@+id/wetcountrycode"/>
 
-        android:layout_below="@+id/etPasswordConfirm"
-        android:layout_alignLeft="@+id/etPasswordConfirm"
-        android:layout_alignStart="@+id/etPasswordConfirm"
-        android:layout_alignBottom="@+id/spinnercountry" />
-
-    <EditText
-        android:id="@+id/etcountrycode"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:inputType="number"
-        android:text="  --"
-        android:ems="10"
-        android:editable="false"
-
-        android:layout_alignBaseline="@+id/etmobile"
-        android:layout_alignBottom="@+id/btnCreateAccount"
-        android:layout_toLeftOf="@+id/etmobile"
-        android:layout_toStartOf="@+id/etmobile" />
+            <ImageView
+                android:id="@+id/user_img"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:paddingTop="10dp"
+                android:layout_above="@+id/wetEmail"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
 
-</RelativeLayout>
-</LinearLayout>
+            <ImageView
+                android:id="@+id/flag"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+
+                android:layout_alignBottom="@+id/spinnercountry"
+                android:layout_alignLeft="@+id/wetPasswordConfirm"
+                android:layout_alignStart="@+id/wetPasswordConfirm"
+                android:layout_below="@+id/wetPasswordConfirm" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/wetcountrycode"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/flag"
+                android:layout_alignLeft="@+id/flag"
+                android:layout_alignStart="@+id/flag">
+
+                <EditText
+                    android:id="@+id/etcountrycode"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/wetmobile"
+                    android:layout_alignBottom="@+id/btnCreateAccount"
+                    android:layout_toLeftOf="@+id/wetmobile"
+                    android:layout_toStartOf="@+id/wetmobile"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:paddingBottom="10dp"
+                    android:text="  --" />
+            </android.support.design.widget.TextInputLayout>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

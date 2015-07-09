@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import technibits.com.pme.activity.ExamFragment;
 import technibits.com.pme.R;
+import technibits.com.pme.activity.PreviewActivity;
 import technibits.com.pme.activity.StudyModeFragment;
 import technibits.com.pme.data.Quizdata;
 
@@ -27,6 +28,7 @@ public class ShowReviewAdapter extends BaseAdapter {
     int size;
     StudyModeFragment studyfreg;
     ExamFragment examfreg;
+    PreviewActivity previewActivity;
 
     public ShowReviewAdapter(Context conte, ArrayList<Quizdata> form, int count, int device, StudyModeFragment studyfeg) {
         super();
@@ -44,6 +46,15 @@ public class ShowReviewAdapter extends BaseAdapter {
         counts = count;
         size = device;
         examfreg = studyfeg;
+    }
+
+    public ShowReviewAdapter(Context conte, ArrayList<Quizdata> form, int count, int device, PreviewActivity prevActivity) {
+        super();
+        context = conte;
+        data = form;
+        counts = count;
+        size = device;
+        previewActivity = prevActivity;
     }
 
 
@@ -125,10 +136,13 @@ public class ShowReviewAdapter extends BaseAdapter {
         viewHolder.showAns.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 //		 	            	showReview();
-                if (studyfreg != null) {
+                if (previewActivity != null) {
+                    previewActivity.reviewNavication(v.getId());
+                } else if (studyfreg != null) {
                     studyfreg.reviewNavication(v.getId());
-                } else {
+                } else if (examfreg != null) {
                     examfreg.reviewNavication(v.getId());
+//                    examfreg.iNext=v.getId();
                 }
 
             }

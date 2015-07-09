@@ -3,9 +3,13 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="action_profile">Profile</string>
+    <string name="action_changepassword">Change Password</string>
     <string name="action_search">Search</string>
+    <string name="action_sendpass_to_email">Send Password to Email </string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="Login_activity_label">Welcome to PME</string>
+    <string name="Alarm_Settings">Alarm Settings</string>
 
     <string name="nav_item_take_exam">Take Exam</string>
     <string name="nav_item_performance_history">Performance History</string>
@@ -41,6 +45,7 @@
 <!--Added Newly-->
     <string name="btn_facebook">Login Facebook</string>
     <string name="btn_revoke_access">Revoke Access</string>
+    <string name="btn_changepassword">Change Password</string>
     <string name="app_id">1626586530911257</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -51,6 +56,9 @@
     <string name="updateAccount">Update Account</string>
     <string name="emailHint">Email</string>
     <string name="usernameHint">Username</string>
+    <string name="oldpasswordHint">Old Password</string>
+    <string name="newPasswordHint">New Password</string>
+    <string name="newconfirmpasswordHint">Confirm Password</string>
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
 

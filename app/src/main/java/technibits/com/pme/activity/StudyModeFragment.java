@@ -40,13 +40,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class StudyModeFragment extends Fragment {
-    int check = 0,mark=0;
+    int check = 0,mark=0,goalPercent=1;
     Context context;
     ArrayList<Quizdata> data;
     ArrayList<Quizdata> retakedata;
     ArrayList<Quizdata> fornexttest;
     ListView list;
-    int count;
+    int count=1;
     int iNext = 1;
     RadioGroup radioGroup;
     int device;
@@ -164,29 +164,28 @@ public class StudyModeFragment extends Fragment {
         textGoalend = (TextView) seakBarlayout.findViewById(R.id.goalend);
 
         seekBar = (SeekBar) seakBarlayout.findViewById(R.id.que_seekbar);
+        seekBar.setProgress(0);
         seekGoal = (SeekBar) seakBarlayout.findViewById(R.id.goal_seekbar);
         seekGoal.setMax(100);
+        seekGoal.setProgress(0);
 
 
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar arg0) {
 
-                System.out.println(".....111.......");
 
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
 
-                System.out.println(".....222.......");
             }
 
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                System.out.println(".....333......." + arg1);
-                textStart.setText(String.valueOf(arg1));
-                count = arg1;
+                textStart.setText(String.valueOf(arg1+1));
+                count = arg1+1;
             }
         });
 
@@ -204,7 +203,8 @@ public class StudyModeFragment extends Fragment {
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                textGoalStart.setText(String.valueOf(arg1) + "%");
+                textGoalStart.setText(String.valueOf(arg1+1) + "%");
+                goalPercent=arg1+1;
 
             }
         });
@@ -283,14 +283,36 @@ public class StudyModeFragment extends Fragment {
 //	        	  double perInt =  resData.getCorrectAnswers() / count;
                     int percentage = (int) (proportionCorrect * 100);
                     resData.setPercentage(percentage);
-                    if (percentage >= 50) {
+                    if (percentage >= goalPercent) {
                         resData.setResult("Pass");
                     } else {
                         resData.setResult("Fail");
                     }
                     resData.setTotalQuestion(count);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setTitle("Are you sure to finish test?");
 
-                    getresult();
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                            int id) {
+                                            getresult();
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                            int id) {
+                                            dialog.cancel();
+//                                    getActivity().finish();
+                                        }
+                                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+//                    getresult();
                     System.out.println("count  " + count + "perInt   " + proportionCorrect + "  percentage  " + percentage + "  answer  " + resData.getCorrectAnswers());
                 }
 
@@ -360,7 +382,7 @@ public class StudyModeFragment extends Fragment {
             }mark=1;
             if (data.size() > 0) {
 
-                count = data.size();
+//                count = data.size();
                 for (int i = 0; i < data.size(); i++) {
                     Quizdata list = data.get(i);
                     System.out.println("" + list.getQuestion());
@@ -454,12 +476,6 @@ public class StudyModeFragment extends Fragment {
     }
 
     public void showReview() {
-
-//		 for (int i = 0; i < count; i++) {
-//			 Quizdata quzData = data.get(i);
-//			 System.out.println("quzData  " + quzData.getStatus());
-//		}
-
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();

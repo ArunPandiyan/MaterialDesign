@@ -79,10 +79,11 @@ public class QuizJSONParser {
             dataSource.setOptionD(c.getString(OPTIOND));
             dataSource.setDescription(c.getString(DESCRIPTION));
 
+
 //            dataSource.setDifficultylevel(c.getString(DIFFCULTY));
-//            dataSource.setKnowledgeArea(c.getString(KNOWLEDGEAREA));
-//            dataSource.setProcessName(c.getString(PROCESSNAME));
-//            dataSource.setProcessGroup(c.getString(PROCESSGROUP));
+            dataSource.setKnowledgeArea(c.getString(KNOWLEDGEAREA));
+            dataSource.setProcessName(c.getString(PROCESSNAME));
+            dataSource.setProcessGroup(c.getString(PROCESSGROUP));
 
             list.add(dataSource);
         }
