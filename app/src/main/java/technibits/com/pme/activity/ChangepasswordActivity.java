@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.model.CircleTransform;
 
 /**
@@ -93,8 +94,14 @@ public class ChangepasswordActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("oldpassword", txt_oldPassword));
             params.add(new BasicNameValuePair("password", txt_newPassword));
-            AsyncTaskCall ask = new AsyncTaskCall(this, "changepass", params);
-            ask.execute(url);
+            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            if(status) {
+                AsyncTaskCall ask = new AsyncTaskCall(this, "changepass", params);
+                ask.execute(url);
+            }else{
+                NetworkUtil.showNetworkstatus(this);
+            }
+
             // There was an error; don't attempt login and focus the first
             // form field with an error.
 //            focusView.requestFocus();

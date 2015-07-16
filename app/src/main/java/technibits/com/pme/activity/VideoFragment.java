@@ -36,7 +36,7 @@ public class VideoFragment extends Fragment {
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ReviewHisActivity.class);
+                Intent intent = new Intent(getActivity(), WebviewActivity.class);
 //						   Bundle bundleObject = new Bundle();
 //						   bundleObject.putSerializable("data", data);
 //						   intent.putExtras(bundleObject);

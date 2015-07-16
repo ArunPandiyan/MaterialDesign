@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import technibits.com.pme.R;
 import technibits.com.pme.adapter.PerformanceAdapter;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
@@ -52,16 +53,28 @@ public class PerformanceActivity extends Activity {
 
 
         String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=" + useremail;
-        AsyncTaskCall ask = new AsyncTaskCall(this, urls, "performhis");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(this, urls, "performhis");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(this);
+        }
+
 
     }
 
     public void performReview(int id) {
 
         String urls = "http://jmbok.techtestbox.com/and/performance_review1.php?testid=" + id;
-        AsyncTaskCall ask = new AsyncTaskCall(this, urls, "perreview");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(this, urls, "perreview");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(this);
+        }
+
     }
 
 

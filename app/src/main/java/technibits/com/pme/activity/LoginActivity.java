@@ -12,7 +12,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
@@ -32,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 //import com.facebook.Session;
 //import com.facebook.SessionState;
 //import com.facebook.UiLifecycleHelper;
@@ -206,8 +210,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (!result.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
-                    0).show();
+//            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,0).show();
+            showNetworkstatus(getApplicationContext());
             return;
         }
 
@@ -379,8 +383,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                     params.add(new BasicNameValuePair("mobile", "Not Entered"));
                     params.add(new BasicNameValuePair("country", "Not Selected"));
                     params.add(new BasicNameValuePair("code", "0"));
-                    AsyncTaskCall ask = new AsyncTaskCall(this, "Gplussignup", params);
-                    ask.execute(url);
+                    boolean status = NetworkUtil.isOnline();
+                    if(status) {
+                        AsyncTaskCall ask = new AsyncTaskCall(this, "Gplussignup", params);
+                        ask.execute(url);
+                    }else{
+                        NetworkUtil.showNetworkstatus(this);
+                    }
                 } else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -415,6 +424,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             e.printStackTrace();
         }
     }
+
     public final class SessionIdentifierGenerator {
         private SecureRandom random = new SecureRandom();
 
@@ -460,8 +470,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                 params.add(new BasicNameValuePair("email", userName.getText().toString().trim()));
                 params.add(new BasicNameValuePair("password", password.getText().toString().trim()));
                 params.add(new BasicNameValuePair("confirmpassword", password.getText().toString().trim()));
-                AsyncTaskCall ask = new AsyncTaskCall(this, "signin", params);
-                ask.execute(url);
+                boolean status = NetworkUtil.isOnline();
+                if(status) {
+                    AsyncTaskCall ask = new AsyncTaskCall(this, "signin", params);
+                    ask.execute(url);
+                }else{
+                    NetworkUtil.showNetworkstatus(this);
+
+                }
+
 
                 break;
 
@@ -666,5 +683,20 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         inst.put("imageurl", personPhotoUrl);
 
         db.insert(inst, "user");
+    }
+    public  void showNetworkstatus(Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Warning")
+                .setMessage("There is no internet connection.")
+
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+
+                    }
+                })
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

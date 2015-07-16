@@ -48,6 +48,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.model.CircleTransform;
 
 
@@ -356,8 +357,14 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
             params.add(new BasicNameValuePair("country", selectedCountry));
             params.add(new BasicNameValuePair("code", "0"));
-            AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
-            ask.execute(url);
+            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            if(status) {
+                AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
+                ask.execute(url);
+            }else{
+                NetworkUtil.showNetworkstatus(this);
+            }
+
             // There was an error; don't attempt login and focus the first
             // form field with an error.
 //            focusView.requestFocus();
@@ -418,15 +425,24 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
             params.add(new BasicNameValuePair("country", selectedCountry));
             params.add(new BasicNameValuePair("code", "0"));
-            AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
-            ask.execute(url);
-            boolean tt=updateinPhoneDB();
-            if(tt){
-                Snackbar.make(v,"Updated Successfully",Snackbar.LENGTH_LONG).show();
+            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            if(status) {
+                AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
+                ask.execute(url);
+                boolean tt=updateinPhoneDB();
+                if(tt){
+                    Snackbar.make(v,"Updated Successfully",Snackbar.LENGTH_LONG).show();
+                }else{
+                    Snackbar.make(v,"Not Updated Successfully",Snackbar.LENGTH_LONG).show();
+
+                }
             }else{
-                Snackbar.make(v,"Updated Successfully",Snackbar.LENGTH_LONG).show();
+                NetworkUtil.showNetworkstatus(this);
+                Snackbar.make(v,"Not Updated Successfully",Snackbar.LENGTH_LONG).show();
 
             }
+
+
             // There was an error; don't attempt login and focus the first
             // form field with an error.
 //            focusView.requestFocus();

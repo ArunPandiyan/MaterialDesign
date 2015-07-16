@@ -31,6 +31,7 @@ import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.MasterDownload;
 import technibits.com.pme.activity.PreviewActivity;
 import technibits.com.pme.activity.ReviewFragment;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 
@@ -242,8 +243,16 @@ public class PreviewAdapter extends BaseAdapter {
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                        AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                        ask.execute(urlRemove);
+                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        if(status) {
+                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+                            ask.execute(urlRemove);
+
+                        }else{
+                            NetworkUtil.showNetworkstatus(context);
+                        }
+
+
 //                        pactivity.sendMessage();
                     }
                 });

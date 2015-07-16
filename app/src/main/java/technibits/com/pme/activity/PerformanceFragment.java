@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import technibits.com.pme.adapter.PerformanceFragmentAdapter;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
@@ -89,8 +90,14 @@ public class PerformanceFragment extends Fragment {
         DBConnection dbConnection = new DBConnection(getActivity());
 //        dbConnection.getuserEmail();
         String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=" + dbConnection.getuserEmail().trim();
-        AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "performhis_frag");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "performhis_frag");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(getActivity());
+        }
+
         return rootView;
     }
 

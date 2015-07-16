@@ -14,6 +14,7 @@ import technibits.com.pme.R;
 import technibits.com.pme.adapter.ResultAdapter;
 import technibits.com.pme.adapter.ShowReviewAdapter;
 import technibits.com.pme.adapter.StudyAdapter;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
@@ -212,8 +213,14 @@ public class StudyModeFragment extends Fragment {
 
         context = container.getContext();
         String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
-        AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "study");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "study");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(getActivity());
+        }
+
 
         priv = (Button) rootView.findViewById(R.id.prev);
         next = (Button) rootView.findViewById(R.id.next);
@@ -595,10 +602,15 @@ public class StudyModeFragment extends Fragment {
         params.add(new BasicNameValuePair("Result", resData.getResult()));
         params.add(new BasicNameValuePair("userid", db.getuserEmail()));//"android@gmail.com"));xvc
         params.add(new BasicNameValuePair("testid", testID));
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
+            ask.studyFragment = this;
+            ask.execute(urlFinish);
+        }else{
+            NetworkUtil.showNetworkstatus(getActivity());
+        }
 
-        AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
-        ask.studyFragment = this;
-        ask.execute(urlFinish);
     }
 
     public void refersh() {

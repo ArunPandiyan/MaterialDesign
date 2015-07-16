@@ -32,6 +32,7 @@ import com.google.android.gms.plus.Plus;
 
 import technibits.com.pme.R;
 import technibits.com.pme.alarmactivity.SettingsActivity;
+import technibits.com.pme.data.NetworkUtil;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener,GoogleApiClient.ConnectionCallbacks,
@@ -192,8 +193,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (!result.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
-                    0).show();
+//            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,0).show();
+            NetworkUtil.showNetworkstatus(this);
+
             return;
         }
 

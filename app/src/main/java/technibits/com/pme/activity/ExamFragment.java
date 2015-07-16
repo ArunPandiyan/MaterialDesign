@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import technibits.com.pme.adapter.ExammodeAdapter;
 import technibits.com.pme.adapter.ResultAdapter;
 import technibits.com.pme.adapter.ShowReviewAdapter;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
@@ -227,8 +228,14 @@ public class ExamFragment extends Fragment {
 
         context = container.getContext();
         String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
-        AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "exam");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "exam");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(context);
+        }
+
 
         priv = (Button) rootView.findViewById(R.id.prev);
         next = (Button) rootView.findViewById(R.id.next);
@@ -664,9 +671,15 @@ public class ExamFragment extends Fragment {
         params.add(new BasicNameValuePair("options", optionVlaue));
 
         db.close();
-        AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
-        ask.examFragment = this;
-        ask.execute(urlFinish);
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
+            ask.examFragment = this;
+            ask.execute(urlFinish);
+        }else{
+            NetworkUtil.showNetworkstatus(context);
+        }
+
     }
 
 

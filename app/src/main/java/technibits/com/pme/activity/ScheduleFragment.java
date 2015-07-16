@@ -29,6 +29,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,6 +79,25 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+//        GoogleAnalytics analytics = GoogleAnalytics.getInstance(getActivity());
+//        Tracker tracker = analytics.newTracker("UA-XXXX-Y"); // Send hits to tracker id UA-XXXX-Y
+//
+//// All subsequent hits will be send with screen name = "main screen"
+//        tracker.setScreenName("Schedulers");
+//
+//        tracker.send(new HitBuilders.EventBuilder()
+//                .setCategory("UX")
+//                .setAction("click")
+//                .setLabel("submit")
+//                .build());
+//
+//// Builder parameters can overwrite the screen name set on the tracker.
+//        tracker.send(new HitBuilders.EventBuilder()
+//                .setCategory("UX")
+//                .setAction("click")
+//                .setLabel("help popup")
+////                .setScreenName("help popup dialog")
+//                .build());
     }
 
 

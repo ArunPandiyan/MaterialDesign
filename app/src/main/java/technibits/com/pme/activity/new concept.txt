@@ -1,6 +1,15 @@
 Bottomsheet for explanation of questions in exam and study mode.
 
 https://github.com/Flipboard/bottomsheet
+
+https://github.com/worker8/TourGuide
+TourGuide
+TourGuide is an Android library. It lets you add pointer, overlay and tooltip easily, guiding users on how to use your app.
+ Refer to the example below(this is a trivial example for demo purpose):
+
+Let's say you have a button on your home screen that you want your users to click on:
+
+A button
 /* result = new ArrayList<ScheduleInfo>();
         ScheduleInfo ci = new ScheduleInfo();
         ScheduleInfo ci1 = new ScheduleInfo();

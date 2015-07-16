@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import technibits.com.pme.data.MasterData;
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 
 
 import android.content.ContentValues;
@@ -232,8 +233,15 @@ public class MainActivity_as extends AppCompatActivity {
             spinnerAdapter();
         } else {
             String urls = "http://www.jmbok.techtestbox.com/and/all-in-one.php";
-            AsyncTaskCall ask = new AsyncTaskCall(this, urls, "selection");
-            ask.execute(urls);
+            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            if(status) {
+                AsyncTaskCall ask = new AsyncTaskCall(this, urls, "selection");
+                ask.execute(urls);
+            }else{
+                NetworkUtil.showNetworkstatus(this);
+                finish();
+            }
+
         }
 
     }

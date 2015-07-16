@@ -10,6 +10,9 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,6 +39,8 @@ public class RemindMe extends Application  {
     public static final String RINGTONE_PREF = "ringtone_pref";
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-M-d";
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -45,6 +50,13 @@ public class RemindMe extends Application  {
 
         dbHelper = new DbHelper(this);
         db = dbHelper.getWritableDatabase();
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-65003772-1"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
     }
 
     public static boolean showRemainingTime() {

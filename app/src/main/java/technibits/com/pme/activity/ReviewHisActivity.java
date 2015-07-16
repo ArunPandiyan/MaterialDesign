@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.parser.QuizJSONParser;
 
@@ -47,8 +48,14 @@ public class ReviewHisActivity extends Activity {
         data = new ArrayList<Quizdata>();
 
         String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + useremail;
-        AsyncTaskCall ask = new AsyncTaskCall(this, urls, "reviewhis");
-        ask.execute(urls);
+        boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(this, urls, "reviewhis");
+            ask.execute(urls);
+        }else{
+            NetworkUtil.showNetworkstatus(this);
+        }
+
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override

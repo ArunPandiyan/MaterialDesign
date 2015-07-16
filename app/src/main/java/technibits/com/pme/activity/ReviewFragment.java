@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import technibits.com.pme.R;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.parser.QuizJSONParser;
 
@@ -85,9 +86,14 @@ public class ReviewFragment extends Fragment {
         DBConnection dbConnection = new DBConnection(getActivity());
 //String email=      dbConnection.getuserEmail();
         String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + dbConnection.getuserEmail().trim();
-        ;
-        AsyncTaskCall ask = new AsyncTaskCall(activity, this, urls, "reviewhis_frag");
-        ask.execute(urls);//getActivity(), this, urls, "performhis_frag"
+        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        if(status) {
+            AsyncTaskCall ask = new AsyncTaskCall(activity, this, urls, "reviewhis_frag");
+            ask.execute(urls);//getActivity(), this, urls, "performhis_frag"
+        }else{
+            NetworkUtil.showNetworkstatus(getActivity());
+        }
+
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override

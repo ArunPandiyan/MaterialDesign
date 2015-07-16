@@ -32,6 +32,7 @@ import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.MasterDownload;
 import technibits.com.pme.R;
 import technibits.com.pme.activity.StudyModeFragment;
+import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 
@@ -130,20 +131,35 @@ public class StudyAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
-                        AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                        ask.execute(urlMark);
-                        int mrCount = resData.getMarkedReview() + 1;
-                        resData.setMarkedReview(mrCount);
+                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        if(status) {
+                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+                            ask.execute(urlMark);
+                            int mrCount = resData.getMarkedReview() + 1;
+                            resData.setMarkedReview(mrCount);
+                        }else{
+                            NetworkUtil.showNetworkstatus(context);
+                        }
+
+
 
                     } else {
                         data.setISchecked(0);
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                        AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                        ask.execute(urlRemove);
-                        int mrCount = resData.getMarkedReview() - 1;
-                        resData.setMarkedReview(mrCount);
+
+                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        if(status) {
+                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+                            ask.execute(urlRemove);
+                            int mrCount = resData.getMarkedReview() - 1;
+                            resData.setMarkedReview(mrCount);
+                        }else{
+                            NetworkUtil.showNetworkstatus(context);
+                        }
+
+
                     }
                 }
             });
@@ -291,10 +307,18 @@ public class StudyAdapter extends BaseAdapter {
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                             params.add(new BasicNameValuePair("userid", useremail));
                             params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                            ask.execute(urlRemove);
-                            int mrCount = resData.getMarkedReview() - 1;
-                            resData.setMarkedReview(mrCount);
+
+                            boolean status = NetworkUtil.getConnectivityStatusString(context);
+                            if(status) {
+                                AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+                                ask.execute(urlRemove);
+                                int mrCount = resData.getMarkedReview() - 1;
+                                resData.setMarkedReview(mrCount);
+                            }else{
+                                NetworkUtil.showNetworkstatus(context);
+                            }
+
+
                         }
 
                         data.setStatus("A");
