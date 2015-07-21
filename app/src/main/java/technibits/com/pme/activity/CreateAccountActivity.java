@@ -357,7 +357,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
             params.add(new BasicNameValuePair("country", selectedCountry));
             params.add(new BasicNameValuePair("code", "0"));
-            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            boolean status = NetworkUtil.isOnline();
             if(status) {
                 AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
                 ask.execute(url);
@@ -425,7 +425,7 @@ public class CreateAccountActivity extends AppCompatActivity implements OnClickL
             params.add(new BasicNameValuePair("mobile", mCountrycode + mMobileNumber));
             params.add(new BasicNameValuePair("country", selectedCountry));
             params.add(new BasicNameValuePair("code", "0"));
-            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            boolean status = NetworkUtil.isOnline();
             if(status) {
                 AsyncTaskCall ask = new AsyncTaskCall(this, "signup", params);
                 ask.execute(url);

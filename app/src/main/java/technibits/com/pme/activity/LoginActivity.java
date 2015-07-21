@@ -210,8 +210,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (!result.hasResolution()) {
-//            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,0).show();
-            showNetworkstatus(getApplicationContext());
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,0).show();
+//            showNetworkstatus(getApplicationContext());
             return;
         }
 
@@ -684,7 +684,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
         db.insert(inst, "user");
     }
-    public  void showNetworkstatus(Context context) {
+    public void showNetworkstatus(Context context) {
         new AlertDialog.Builder(context)
                 .setTitle("Warning")
                 .setMessage("There is no internet connection.")

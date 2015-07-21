@@ -19,6 +19,7 @@ import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -81,11 +82,12 @@ public class StudyModeFragment extends Fragment {
         frag = this;
 
     }
-
+    @SuppressLint("ValidFragment")
     public StudyModeFragment() {
 
     }
 
+    @SuppressLint("ValidFragment")
     public StudyModeFragment(String url) {
         this.url = url;
     }
@@ -213,7 +215,7 @@ public class StudyModeFragment extends Fragment {
 
         context = container.getContext();
         String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "study");
             ask.execute(urls);
@@ -602,7 +604,7 @@ public class StudyModeFragment extends Fragment {
         params.add(new BasicNameValuePair("Result", resData.getResult()));
         params.add(new BasicNameValuePair("userid", db.getuserEmail()));//"android@gmail.com"));xvc
         params.add(new BasicNameValuePair("testid", testID));
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
             ask.studyFragment = this;

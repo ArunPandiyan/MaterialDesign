@@ -233,7 +233,7 @@ public class MainActivity_as extends AppCompatActivity {
             spinnerAdapter();
         } else {
             String urls = "http://www.jmbok.techtestbox.com/and/all-in-one.php";
-            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            boolean status = NetworkUtil.isOnline();
             if(status) {
                 AsyncTaskCall ask = new AsyncTaskCall(this, urls, "selection");
                 ask.execute(urls);

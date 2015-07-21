@@ -147,7 +147,7 @@ public class ExammodeAdapter extends BaseAdapter {
                             List<NameValuePair> params = new ArrayList<NameValuePair>();
                             params.add(new BasicNameValuePair("userid", useremail));
                             params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                            boolean status = NetworkUtil.getConnectivityStatusString(context);
+                            boolean status = NetworkUtil.isOnline();
                             if(status) {
                                 AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                                 ask.execute(urlMark);
@@ -168,7 +168,7 @@ public class ExammodeAdapter extends BaseAdapter {
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", useremail));//android@gmail.com
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        boolean status = NetworkUtil.isOnline();
                         if(status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlRemove);
@@ -294,7 +294,7 @@ public class ExammodeAdapter extends BaseAdapter {
                         List<NameValuePair> params = new ArrayList<NameValuePair>();
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        boolean status = NetworkUtil.isOnline();
                         if(status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlRemove);

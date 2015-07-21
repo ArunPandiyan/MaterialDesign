@@ -131,7 +131,7 @@ public class StudyAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
-                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        boolean status = NetworkUtil.isOnline();
                         if(status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlMark);
@@ -149,7 +149,7 @@ public class StudyAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("userid", useremail));
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
-                        boolean status = NetworkUtil.getConnectivityStatusString(context);
+                        boolean status = NetworkUtil.isOnline();
                         if(status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlRemove);
@@ -308,7 +308,7 @@ public class StudyAdapter extends BaseAdapter {
                             params.add(new BasicNameValuePair("userid", useremail));
                             params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
-                            boolean status = NetworkUtil.getConnectivityStatusString(context);
+                            boolean status = NetworkUtil.isOnline();
                             if(status) {
                                 AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                                 ask.execute(urlRemove);

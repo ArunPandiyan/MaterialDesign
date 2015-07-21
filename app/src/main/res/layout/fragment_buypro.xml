@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="45dp"
+        android:text="Buy Pro Version"
+        android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"/>
+
+    <RelativeLayout
+        android:id="@+id/user_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="PMP Exam Real time Simulator. \n \n30+ exclusive PMP training videos Filter questions according to knowledge area, \n\nProcess Group, Process name Access to 5000+ exam questions Important Formulas,\n\nTerminologies and Definitions for quick reference Email Support Subject Matter support\n"
+            android:id="@+id/free_user"
+            android:layout_marginTop="32dp"
+            android:autoText="false"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/textView15"
+            android:background="#B0BEC5"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Premium User"
+            android:id="@+id/premium_user"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/free_user"
+            android:layout_alignLeft="@+id/free_user"
+            android:layout_alignStart="@+id/free_user"
+            android:layout_marginTop="34dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Pro Features:"
+            android:id="@+id/textView15"
+            android:background="#37474F"
+            android:layout_alignTop="@+id/buy_pro"
+            android:layout_toRightOf="@+id/dup_purchase"
+            android:layout_toEndOf="@+id/dup_purchase"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="duplicate purchase"
+            android:id="@+id/dup_purchase"
+            android:layout_alignBaseline="@+id/buy_pro"
+            android:layout_alignBottom="@+id/buy_pro"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy Pro"
+            android:id="@+id/buy_pro"
+            android:layout_gravity="center_horizontal"
+            android:onClick="purchasePremium"
+            android:layout_marginTop="31dp"
+            android:layout_marginLeft="56dp"
+            android:layout_marginStart="56dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView15"
+            android:layout_toEndOf="@+id/textView15" />
+    </RelativeLayout>
+</LinearLayout>

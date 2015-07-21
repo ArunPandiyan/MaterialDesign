@@ -90,8 +90,9 @@ public class PerformanceFragment extends Fragment {
         DBConnection dbConnection = new DBConnection(getActivity());
 //        dbConnection.getuserEmail();
         String urls = "http://jmbok.techtestbox.com/and/performance-history.php?userid=" + dbConnection.getuserEmail().trim();
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
-        if(status) {
+//        boolean status = NetworkUtil.isOnline();
+        boolean status = NetworkUtil.isOnline();
+        if (status) {
             AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "performhis_frag");
             ask.execute(urls);
         }else{

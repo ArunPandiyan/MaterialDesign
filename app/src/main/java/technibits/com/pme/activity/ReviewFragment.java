@@ -86,7 +86,7 @@ public class ReviewFragment extends Fragment {
         DBConnection dbConnection = new DBConnection(getActivity());
 //String email=      dbConnection.getuserEmail();
         String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + dbConnection.getuserEmail().trim();
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(activity, this, urls, "reviewhis_frag");
             ask.execute(urls);//getActivity(), this, urls, "performhis_frag"

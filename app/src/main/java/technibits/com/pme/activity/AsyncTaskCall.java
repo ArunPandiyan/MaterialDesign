@@ -26,6 +26,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     //edit
     PerformanceFragment performanceFragment;
     ReviewFragment reviewFragment;
+    BuyProFragment buyProFragment;
 
     String url;
     String requestType;
@@ -133,6 +134,15 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
         url = urls;
     }
 
+    public AsyncTaskCall(Activity context, BuyProFragment buyFrag,
+                         String urls, String request,List<NameValuePair> params) {
+        buyProFragment = buyFrag;
+        url = urls;
+        requestType = request;
+        activity = context;
+        this.parmsValue = params;
+    }
+
 
     ProgressDialog prog;
     String jsonStr = null;
@@ -148,7 +158,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             prog = new ProgressDialog(context);
         } else if (requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup")
                 || requestType.equals("reviewhis_frag") || requestType.equals("reviewhis")
-                || requestType.equals("performhis") || requestType.equals("perreview")) {
+                || requestType.equals("performhis") || requestType.equals("perreview")||requestType.equals("buypro")) {
             prog = new ProgressDialog(activity);
         } else if (requestType.equals("performhis_frag")) {
             prog = new ProgressDialog(activity);
@@ -164,7 +174,7 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
     protected JSONObject doInBackground(String... params) {
 
         if (requestType.equals("review") || requestType.equals("result")
-                || requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup") ||requestType.equals("changepass")) {
+                || requestType.equals("signup") || requestType.equals("signin") || requestType.equals("Gplussignup") ||requestType.equals("changepass")||requestType.equals("buypro")) {
             MasterDownload httpPost = new MasterDownload();
             try {
                 jsons = httpPost.post(params[0], parmsValue);
@@ -302,6 +312,15 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             if (activity != null) {
                 try {
                     ((LoginActivity) activity).finishGplus(jsons);
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }
+        }else if (requestType.equals("buypro")) {
+            if (activity != null) {
+                try {
+                    ((BuyProFragment) buyProFragment).afterBuy(jsons);
                 } catch (JSONException e) {
 
                     e.printStackTrace();

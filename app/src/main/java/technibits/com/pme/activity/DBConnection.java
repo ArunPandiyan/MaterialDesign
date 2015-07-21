@@ -333,7 +333,7 @@ public class DBConnection extends SQLiteOpenHelper {
 //					 varchar(550), password varchar(550), country varchar(550), mobile varchar(550))
             ;
             myDataBase
-                    .execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550),imageurl varchar(550))");
+                    .execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550),imageurl varchar(550),ispremium varchar(550) DEFAULT 'Free' ");
         } catch (Exception e) {
 
         }
@@ -452,6 +452,21 @@ public class DBConnection extends SQLiteOpenHelper {
 
         }
         return name;
+    }
+    public String getisPremium() {
+        String ispremium = "";
+        try {
+            Cursor cur1 = executeQuery("SELECT ispremium FROM user");
+            cur1.moveToFirst();
+            while (cur1.isAfterLast() == false) {
+                ispremium = cur1.getString(0);
+                cur1.moveToNext();
+            }
+            cur1.close();
+        } catch (Exception e) {
+
+        }
+        return ispremium;
     }
 
     public String getuserImageurl() {

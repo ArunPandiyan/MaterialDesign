@@ -25,6 +25,7 @@ import java.util.List;
 
 import technibits.com.pme.R;
 import technibits.com.pme.adapter.NavigationDrawerAdapter;
+import technibits.com.pme.alarmactivity.RemindMe;
 import technibits.com.pme.model.NavDrawerItem;
 import technibits.com.pme.model.CircleTransform;
 
@@ -56,14 +57,22 @@ public class FragmentDrawer extends Fragment {
 
     public static List<NavDrawerItem> getData() {
         List<NavDrawerItem> data = new ArrayList<>();
-
+        boolean ispre=RemindMe.mIsPremium;
 
         // preparing navigation drawer items
         for (int i = 0; i < titles.length; i++) {
             NavDrawerItem navItem = new NavDrawerItem();
-            navItem.setTitle(titles[i]);
-            navItem.setIcon(i);
-            data.add(navItem);
+            if(titles[i].equalsIgnoreCase("Buy Pro Version") && RemindMe.mIsPremium ){
+
+
+            }else{
+                navItem.setTitle(titles[i]);
+                navItem.setIcon(i);
+                data.add(navItem);
+            }
+
+
+
         }
         return data;
     }

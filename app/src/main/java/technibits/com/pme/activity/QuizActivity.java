@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import technibits.com.pme.R;
+import technibits.com.pme.alarmactivity.RemindMe;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -38,8 +39,8 @@ public class QuizActivity extends AppCompatActivity {
         prName = bundle.getString("prName");
         prMode = bundle.getString("prMode");
         mode = bundle.getString("mode");
-
-        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "";
+        String mailid= RemindMe.returnMail();
+        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "&mailid="+mailid;
         url = url.replace(" ", "");
         System.out.println("   " + url);
 

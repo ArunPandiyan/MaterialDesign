@@ -20,6 +20,7 @@ import technibits.com.pme.data.ResultData;
 import technibits.com.pme.parser.QuizJSONParser;
 import technibits.com.pme.R;
 //import android.support.v4.app.Fragment;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -90,6 +91,7 @@ public class ExamFragment extends Fragment {
 
     }
 
+    @SuppressLint("ValidFragment")
     public ExamFragment(String url) {
         this.url = url;
     }
@@ -228,7 +230,7 @@ public class ExamFragment extends Fragment {
 
         context = container.getContext();
         String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(getActivity(), this, urls, "exam");
             ask.execute(urls);
@@ -671,7 +673,7 @@ public class ExamFragment extends Fragment {
         params.add(new BasicNameValuePair("options", optionVlaue));
 
         db.close();
-        boolean status = NetworkUtil.getConnectivityStatusString(getActivity());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(context, "result", params);
             ask.examFragment = this;

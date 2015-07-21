@@ -17,6 +17,7 @@
     <string name="nav_item_schedules">My Schedules</string>
     <string name="nav_item_videos">Videos</string>
     <string name="nav_item_about">About</string>
+    <string name="buyPro">Buy Pro Version</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
@@ -26,6 +27,7 @@
         <item>@string/nav_item_schedules</item>
         <item>@string/nav_item_videos</item>
         <item>@string/nav_item_about</item>
+        <item>@string/buyPro</item>
     </string-array>
     <string-array name="nav_drawer_icons">
         <item>@mipmap/start_exam</item>
@@ -42,6 +44,7 @@
     <string name="title_schedules">My Schedules</string>
     <string name="title_videos">Videos</string>
     <string name="title_about">About</string>
+    <string name="title_pro">Buy Pro</string>
 <!--Added Newly-->
     <string name="btn_facebook">Login Facebook</string>
     <string name="btn_revoke_access">Revoke Access</string>

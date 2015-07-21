@@ -48,7 +48,7 @@ public class ReviewHisActivity extends Activity {
         data = new ArrayList<Quizdata>();
 
         String urls = "http://www.jmbok.techtestbox.com/and/mark-for-view.php?userid=" + useremail;
-        boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+        boolean status = NetworkUtil.isOnline();
         if(status) {
             AsyncTaskCall ask = new AsyncTaskCall(this, urls, "reviewhis");
             ask.execute(urls);

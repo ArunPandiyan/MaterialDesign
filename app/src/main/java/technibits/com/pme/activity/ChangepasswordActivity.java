@@ -94,7 +94,7 @@ public class ChangepasswordActivity extends AppCompatActivity {
             params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("oldpassword", txt_oldPassword));
             params.add(new BasicNameValuePair("password", txt_newPassword));
-            boolean status = NetworkUtil.getConnectivityStatusString(getApplicationContext());
+            boolean status = NetworkUtil.isOnline();
             if(status) {
                 AsyncTaskCall ask = new AsyncTaskCall(this, "changepass", params);
                 ask.execute(url);
