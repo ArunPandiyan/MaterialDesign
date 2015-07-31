@@ -17,17 +17,26 @@ import android.widget.Toast;
 
 
 import com.android.vending.billing.IInAppBillingService;
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import technibits.com.pme.R;
+import technibits.com.pme.activity.AsyncTaskCall;
 import technibits.com.pme.activity.BuyProFragment;
 import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.alarmmodel.DbHelper;
+import technibits.com.pme.data.NetworkUtil;
+import technibits.com.pme.helper.ParseUtils;
 import technibits.com.pme.util.IabHelper;
 import technibits.com.pme.util.IabResult;
 import technibits.com.pme.util.Inventory;
@@ -51,6 +60,10 @@ public class RemindMe extends Application  {
     public static final String VIBRATE_PREF = "vibrate_pref";
     public static final String RINGTONE_PREF = "ringtone_pref";
     public static final String ITEM_SKU = "test_product";
+    public static final String PARSE_CHANNEL = "PMEApp";
+    public static final String PARSE_APPLICATION_ID = "fOou8jUVoyRULBPRueYR1b33UuVbz5TVmwFfXn2M";
+    public static final String PARSE_CLIENT_KEY = "N0SCTiA61ytcTfbxd1fZAz4xynBvKxjERxviSWtc";
+    public static final int NOTIFICATION_ID = 100;
 
 
 //    public static final String DEFAULT_DATE_FORMAT = "yyyy-M-d";
@@ -63,14 +76,31 @@ public class RemindMe extends Application  {
     ServiceConnection mServiceConnApp;
     public static IabHelper mHelperApp;
     String TAG="RemindMe";
-
+    private static RemindMe mInstance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+//        ParseUtils.registerParse(this);
+        Parse.initialize(getApplicationContext(), RemindMe.PARSE_APPLICATION_ID, RemindMe.PARSE_CLIENT_KEY);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        ParsePush.subscribeInBackground(RemindMe.PARSE_CHANNEL, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.e(TAG, "Successfully subscribed to Parse!");
+            }
+        });
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         dbConnection=new DBConnection(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
 
         dbHelper = new DbHelper(this);
         db = dbHelper.getWritableDatabase();
@@ -173,6 +203,19 @@ public class RemindMe extends Application  {
     public static String getRingtone() {
         return sp.getString(RINGTONE_PREF, Settings.System.DEFAULT_ALARM_ALERT_URI.toString());
     }
+
+//    public static void loadCategories(){
+//        String urls = "http://www.jmbok.techtestbox.com/and/all-in-one.php";
+//        boolean status = NetworkUtil.isOnline();
+//        if(status) {
+//            AsyncTaskCall ask = new AsyncTaskCall(this, urls, "selection");
+//            ask.execute(urls);
+//        }else{
+//            NetworkUtil.showNetworkstatus(this);
+//            finish();
+//        }
+//    }
+
 //    protected boolean isOnline() {
 //        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 //        NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -208,5 +251,7 @@ public class RemindMe extends Application  {
 //        }
 //    }
 
-
+    public static synchronized RemindMe getInstance() {
+        return mInstance;
+    }
 }

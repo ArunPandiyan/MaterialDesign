@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     private static String TAG = MainActivity.class.getSimpleName();
     //    private static final String TAG = "Inapp billing";
-
+    Fragment fragment = null;
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     private TypedArray navMenuIcons;
@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -227,11 +228,12 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
+
         displayView(position);
     }
 
     private void displayView(int position) {
-        Fragment fragment = null;
+
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:

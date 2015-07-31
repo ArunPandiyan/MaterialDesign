@@ -16,10 +16,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import technibits.com.pme.alarmactivity.RemindMe;
+
 public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
 
     MainActivity_as mainActivity;
     StudyModeFragment studyFragment;
+    ChooseCategoryActivity chooseCategoryActivity;
+    RemindMe remindMe;
     JSONObject jsonObj = null;
     JSONArray jsonArray = null;
     ExamFragment examFragment;
@@ -47,6 +51,13 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
         url = urls;
         requestType = request;
         activity = context;
+    }
+
+    public AsyncTaskCall(ChooseCategoryActivity activity, String urls, String request) {
+        chooseCategoryActivity = activity;
+
+        url = urls;
+        requestType = request;
     }
 
     public AsyncTaskCall(Activity context, ExamFragment examFrag, String urls,
@@ -162,7 +173,9 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
             prog = new ProgressDialog(activity);
         } else if (requestType.equals("performhis_frag")) {
             prog = new ProgressDialog(activity);
-        }
+        }else if(requestType.equals("selection_choose")){
+            prog=new ProgressDialog(chooseCategoryActivity);
+            }
 
         prog.setCancelable(false);
         prog.setCanceledOnTouchOutside(false);
@@ -326,10 +339,18 @@ public class AsyncTaskCall extends AsyncTask<String, String, JSONObject> {
                     e.printStackTrace();
                 }
             }
+        }else if (requestType.equals("selection_choose")) {
+
+            try {
+                ((ChooseCategoryActivity)chooseCategoryActivity).jsonParsing(json);
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
         }
 
-
-        prog.dismiss();
+            prog.dismiss();
     }
 
 }

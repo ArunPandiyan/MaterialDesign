@@ -81,7 +81,7 @@ public class BuyProFragment extends Fragment {
 //        db.close();
 
 //        if (!mIsPremium) {
-        if(status.equals("free")){
+        if(status.equalsIgnoreCase("free") && status==null){
 //            mServiceConn=RemindMe.
             mServiceConn = new ServiceConnection() {
                 @Override
@@ -90,8 +90,7 @@ public class BuyProFragment extends Fragment {
                 }
 
                 @Override
-                public void onServiceConnected(ComponentName name,
-                                               IBinder service) {
+                public void onServiceConnected(ComponentName name,IBinder service) {
                     mService = IInAppBillingService.Stub.asInterface(service);
                 }
             };
@@ -153,7 +152,7 @@ public class BuyProFragment extends Fragment {
                 return;
             } else if (purchase.getSku().equals(ITEM_SKU)) {
                 //TODO:send details to server
-//                sendToserver(purchase);
+                sendToserver(purchase);
 
                 consumeItem();
                 buyButton.setEnabled(false);

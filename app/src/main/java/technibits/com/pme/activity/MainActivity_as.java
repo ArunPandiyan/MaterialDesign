@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import technibits.com.pme.alarmactivity.RemindMe;
 import technibits.com.pme.data.MasterData;
 import technibits.com.pme.R;
 import technibits.com.pme.data.NetworkUtil;
@@ -42,9 +43,9 @@ public class MainActivity_as extends AppCompatActivity {
     String prName;
     String prMode;
 
-    public String knowledgearea = "knowledgearea";
-    public String processgroup = "processgroup";
-    public String processname = "processname";
+    public static String knowledgearea = "knowledgearea";
+    public static String processgroup = "processgroup";
+    public static String processname = "processname";
     String mode;
     Spinner spinner1, spinner2, spinner3, spinner4;
     TextView text1, text2, text3, text4;
@@ -115,8 +116,7 @@ public class MainActivity_as extends AppCompatActivity {
 
         next = (Button) findViewById(R.id.button1);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity_as,
-                R.layout.spin, difficultylevel);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity_as,R.layout.spin, difficultylevel);
         spinner4.setAdapter(adapter);
 
         spinner1.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -254,7 +254,7 @@ public class MainActivity_as extends AppCompatActivity {
     }
 
 
-    public void jsonParsing(JSONObject json) throws JSONException {
+    public static void jsonParsing(JSONObject json) throws JSONException {
         System.out.println("Json data in side Mactivity_as is: " + json);
 
         JSONArray contacts = json.getJSONArray("allprocess");
@@ -276,8 +276,8 @@ public class MainActivity_as extends AppCompatActivity {
     /*
     This is invoked for the first time installation of the application
      */
-    public void dbInsert(ArrayList<MasterData> list) {
-        db = new DBConnection(MainActivity_as);
+    public static void dbInsert(ArrayList<MasterData> list) {
+        DBConnection db = RemindMe.dbConnection;
 //		System.out.println("count "+ db.getProfilesCount("allprocess"));
 //		ContentValues inst = new ContentValues();
         db.open();
@@ -286,17 +286,17 @@ public class MainActivity_as extends AppCompatActivity {
             MasterData dataSource = list.get(i);
             inst.put("id", i);
             inst.put(knowledgearea, dataSource.getKnowledgeArea());
-            inst.put("processgroup", dataSource.getProcessGroup());
+            inst.put(processgroup, dataSource.getProcessGroup());
             inst.put(processname, dataSource.getProcessName());
             db.insert(inst, "allprocess");
 
         }
-        spinnerAdapter();
+//        spinnerAdapter();
 
     }
 
     public void spinnerAdapter() {
-        db = new DBConnection(MainActivity_as);
+        db = RemindMe.dbConnection;
         db.open();
         ArrayList<String> list = db.getSpinnerknowledgearea();
         list = new ArrayList<String>(new LinkedHashSet<String>(list));

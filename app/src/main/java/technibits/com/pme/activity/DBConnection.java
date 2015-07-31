@@ -333,7 +333,7 @@ public class DBConnection extends SQLiteOpenHelper {
 //					 varchar(550), password varchar(550), country varchar(550), mobile varchar(550))
             ;
             myDataBase
-                    .execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550),imageurl varchar(550),ispremium varchar(550) DEFAULT 'Free' ");
+                    .execSQL("CREATE TABLE IF NOT EXISTS user (name varchar(550), lastname varchar(550), email varchar(550), password varchar(550), country varchar(550), mobile varchar(550),imageurl varchar(550),ispremium varchar(550)) ");
         } catch (Exception e) {
 
         }
@@ -392,7 +392,8 @@ public class DBConnection extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList<String>();
         list.add("SelectAll");
         try {
-            Cursor cur1 = executeQuery("SELECT processgroup FROM allprocess WHERE knowledgearea = '" + knArea + "'");
+//            Cursor cur1 = executeQuery("SELECT processgroup FROM allprocess WHERE knowledgearea = '" + knArea + "'");
+            Cursor cur1 = executeQuery("SELECT processgroup FROM allprocess");
             cur1.moveToFirst();
             while (cur1.isAfterLast() == false) {
                 list.add(cur1.getString(0));
@@ -409,7 +410,8 @@ public class DBConnection extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList<String>();
         list.add("SelectAll");
         try {
-            Cursor cur1 = executeQuery("SELECT processname FROM allprocess WHERE knowledgearea = '" + knArea + "' and processgroup = '" + progrup + "'");
+//            Cursor cur1 = executeQuery("SELECT processname FROM allprocess WHERE knowledgearea = '" + knArea + "' and processgroup = '" + progrup + "'");
+            Cursor cur1 = executeQuery("SELECT processname FROM allprocess");
             cur1.moveToFirst();
             while (cur1.isAfterLast() == false) {
                 list.add(cur1.getString(0));

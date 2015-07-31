@@ -3,72 +3,31 @@ Bottomsheet for explanation of questions in exam and study mode.
 https://github.com/Flipboard/bottomsheet
 
 https://github.com/worker8/TourGuide
+
 TourGuide
 TourGuide is an Android library. It lets you add pointer, overlay and tooltip easily, guiding users on how to use your app.
  Refer to the example below(this is a trivial example for demo purpose):
 
-Let's say you have a button on your home screen that you want your users to click on:
+Let's say you have a button on your home screen that you want your users to click on
 
-A button
-/* result = new ArrayList<ScheduleInfo>();
-        ScheduleInfo ci = new ScheduleInfo();
-        ScheduleInfo ci1 = new ScheduleInfo();
-        ScheduleInfo ci2 = new ScheduleInfo();
-        ScheduleInfo ci3 = new ScheduleInfo();
-        ScheduleInfo ci4 = new ScheduleInfo();
-        ScheduleInfo ci5 = new ScheduleInfo();
-        ScheduleInfo ci6 = new ScheduleInfo();
-        ScheduleInfo ci7 = new ScheduleInfo();
-        ScheduleInfo ci8 = new ScheduleInfo();
-        ScheduleInfo ci9 = new ScheduleInfo();
+http://facebook.github.io/conceal/
+Conceal provides a set of easy to use APIs for performing fast encryption and authentication of data.
+Apps can use Conceal to encrypt data and large files stored in public locations, for example SD cards.
 
-        ci.setName("My Test111");
-        ci.setNotification_state(true);
-        ci.setDate("16-06-2015");
-        result.add(ci);
-
-        ci1.setName("My Test222");
-        ci1.setNotification_state(false);
-        ci1.setDate("17-06-2015");
-        result.add(ci1);
-
-        ci2.setName("My Test333");
-        ci2.setNotification_state(true);
-        ci2.setDate("17-06-2015");
-        result.add(ci2);
+http://facebook.github.io/rebound/
+Spring Animations for Android
+Rebound is a java library that models spring dynamics.
+Rebound spring models can be used to create animations that feel
+ natural by introducing real world physics to your application.
 
 
-        ci3.setName("My Test444");
-        ci3.setNotification_state(false);
-        ci3.setDate("17-06-2015");
-        result.add(ci3);
+http://facebook.github.io/shimmer-android/
+iphone lock effect over text
 
-        ci4.setName("My Test555");
-        ci4.setNotification_state(true);
-        ci4.setDate("13-06-2015");
-        result.add(ci4);
+http://frescolib.org/
+image management lib
+Fresco's image pipeline will load images from the network, local storage, or local resources.
+To save data and CPU, it has three levels of cache; two in memory and another in internal storage.
 
-        ci5.setName("My Test666");
-        ci5.setNotification_state(true);
-        ci5.setDate("17-06-2015");
-        result.add(ci5);
-
-        ci6.setName("My Test777");
-        ci6.setNotification_state(false);
-        ci6.setDate("27-06-2015");
-        result.add(ci6);
-
-        ci7.setName("My Test888");
-        ci7.setNotification_state(false);
-        ci7.setDate("27-06-2015");
-        result.add(ci7);
-
-        ci8.setName("My Test999");
-        ci8.setNotification_state(true);
-        ci8.setDate("27-06-2015");
-        result.add(ci8);
-
-        ci9.setName("My Test1010");
-        ci9.setNotification_state(false);
-        ci9.setDate("27-06-2015");
-        result.add(ci9);*/
+Fresco's Drawees show a placeholder for you until the image has loaded and automatically show to the image when it arrives.
+ When the image goes off-screen, it automatically releases its memory.

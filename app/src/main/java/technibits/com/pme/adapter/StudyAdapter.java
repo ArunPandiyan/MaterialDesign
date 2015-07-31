@@ -7,6 +7,8 @@ import android.view.View;
 
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import android.widget.EditText;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -32,9 +35,11 @@ import technibits.com.pme.activity.DBConnection;
 import technibits.com.pme.activity.MasterDownload;
 import technibits.com.pme.R;
 import technibits.com.pme.activity.StudyModeFragment;
+import technibits.com.pme.alarmactivity.RemindMe;
 import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
+import technibits.com.pme.helper.OnSwipeTouchListener;
 
 public class StudyAdapter extends BaseAdapter {
     private Context context;
@@ -49,11 +54,16 @@ public class StudyAdapter extends BaseAdapter {
     public ResultData resData;
     String urlMark = "http://jmbok.techtestbox.com/and/mark-for-review.php";
     String urlRemove = "http://jmbok.techtestbox.com/and/mark-for-review-delete.php";
+    int direction = 0;
+    /* 0 - No animation
+       1 - previous buttons animation - slide_in_left
+       2 - next button's animation - slide in right
+    */
 
     HashMap<String, String> editTextvalue = new HashMap<String, String>();
     MasterDownload httpRequest;
 
-    public StudyAdapter(Context conte, Quizdata form, int qNO, int device, StudyModeFragment studuyFrg, ResultData resD) {
+    public StudyAdapter(Context conte, Quizdata form, int qNO, int device, StudyModeFragment studuyFrg, ResultData resD, int dir) {
         super();
         context = conte;
         data = form;
@@ -62,6 +72,7 @@ public class StudyAdapter extends BaseAdapter {
         size = device;
         activity = studuyFrg;
         resData = resD;
+        direction = dir;
     }
 
     @Override
@@ -85,13 +96,12 @@ public class StudyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        db = new DBConnection(context);
-        useremail = db.getuserEmail().trim();
-        db.close();
-        LayoutInflater mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        useremail = RemindMe.returnMail();
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         if (size == 7) {
-            row = mInflater.inflate(R.layout.quiz_layout_seven, parent, false);
+//            row = mInflater.inflate(R.layout.quiz_layout_seven, parent, false);
+            row = mInflater.inflate(R.layout.quiz_layout, parent, false);
         } else {
             row = mInflater.inflate(R.layout.quiz_layout, parent, false);
         }
@@ -102,8 +112,47 @@ public class StudyAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolderA) row.getTag();
         }
+//works for previous
+        /*  0 - No animation
+            1 - previous buttons animation - slide_in_left
+            2 - next button's animation - slide in right
+        */
+//        LinearLayout quiz_list= (LinearLayout) row.findViewById(R.id.quiz_list);
+//        quiz_list.setOnTouchListener(new OnSwipeTouchListener(context) {
+//            @Override
+//            public void onSwipeDown() {
+//                Toast.makeText(context, "Down", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onSwipeLeft() {
+//                Toast.makeText(context, "Left", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onSwipeUp() {
+//                Toast.makeText(context, "Up", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onSwipeRight() {
+//                Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        Animation animation = null;
+        if (direction == 0) {
+            //-------do nothing------
+        } else if (direction == 1) {
+            animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
 
+        }else if(direction==2){
+            animation = AnimationUtils.loadAnimation(context, R.anim.push_left_in);
+        }
 
+        if(direction!=0) {
+            animation.setDuration(500);
+            row.startAnimation(animation);
+        }
         if (position == 0) {
             viewHolder.reviewLayout.setVisibility(View.VISIBLE);
             viewHolder.questionLayout.setVisibility(View.GONE);
@@ -119,7 +168,10 @@ public class StudyAdapter extends BaseAdapter {
             if (review != null) {
                 if (review.equals("A")) {
                     viewHolder.reviewBox.setEnabled(false);
+                    activity.exp.setVisibility(View.VISIBLE);
                 }
+            } else {
+                activity.exp.setVisibility(View.GONE);
             }
 
             viewHolder.reviewBox.setOnClickListener(new View.OnClickListener() {
@@ -132,15 +184,14 @@ public class StudyAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
                         boolean status = NetworkUtil.isOnline();
-                        if(status) {
+                        if (status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlMark);
                             int mrCount = resData.getMarkedReview() + 1;
                             resData.setMarkedReview(mrCount);
-                        }else{
+                        } else {
                             NetworkUtil.showNetworkstatus(context);
                         }
-
 
 
                     } else {
@@ -150,12 +201,12 @@ public class StudyAdapter extends BaseAdapter {
                         params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
                         boolean status = NetworkUtil.isOnline();
-                        if(status) {
+                        if (status) {
                             AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                             ask.execute(urlRemove);
                             int mrCount = resData.getMarkedReview() - 1;
                             resData.setMarkedReview(mrCount);
-                        }else{
+                        } else {
                             NetworkUtil.showNetworkstatus(context);
                         }
 
@@ -309,12 +360,12 @@ public class StudyAdapter extends BaseAdapter {
                             params.add(new BasicNameValuePair("qid", data.getQuestionID()));
 
                             boolean status = NetworkUtil.isOnline();
-                            if(status) {
+                            if (status) {
                                 AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
                                 ask.execute(urlRemove);
                                 int mrCount = resData.getMarkedReview() - 1;
                                 resData.setMarkedReview(mrCount);
-                            }else{
+                            } else {
                                 NetworkUtil.showNetworkstatus(context);
                             }
 
@@ -337,6 +388,10 @@ public class StudyAdapter extends BaseAdapter {
             viewHolder.questionLayout.setVisibility(View.GONE);
             viewHolder.reviewLayout.setVisibility(View.GONE);
         }
+
+
+        animation = null;
+
 
         return row;
 

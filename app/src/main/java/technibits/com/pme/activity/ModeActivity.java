@@ -34,7 +34,7 @@ public class ModeActivity extends Fragment {
         study.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getActivity(), MainActivity_as.class);
+                Intent intent = new Intent(getActivity(), ChooseCategoryActivity.class);
                 intent.putExtra("mode", "study");
                 startActivity(intent);
             }
@@ -42,7 +42,7 @@ public class ModeActivity extends Fragment {
         exam.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getActivity(), MainActivity_as.class);
+                Intent intent = new Intent(getActivity(), ChooseCategoryActivity.class);
                 intent.putExtra("mode", "exam");
                 startActivity(intent);
 //                Intent intent = new Intent(getActivity(), PerformanceActivity.class);

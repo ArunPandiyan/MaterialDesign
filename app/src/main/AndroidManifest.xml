@@ -4,9 +4,8 @@
     package="technibits.com.pme"
     android:versionCode="1"
     android:versionName="0.0.1">
-    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="technibits.com.pme.permission.C2D_MESSAGE" />
+
+
     <application
         android:name=".alarmactivity.RemindMe"
         android:allowBackup="true"
@@ -16,28 +15,28 @@
         android:theme="@style/MyMaterialTheme.Base">
 
         <!--GCM-->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.gcm" />
-            </intent-filter>
-        </receiver>
-        <!--<service-->
-            <!--android:name="com.example.MyGcmListenerService"-->
-            <!--android:exported="false" >-->
+        <!--<receiver-->
+            <!--android:name="com.google.android.gms.gcm.GcmReceiver"-->
+            <!--android:exported="true"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
             <!--<intent-filter>-->
                 <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+                <!--<category android:name="com.example.gcm" />-->
             <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--<service-->
+        <!--android:name="com.example.MyGcmListenerService"-->
+        <!--android:exported="false" >-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+        <!--</intent-filter>-->
         <!--</service>-->
         <!--<service-->
-            <!--android:name="com.example.MyInstanceIDListenerService"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
-            <!--</intent-filter>-->
+        <!--android:name="com.example.MyInstanceIDListenerService"-->
+        <!--android:exported="false">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.android.gms.iid.InstanceID"/>-->
+        <!--</intent-filter>-->
         <!--</service>-->
         <!--GCM-->
 
@@ -47,27 +46,29 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
         </receiver>
-        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
              installation campaign reporting -->
-        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-
-
 
 
         <activity
@@ -164,9 +165,17 @@
             android:configChanges="orientation"
             android:label="@string/Alarm_Settings"
             android:screenOrientation="portrait" />
+        <activity android:name="technibits.com.pme.activity.WebviewActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name="technibits.com.pme.activity.ShowPushNotificationActivity"
+            android:screenOrientation="landscape"/>
         <activity
-            android:name="technibits.com.pme.activity.WebviewActivity"
-            />
+            android:name="technibits.com.pme.activity.ChooseCategoryActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="technibits.com.pme.activity.MainActivity" />
+        </activity>
 
         <receiver
             android:name="technibits.com.pme.alarmactivity.AlarmSetter"
@@ -179,7 +188,34 @@
         <receiver android:name="technibits.com.pme.alarmactivity.AlarmReceiver"></receiver>
 
         <service android:name="technibits.com.pme.alarmactivity.AlarmService"></service>
+
+        <!-- added for parse-->
+        <service android:name="com.parse.PushService" />
+
+        <receiver
+            android:name=".parser.PMEPushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- IMPORTANT: Change "info.androidhive.parsenotifications" to match your app's package name. -->
+                <category android:name="technibits.com.pme" />
+            </intent-filter>
+        </receiver>
     </application>
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -189,6 +225,19 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+
+    <!--<permission android:name="com.example.gcm.permission.C2D_MESSAGE" android:protectionLevel="signature" />-->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <permission
+        android:name="technibits.com.pme.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="technibits.com.pme.permission.C2D_MESSAGE" />
+
+
 
 
 </manifest>

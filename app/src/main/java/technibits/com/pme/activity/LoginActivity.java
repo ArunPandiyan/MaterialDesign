@@ -649,16 +649,36 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             JSONObject json = new JSONObject(strJson);
             String error = json.getString("error");
             String mes = json.getString("message");
+            String ispremium=json.getString("ispremium");
+
+
+//            $user = $db->getUserByEmail($email);
+
+
+//            if ($user != NULL) {
+//                //  $response["error"] = false;
+//                $response['id'] = $user['id'];
+//                $response['name'] = $user['name'];
+//                $response['lastname'] = $user['lastname'];
+//                $response['email'] = $user['email'];
+//                $response['mobile'] = $user['mobile'];
+//                $response['country'] = $user['country'];
+//                $response['code'] = $user['code'];
+//
+//
+//                $response['apiKey'] = $user['api_key'];
+//                $response['createdAt'] = $user['created_at'];
+//                $response['message'] = "You are Successfully logged";
+//
+//                $response["error"] = false;
             System.out.println("  " + error + " " + mes);
             if (error.equals("true")) {
-                Toast.makeText(getApplicationContext(), mes,
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), mes,Toast.LENGTH_LONG).show();
 //				finish();
             } else {
-                CreateUserinPhone(personName, lastname, email, personPhotoUrl);
-                Toast.makeText(getApplicationContext(), mes,
-                        Toast.LENGTH_LONG).show();
-                finish();
+                CreateUserinPhone(personName, lastname, email, personPhotoUrl,ispremium);
+                Toast.makeText(getApplicationContext(), mes,Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 //                finish();
@@ -669,7 +689,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 //		finish();
     }
 
-    void CreateUserinPhone(String personName, String lastname, String email, String personPhotoUrl) {
+    void CreateUserinPhone(String personName, String lastname, String email, String personPhotoUrl,String ispremium) {
         db = new DBConnection(this);
         db.open();
         ContentValues inst = new ContentValues();
@@ -681,6 +701,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         inst.put("country", "fromGplus");
         inst.put("mobile", "fromGplus");
         inst.put("imageurl", personPhotoUrl);
+        inst.put("ispremium", "Free");
+
 
         db.insert(inst, "user");
     }

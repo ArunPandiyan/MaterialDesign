@@ -2,6 +2,7 @@ package technibits.com.pme.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -118,12 +120,31 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
 
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
+
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         ImageView profile_img = (ImageView) layout.findViewById(R.id.imageView);
         TextView username = (TextView) layout.findViewById(R.id.user_name);
         TextView userEmail = (TextView) layout.findViewById(R.id.userEmail);
         username.setText(userName);
         userEmail.setText(userEmail_str);
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),CreateAccountActivity.class);
+                intent.putExtra("mode", "update");
+                startActivity(intent);
+            }
+        });
+        userEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),CreateAccountActivity.class);
+                intent.putExtra("mode", "update");
+                startActivity(intent);
+            }
+        });
+
         Glide.with(getActivity()).load(userImageurl).override(70, 70).transform(new CircleTransform(getActivity())).into(profile_img);
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);

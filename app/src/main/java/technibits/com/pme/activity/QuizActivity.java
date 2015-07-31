@@ -1,14 +1,15 @@
 package technibits.com.pme.activity;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 
 import technibits.com.pme.R;
 import technibits.com.pme.alarmactivity.RemindMe;
@@ -20,7 +21,13 @@ public class QuizActivity extends AppCompatActivity {
     String prName;
     String prMode;
     String mode;
+    String type;
+    String choosedvalue;
+    int difficulty;
     private Toolbar mToolbar;
+    public ExamFragment examfragment;
+    public StudyModeFragment studyfragment;
+    public Fragment frag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +41,19 @@ public class QuizActivity extends AppCompatActivity {
 //        mToolbar.setTitle("testfromquizactivity");
         Bundle bundle = getIntent().getExtras();
 
-        knArea = bundle.getString("knArea");
-        prGroup = bundle.getString("prGroup");
-        prName = bundle.getString("prName");
-        prMode = bundle.getString("prMode");
+//        knArea = bundle.getString("knArea");
+//        prGroup = bundle.getString("prGroup");
+//        prName = bundle.getString("prName");
+//        prMode = bundle.getString("prMode");
+
         mode = bundle.getString("mode");
+        type = bundle.getString("type");
+        choosedvalue = bundle.getString("choosedvalue");
+        difficulty = bundle.getInt("difficulty");
+
         String mailid= RemindMe.returnMail();
-        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "&mailid="+mailid;
+//        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "&mailid="+mailid;
+        String url = "http://jmbok.techtestbox.com/and/get_questions.php?type="+type+"&value="+choosedvalue+"&difficulty="+difficulty+"&mailid="+mailid+"";
         url = url.replace(" ", "");
         System.out.println("   " + url);
 
@@ -48,19 +61,20 @@ public class QuizActivity extends AppCompatActivity {
 //		args.putInt("schedule_status", 0);
 //		fragment.setArguments(args);
         if (mode.equals("exam")) {
-            ExamFragment fragment = new ExamFragment(url);
+            examfragment = new ExamFragment(url);
             FragmentManager fragmentManager = getFragmentManager();
-            android.app.FragmentTransaction ft = fragmentManager
-                    .beginTransaction();
-            ft.replace(R.id.container, fragment)
+            android.app.FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.container, examfragment)
                     .addToBackStack(null).commit();
+            frag=examfragment;
         } else {
-            StudyModeFragment fragment = new StudyModeFragment(url);
+             studyfragment = new StudyModeFragment(url);
             FragmentManager fragmentManager = getFragmentManager();
             android.app.FragmentTransaction ft = fragmentManager
                     .beginTransaction();
-            ft.replace(R.id.container, fragment)
+            ft.replace(R.id.container, studyfragment)
                     .addToBackStack(null).commit();
+            frag=studyfragment;
         }
     }
 

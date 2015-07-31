@@ -17,6 +17,7 @@ import technibits.com.pme.adapter.StudyAdapter;
 import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
+import technibits.com.pme.helper.OnSwipeTouchListener;
 import technibits.com.pme.parser.QuizJSONParser;
 
 import android.annotation.SuppressLint;
@@ -28,20 +29,27 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import technibits.com.pme.activity.SimpleGestureFilter.SimpleGestureListener;
+
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class StudyModeFragment extends Fragment {
+public class StudyModeFragment extends Fragment  {
     int check = 0,mark=0,goalPercent=1;
     Context context;
     ArrayList<Quizdata> data;
@@ -68,18 +76,21 @@ public class StudyModeFragment extends Fragment {
     AlertDialog alertDialog;
     RelativeLayout linearLayout;
     Button priv;
-    Button next, exp;
+    public Button next, exp;
     String urlFinish = "http://jmbok.techtestbox.com/and/study_result.php";
     public int answer;
     ResultData resData;
     private Toolbar mToolbar;
     private JSONObject firstresult;
+    private SimpleGestureFilter detector;
+    private GestureDetector gd;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         frag = this;
+//        gd = new GestureDetector(getActivity(), this);
 
     }
     @SuppressLint("ValidFragment")
@@ -101,6 +112,8 @@ public class StudyModeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+//        detector = new SimpleGestureFilter(getActivity(),this);
+
 
         resData = new ResultData();
 
@@ -120,8 +133,8 @@ public class StudyModeFragment extends Fragment {
             device = 10;
         } else if (smallestWidth >= 600) {
             device = 7; //Device is a 7" tablet
-            rootView = inflater.inflate(R.layout.study_mode_seven, container,
-                    false);
+//            rootView = inflater.inflate(R.layout.study_mode_seven, container,false);
+            rootView = inflater.inflate(R.layout.study_mode, container,false);
         } else {
             rootView = inflater.inflate(R.layout.study_mode, container,
                     false);
@@ -129,6 +142,7 @@ public class StudyModeFragment extends Fragment {
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mToolbar.setTitle("Study Mode");
 //		 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -268,9 +282,44 @@ public class StudyModeFragment extends Fragment {
                     }
                     if (iNext < count) {
                         dataSource = data.get(iNext);
-                        StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData);
+                        StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData,2);
 
                         list.setAdapter(adapter);
+//                        AnimationSet set = new AnimationSet(true);
+//
+//                        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+//                        animation.setDuration(500);
+//                        set.addAnimation(animation);
+//
+//                        animation = new TranslateAnimation(
+//                                Animation.RELATIVE_TO_SELF, 10.0f,Animation.RELATIVE_TO_SELF, 0.0f,
+//                                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
+//                        );
+//                        animation.setDuration(1000);
+//                        set.addAnimation(animation);
+
+//                        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
+//
+//                        list.setLayoutAnimation(controller);R.anim.layout_controller
+//                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), android.R.anim.slide_in_left);
+//                        list.setLayoutAnimation(controller);
+                        //************************
+//                        final Animation animation1 = AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_out_right);
+//                        rowView.startAnimation(animation1);
+//                        Handler handle = new Handler();
+//                        handle.postDelayed(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                all_planets.remove(positon);
+//                                listAdapter.notifyDataSetChanged();
+//                                animation1.cancel();
+//                            }
+//                        }, 1000);
+
+
+
+                        //**************
                         priv.setEnabled(true);
                         iNext++;
                         pCheck = true;
@@ -343,7 +392,7 @@ public class StudyModeFragment extends Fragment {
                 if (iNext > 0) {
                     iNext--;
                     dataSource = data.get(iNext);
-                    StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData);
+                    StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData,1);
 //	            		adapter.resData = resData;
                     list.setAdapter(adapter);
                     next.setEnabled(true);
@@ -365,8 +414,68 @@ public class StudyModeFragment extends Fragment {
 
             }
         });
+//        final GestureDetector gesture = new GestureDetector(getActivity(),
+//                new GestureDetector.SimpleOnGestureListener() {
+//
+//                    @Override
+//                    public boolean onDown(MotionEvent e) {
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+//                                           float velocityY) {
+//                        Log.i("Gesture detected is", "onFling has been called!");
+//                        final int SWIPE_MIN_DISTANCE = 120;
+//                        final int SWIPE_MAX_OFF_PATH = 250;
+//                        final int SWIPE_THRESHOLD_VELOCITY = 200;
+//                        try {
+//                            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+//                                return false;
+//                            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+//                                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+//                                Toast.makeText(getActivity(),"Right to left",Toast.LENGTH_SHORT).show();
+//                                Log.i("Gesture detected is", "Right to Left");
+//                            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+//                                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+//                                Toast.makeText(getActivity(),"Left to Right",Toast.LENGTH_SHORT).show();
+//                                Log.i("Gesture detected is", "Left to Right");
+//                            }
+//                        } catch (Exception e) {
+//                            // nothing
+//                        }
+//                        return super.onFling(e1, e2, velocityX, velocityY);
+//                    }
+//                });
+//
+//        rootView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return gesture.onTouchEvent(event);
+//            }
+//        });
+        list.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeDown() {
+                Toast.makeText(getActivity(), "Down", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onSwipeLeft() {
+                next.performClick();
+//                Toast.makeText(getActivity(), "Left", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onSwipeUp() {
+           showReview();
+            }
+
+            @Override
+            public void onSwipeRight() {
+                priv.performClick();
+            }
+        });
         return rootView;
 
     }
@@ -398,7 +507,7 @@ public class StudyModeFragment extends Fragment {
                 }
                 if (data.size() > 0) {
                     dataSource = data.get(0);
-                    StudyAdapter adapter = new StudyAdapter(context, dataSource, 0, device, frag, resData);
+                    StudyAdapter adapter = new StudyAdapter(context, dataSource, 0, device, frag, resData,0);
 //						 adapter.resData = resData;
                     list.setAdapter(adapter);
                 }
@@ -467,7 +576,7 @@ public class StudyModeFragment extends Fragment {
                                 list.setVisibility(View.VISIBLE);
                                 priv.setVisibility(View.VISIBLE);
                                 next.setVisibility(View.VISIBLE);
-                                exp.setVisibility(View.VISIBLE);
+//                                exp.setVisibility(View.VISIBLE);
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -529,7 +638,7 @@ public class StudyModeFragment extends Fragment {
         if (data.size() > 0) {
             iNext = id;
             dataSource = data.get(id);
-            StudyAdapter adapter = new StudyAdapter(context, dataSource, id, device, frag, resData);
+            StudyAdapter adapter = new StudyAdapter(context, dataSource, id, device, frag, resData,0);
             list.setAdapter(adapter);
         }
         alertDialog.dismiss();
@@ -630,8 +739,7 @@ public class StudyModeFragment extends Fragment {
         dataSource=new Quizdata();
         if (data.size() > 0) {
             dataSource = data.get(0);
-
-            StudyAdapter adapter = new StudyAdapter(getActivity(), dataSource, 0, device, frag, resData);
+            StudyAdapter adapter = new StudyAdapter(getActivity(), dataSource, 0, device, frag, resData,0);
             list.setAdapter(adapter);
             alertDialog.dismiss();
             linearLayout.removeView(resultView);
@@ -645,4 +753,35 @@ public class StudyModeFragment extends Fragment {
         getActivity().finish();
         alertDialog.dismiss();
     }
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent me){
+//        // Call onTouchEvent of SimpleGestureFilter class
+//        this.detector.onTouchEvent(me);
+//        return super.dispatchTouchEvent(me);
+//    }
+//    @Override
+//    public void onSwipe(int direction) {
+//        String str = "";
+//
+//        switch (direction) {
+//
+//            case SimpleGestureFilter.SWIPE_RIGHT :
+//                next.performClick();
+//                break;
+//            case SimpleGestureFilter.SWIPE_LEFT :
+//                priv.performClick();
+//                break;
+//            case SimpleGestureFilter.SWIPE_DOWN :
+//                break;
+//            case SimpleGestureFilter.SWIPE_UP :
+//                break;
+//
+//        }
+//    }
+//
+//    @Override
+//    public void onDoubleTap() {
+//        showReview();
+//    }
 }

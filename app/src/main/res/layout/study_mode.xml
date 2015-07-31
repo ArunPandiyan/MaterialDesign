@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -20,6 +21,7 @@
 
 
         <LinearLayout
+            android:id="@+id/relative_studymode"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -31,6 +33,7 @@
         </LinearLayout>
 
         <RelativeLayout
+
         android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
@@ -57,7 +60,9 @@
             android:layout_toRightOf="@id/prev"
             android:text="Explanation"
             android:layout_centerInParent="true"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/next"
             android:layout_width="wrap_content"
