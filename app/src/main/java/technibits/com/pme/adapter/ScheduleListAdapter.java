@@ -119,8 +119,8 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
                 }
             });
             if (ViewType == TYPE_ITEM) {
-                //                textView = (TextView) itemView.findViewById(R.id.rowText); // Creating TextView object with the id of textView from item_row.xml
-                //                imageView = (ImageView) itemView.findViewById(R.id.rowIcon);// Creating ImageView object with the id of ImageView from item_row.xmHolderid = 1;// setting holder id as 1 as the object being populated are of type item row
+  //                textView = (TextView) itemView.findViewById(R.id.rowText); // Creating TextView object with the id of textView from item_row.xml
+  //                imageView = (ImageView) itemView.findViewById(R.id.rowIcon);// Creating ImageView object with the id of ImageView from item_row.xmHolderid = 1;// setting holder id as 1 as the object being populated are of type item row
             }
         }
 

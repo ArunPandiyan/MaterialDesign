@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="New Test" />
+            android:text="Choose New Category" />
 
     </LinearLayout>
 
@@ -74,25 +74,11 @@
         android:layout_marginRight="10dp">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/quit_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Twitter" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Facebook" />
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Share" />
+            android:text="End Test" />
 
     </LinearLayout>
 

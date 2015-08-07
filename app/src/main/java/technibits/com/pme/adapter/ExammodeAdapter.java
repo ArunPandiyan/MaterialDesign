@@ -48,16 +48,20 @@ public class ExammodeAdapter extends BaseAdapter {
     private DBConnection db;
     public String useremail = null;
     boolean isTaken=true;
-    public ExammodeAdapter(Context conte, Quizdata form, int qNO, int device, ExamFragment exaFrg, ResultData resD) {
+    int direction = 0;
+    public ExammodeAdapter(Context conte, Quizdata form, int qNO, int device, ExamFragment exaFrg, ResultData resD,int dir) {
         super();
         context = conte;
+        data=null;
         data = form;
-        data.setExamAnswer(0);
+//        data.setExamAnswer(0);
         queNo = qNO + 1;
         size = device;
         activity = exaFrg;
         resData = resD;
+        direction=dir;
     }
+
 
 
     @Override
@@ -114,7 +118,7 @@ public class ExammodeAdapter extends BaseAdapter {
             viewHolder.rButton4 = (RadioButton) row.findViewById(R.id.RadioButton04);
 
             viewHolder.reviewBox = (CheckBox) row.findViewById(R.id.rCheckBox);
-            viewHolder.reviewBox.setChecked(false);
+//            viewHolder.reviewBox.setChecked(false);
             viewHolder.showReview = (Button) row.findViewById(R.id.showReview);
 
 
@@ -266,12 +270,16 @@ public class ExammodeAdapter extends BaseAdapter {
                     if (rButton != null) {
 
                         data.setExamAnswer(selected);
-
+                        int caCount = resData.getCorrectAnswers();
                         if (answer + 1 == selected) {
-                            int caCount = resData.getCorrectAnswers() + 1;
-                            resData.setCorrectAnswers(caCount);
+
+                            resData.setCorrectAnswers(caCount+1);
                             rButton.setBackgroundColor(Color.parseColor("#00C853"));
+                            data.setWrongAnswer(0);
                         } else {
+                            if(data.getExamAnswer()==0) {
+                                resData.setCorrectAnswers(caCount - 1);
+                            }
                             rButton.setBackgroundColor(Color.RED);
                             data.setWrongAnswer(selected);
                         }
@@ -288,29 +296,30 @@ public class ExammodeAdapter extends BaseAdapter {
                     }
 
 
-                    if (data.getISchecked() == 1) {
-//                        viewHolder.reviewBox.setChecked(false);
-                        data.setISchecked(0);
-                        List<NameValuePair> params = new ArrayList<NameValuePair>();
-                        params.add(new BasicNameValuePair("userid", useremail));
-                        params.add(new BasicNameValuePair("qid", data.getQuestionID()));
-                        boolean status = NetworkUtil.isOnline();
-                        if(status) {
-                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
-                            ask.execute(urlRemove);
-                            int mrCount = resData.getMarkedReview() - 1;
-                            resData.setMarkedReview(mrCount);
-                        }else{
-                            NetworkUtil.showNetworkstatus(context);
-                        }
-
-
+//                    if (data.getISchecked() == 1) {
+////                        viewHolder.reviewBox.setChecked(false);
+//                        data.setISchecked(0);
+//                        List<NameValuePair> params = new ArrayList<NameValuePair>();
+//                        params.add(new BasicNameValuePair("userid", useremail));
+//                        params.add(new BasicNameValuePair("qid", data.getQuestionID()));
+//                        boolean status = NetworkUtil.isOnline();
+//                        if(status) {
+//                            AsyncTaskCall ask = new AsyncTaskCall(context, "review", params);
+//                            ask.execute(urlRemove);
+//                            int mrCount = resData.getMarkedReview() - 1;
+//                            resData.setMarkedReview(mrCount);
+//                        }else{
+//                            NetworkUtil.showNetworkstatus(context);
+//                        }
+//
+//
+//                    }
+                    if(data.getStatus()==null || data.getStatus().equalsIgnoreCase("R")) {
+                        int atCount = resData.getAttemptQuestions() + 1;
+                        resData.setAttemptQuestions(atCount);
                     }
-
                     data.setStatus("A");
 
-                    int atCount = resData.getAttemptQuestions() + 1;
-                    resData.setAttemptQuestions(atCount);
 //                    viewHolder.reviewBox.setEnabled(false);
                     activity.refersh();
 

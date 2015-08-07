@@ -96,6 +96,7 @@ public class StudyAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        int count =0;
         useremail = RemindMe.returnMail();
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -117,42 +118,7 @@ public class StudyAdapter extends BaseAdapter {
             1 - previous buttons animation - slide_in_left
             2 - next button's animation - slide in right
         */
-//        LinearLayout quiz_list= (LinearLayout) row.findViewById(R.id.quiz_list);
-//        quiz_list.setOnTouchListener(new OnSwipeTouchListener(context) {
-//            @Override
-//            public void onSwipeDown() {
-//                Toast.makeText(context, "Down", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onSwipeLeft() {
-//                Toast.makeText(context, "Left", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onSwipeUp() {
-//                Toast.makeText(context, "Up", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onSwipeRight() {
-//                Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-        Animation animation = null;
-        if (direction == 0) {
-            //-------do nothing------
-        } else if (direction == 1) {
-            animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
 
-        }else if(direction==2){
-            animation = AnimationUtils.loadAnimation(context, R.anim.push_left_in);
-        }
-
-        if(direction!=0) {
-            animation.setDuration(500);
-            row.startAnimation(animation);
-        }
         if (position == 0) {
             viewHolder.reviewLayout.setVisibility(View.VISIBLE);
             viewHolder.questionLayout.setVisibility(View.GONE);
@@ -390,9 +356,9 @@ public class StudyAdapter extends BaseAdapter {
         }
 
 
-        animation = null;
+//        animation = null;
 
-
+count=1;
         return row;
 
     }

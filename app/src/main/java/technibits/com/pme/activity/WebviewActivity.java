@@ -1,5 +1,6 @@
 package technibits.com.pme.activity;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import technibits.com.pme.R;
 /**
  * Created by technibitsuser on 7/11/2015.
  */
-public class WebviewActivity extends AppCompatActivity {
+public class WebviewActivity extends Activity {
     private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,11 @@ public class WebviewActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        webView=null;
+        webView.destroy();
     }
     @Override
     public void onPause() {
         super.onPause();
-        webView=null;
+        webView.onPause();
     }
     }

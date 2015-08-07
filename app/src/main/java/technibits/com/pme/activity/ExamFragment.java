@@ -17,6 +17,7 @@ import technibits.com.pme.adapter.ShowReviewAdapter;
 import technibits.com.pme.data.NetworkUtil;
 import technibits.com.pme.data.Quizdata;
 import technibits.com.pme.data.ResultData;
+import technibits.com.pme.helper.OnSwipeTouchListener;
 import technibits.com.pme.parser.QuizJSONParser;
 import technibits.com.pme.R;
 //import android.support.v4.app.Fragment;
@@ -37,6 +38,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -44,6 +47,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Toast;
 
 public class ExamFragment extends Fragment {
     TextView proName, proGroup, knAria;
@@ -64,8 +68,8 @@ public class ExamFragment extends Fragment {
     RadioGroup radioGroup;
     int device;
     Quizdata dataSource;
-    Button btnreTake, btnreTest, review;
-    ArrayList<Quizdata> retakedata;
+    Button btnreTake, btnreTest, review,quit_test;
+    static ArrayList<Quizdata> retakedata;
     View seakBarlayout;
     TextView textEnd, textStart, textGoalStart, textGoalend, textTimer;
     SeekBar seekBar, seekGoal;
@@ -78,7 +82,11 @@ public class ExamFragment extends Fragment {
     int check = 0;
     String urlFinish = "http://jmbok.techtestbox.com/and/exam_result.php";
     private Toolbar mToolbar;
-
+    public boolean retakeExam=false;
+    QuizJSONParser jsonParser;
+    JSONObject jsonObject;
+    public Animation animation = null;
+    CountDown timer;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -108,7 +116,7 @@ public class ExamFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         resData = new ResultData();
-
+        jsonParser = new QuizJSONParser();
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -163,8 +171,8 @@ public class ExamFragment extends Fragment {
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                textStart.setText(String.valueOf(arg1+1));
-                count = arg1+1;
+                textStart.setText(String.valueOf(arg1 + 1));
+                count = arg1 + 1;
             }
         });
 
@@ -182,8 +190,8 @@ public class ExamFragment extends Fragment {
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 
 //	            	String progressString = String.valueOf(arg1 * 10);
-                textGoalStart.setText(String.valueOf(arg1+1) + "%");
-                goalPercent=arg1+1;
+                textGoalStart.setText(String.valueOf(arg1 + 1) + "%");
+                goalPercent = arg1 + 1;
 
             }
         });
@@ -202,7 +210,16 @@ public class ExamFragment extends Fragment {
         btnreTake = (Button) resultView.findViewById(R.id.retake);
         btnreTest = (Button) resultView.findViewById(R.id.reTest);
         review = (Button) resultView.findViewById(R.id.review);
-
+        quit_test = (Button) resultView.findViewById(R.id.quit_test);
+        quit_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
         showInfoView = mInflater.inflate(R.layout.show_info, container, false);
 
         proName = (TextView) showInfoView.findViewById(R.id.proname);
@@ -227,6 +244,7 @@ public class ExamFragment extends Fragment {
                 priview();
             }
         });
+
 
         context = container.getContext();
         String urls = url;//"http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=Projectriskmanagement&group=SelectAll&processname=SelectAll&difficulty=SelectAll";
@@ -266,6 +284,7 @@ public class ExamFragment extends Fragment {
                 alert.show();
             }
         });
+
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (next.getText().toString().equals("Next")) {
@@ -280,9 +299,11 @@ public class ExamFragment extends Fragment {
                     }
                     if (iNext < count) {
                         dataSource = data.get(iNext);
-                        dataSource.setExamAnswer(0);
-                        ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, iNext, device, frag, resData);
+//                        dataSource.setExamAnswer(0);
+                        animation = AnimationUtils.loadAnimation(context, R.anim.push_left_in);
+                        ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, iNext, device, frag, resData,2);
                         list.setAdapter(adapter);
+                        list.setAnimation(animation);
                         priv.setEnabled(true);
                         iNext++;
                         pCheck = true;
@@ -308,7 +329,7 @@ public class ExamFragment extends Fragment {
                         resData.setResult("Fail");
                     }
                     resData.setTotalQuestion(count);
-//TODO: show dialog for finishing exam
+
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setTitle("Are you sure to finish exam?");
 
@@ -354,8 +375,10 @@ public class ExamFragment extends Fragment {
                 if (iNext > 0) {
                     iNext--;
                     dataSource = data.get(iNext);
-                    ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, iNext, device, frag, resData);
+                    animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+                    ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, iNext, device, frag, resData,1);
                     list.setAdapter(adapter);
+                    list.setAnimation(animation);
                     next.setEnabled(true);
                     next.setText("Next");
                     nCheck = true;
@@ -372,7 +395,29 @@ public class ExamFragment extends Fragment {
 
             }
         });
+        //Swipe listener for animating next question on previous question.
+        list.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeDown() {
+//                Toast.makeText(getActivity(), "Down", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onSwipeLeft() {
+                next.performClick();
+//                Toast.makeText(getActivity(), "Left", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSwipeUp() {
+                showReview();
+            }
+
+            @Override
+            public void onSwipeRight() {
+                priv.performClick();
+            }
+        });
         exp.setVisibility(View.GONE);
         return rootView;
 
@@ -380,10 +425,12 @@ public class ExamFragment extends Fragment {
 
     public void Json(JSONObject json) throws JSONException {
         try {
-            QuizJSONParser jsonParser = new QuizJSONParser();
+             jsonParser = new QuizJSONParser();
+            jsonObject=json;
             jsonParser.jsonArrayName = "knowledgearea";
             data = jsonParser.testJsonParsing(json);
             retakedata = jsonParser.testJsonParsing(json);
+
             if (data.size() > 0) {
 //                count = data.size();
                 for (int i = 0; i < data.size(); i++) {
@@ -393,7 +440,7 @@ public class ExamFragment extends Fragment {
                 }
                 if (data.size() > 0) {
                     dataSource = data.get(0);
-                    ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, 0, device, frag, resData);
+                    ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, 0, device, frag, resData,0);
                     list.setAdapter(adapter);
                 }
                 show();
@@ -463,8 +510,9 @@ public class ExamFragment extends Fragment {
                             public void onClick(DialogInterface dialog,
                                                 int id) {
                                 int min = 60 * 1000;
-                                CountDown timer = new CountDown(count * min, 1000);
+                                timer = new CountDown(count * min, 1000);
                                 timer.start();
+
                                 list.setVisibility(View.VISIBLE);
                                 priv.setVisibility(View.VISIBLE);
                                 next.setVisibility(View.VISIBLE);
@@ -530,6 +578,7 @@ public class ExamFragment extends Fragment {
 
     /*
     Used by showReview() to navigate to selected question from showreviewAdapter
+    Screen button name- - View
      */
     public void reviewNavication(int id) {
 
@@ -544,7 +593,7 @@ public class ExamFragment extends Fragment {
                 priv.setEnabled(true);
             }
             dataSource = data.get(id);
-            ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, id, device, frag, resData);
+            ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, id, device, frag, resData,0);
             list.setAdapter(adapter);
         }
         alertDialog.dismiss();
@@ -586,7 +635,7 @@ public class ExamFragment extends Fragment {
 
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     if (check == 0) {
-                        ((QuizActivity) getActivity()).onBackPressed();
+//                        ((QuizActivity) getActivity()).onBackPressed();
                     }
                     check = 1;
                 }
@@ -597,7 +646,10 @@ public class ExamFragment extends Fragment {
         });
 
     }
-
+/*
+Shows information about question
+Screen button name -  i(button)
+ */
 
     public void showInfo() {
 
@@ -698,15 +750,24 @@ public class ExamFragment extends Fragment {
     }
 
     public void reTake() {
-
+        retakeExam=true;
         data.clear();
         resData=new ResultData();
-        data = new ArrayList<Quizdata>(retakedata);
+        try {
+            data = jsonParser.testJsonParsing(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        data = new ArrayList<Quizdata>(retakedata);
 //		data = retakedata;
         iNext=0;
         if (data.size() > 0) {
             dataSource = data.get(0);
-            ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, 0, device, frag, resData);
+            timer.cancel();
+            int min = 60 * 1000;
+            timer = new CountDown(count * min, 1000);
+            timer.start();
+            ExammodeAdapter adapter = new ExammodeAdapter(context, dataSource, 0, device, frag, resData,0);
 //			 adapter.resData = resData;
             list.setAdapter(adapter);
             alertDialog.dismiss();
@@ -715,6 +776,9 @@ public class ExamFragment extends Fragment {
         }
     }
 
+    /*
+    Finish this test and return to choose the category again for another exam
+     */
     public void reTest() {
         linearLayout.removeView(resultView);
         alertDialog.dismiss();
@@ -722,7 +786,7 @@ public class ExamFragment extends Fragment {
 
     }
 
-    //countdown class
+    //countdown timer class
     public class CountDown extends CountDownTimer {
 
         public CountDown(long millisInFuture, long countDownInterval) {
@@ -741,6 +805,17 @@ public class ExamFragment extends Fragment {
 
         @Override
         public void onFinish() {
+            float proportionCorrect = ((float) resData.getCorrectAnswers()) / ((float) count);
+//	        	  double perInt =  resData.getCorrectAnswers() / count;
+            int percentage = (int) (proportionCorrect * 100);
+            resData.setPercentage(percentage);
+            if (percentage >= goalPercent) {
+                resData.setResult("Pass");
+            } else {
+                resData.setResult("Fail");
+            }
+            resData.setTotalQuestion(count);
+            getresult();
             textTimer.setText("Time Up!!");
         }
     }

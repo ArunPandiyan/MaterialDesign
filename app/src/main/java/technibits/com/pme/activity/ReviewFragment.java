@@ -143,7 +143,10 @@ public class ReviewFragment extends Fragment {
                     String question_cut=value.getQuestion();
                     if(question_cut.length()<30){
                         list.add(question_cut);
-                    }else{ list.add(question_cut.substring(0,36)+"..."); }
+                    }else{
+                        String cut=question_cut.substring(0,31);
+                        list.add(cut+"...");
+                    }
                 }//android.R.layout.simple_list_item_1
 
                 adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, list);

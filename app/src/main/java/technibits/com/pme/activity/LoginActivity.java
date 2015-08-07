@@ -209,6 +209,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
+         //TODO disable user input
+        userName.setEnabled(true);
+        password.setEnabled(true);
         if (!result.hasResolution()) {
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,0).show();
 //            showNetworkstatus(getApplicationContext());
@@ -453,7 +456,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         switch (v.getId()) {
             case R.id.btn_sign_in:
                 // Signin button clicked
+                userName.setEnabled(false);
+                password.setEnabled(false);
+                login.setEnabled(false);
+
                 signInWithGplus();
+                login.setEnabled(true);
                 break;
 
             case R.id.signUP:

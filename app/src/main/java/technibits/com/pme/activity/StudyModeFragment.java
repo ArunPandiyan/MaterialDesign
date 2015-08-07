@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -39,6 +40,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import technibits.com.pme.activity.SimpleGestureFilter.SimpleGestureListener;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -65,7 +68,7 @@ public class StudyModeFragment extends Fragment  {
     TextView textEnd, textStart, textGoalStart, textGoalend;
     ListView reviewListview;
     ListView resultListview;
-    Button btnreTake, btnreTest, review;
+    Button btnreTake, btnreTest, review,quit_test;
     View reviewView;
     View resultView;
     SeekBar seekBar, seekGoal;
@@ -81,10 +84,9 @@ public class StudyModeFragment extends Fragment  {
     public int answer;
     ResultData resData;
     private Toolbar mToolbar;
-    private JSONObject firstresult;
-    private SimpleGestureFilter detector;
-    private GestureDetector gd;
-
+    QuizJSONParser jsonParser;
+    private static JSONObject jsonObject;
+    public Animation animation = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -114,7 +116,7 @@ public class StudyModeFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 //        detector = new SimpleGestureFilter(getActivity(),this);
 
-
+        jsonParser = new QuizJSONParser();
         resData = new ResultData();
 
         DisplayMetrics metrics = new DisplayMetrics();
@@ -157,7 +159,17 @@ public class StudyModeFragment extends Fragment  {
         btnreTake = (Button) resultView.findViewById(R.id.retake);
         btnreTest = (Button) resultView.findViewById(R.id.reTest);
         review = (Button) resultView.findViewById(R.id.review);
+        quit_test = (Button) resultView.findViewById(R.id.quit_test);
         review.setVisibility(View.GONE);
+        quit_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         btnreTake.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -282,44 +294,17 @@ public class StudyModeFragment extends Fragment  {
                     }
                     if (iNext < count) {
                         dataSource = data.get(iNext);
+                        animation = AnimationUtils.loadAnimation(context, R.anim.push_left_in);
+
                         StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData,2);
 
                         list.setAdapter(adapter);
-//                        AnimationSet set = new AnimationSet(true);
+                        list.setAnimation(animation);
 //
-//                        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-//                        animation.setDuration(500);
-//                        set.addAnimation(animation);
-//
-//                        animation = new TranslateAnimation(
-//                                Animation.RELATIVE_TO_SELF, 10.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-//                                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f
-//                        );
-//                        animation.setDuration(1000);
-//                        set.addAnimation(animation);
-
-//                        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
-//
-//                        list.setLayoutAnimation(controller);R.anim.layout_controller
-//                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), android.R.anim.slide_in_left);
-//                        list.setLayoutAnimation(controller);
-                        //************************
-//                        final Animation animation1 = AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_out_right);
-//                        rowView.startAnimation(animation1);
-//                        Handler handle = new Handler();
-//                        handle.postDelayed(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                all_planets.remove(positon);
-//                                listAdapter.notifyDataSetChanged();
-//                                animation1.cancel();
-//                            }
-//                        }, 1000);
 
 
 
-                        //**************
+
                         priv.setEnabled(true);
                         iNext++;
                         pCheck = true;
@@ -392,9 +377,13 @@ public class StudyModeFragment extends Fragment  {
                 if (iNext > 0) {
                     iNext--;
                     dataSource = data.get(iNext);
+                    animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
                     StudyAdapter adapter = new StudyAdapter(context, dataSource, iNext, device, frag, resData,1);
 //	            		adapter.resData = resData;
                     list.setAdapter(adapter);
+                    list.setAnimation(animation);
+
+//                    list.getAdapter().getView().get;
                     next.setEnabled(true);
                     if (next.getText().toString().equals("Finish")) {
                         next.setText("Next");
@@ -476,6 +465,7 @@ public class StudyModeFragment extends Fragment  {
                 priv.performClick();
             }
         });
+
         return rootView;
 
     }
@@ -490,9 +480,9 @@ public class StudyModeFragment extends Fragment  {
 
     public void Json(JSONObject json) throws JSONException {
         try {
-            QuizJSONParser jsonParser = new QuizJSONParser();
-            jsonParser.jsonArrayName = "knowledgearea";
 
+            jsonParser.jsonArrayName = "knowledgearea";
+            jsonObject=json;
             data = jsonParser.testJsonParsing(json);
             retakedata = jsonParser.testJsonParsing(json);
             if(mark==0){
@@ -687,7 +677,7 @@ public class StudyModeFragment extends Fragment  {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     if (check == 0) {
 //	                		   ((QuizActivity)getActivity()).quit();
-                        ((QuizActivity) getActivity()).onBackPressed();
+//                        ((QuizActivity) getActivity()).onBackPressed();
                     }
                     check = 1;
                 }
@@ -734,9 +724,17 @@ public class StudyModeFragment extends Fragment  {
         data.clear();
         resData = new ResultData();
         iNext = 1;
-        data = new ArrayList<Quizdata>(fornexttest);
+//        jsonObject=json;
+        try {
+            data = jsonParser.testJsonParsing(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        data = new ArrayList<Quizdata>(fornexttest);
         dataSource=null;
         dataSource=new Quizdata();
+
         if (data.size() > 0) {
             dataSource = data.get(0);
             StudyAdapter adapter = new StudyAdapter(getActivity(), dataSource, 0, device, frag, resData,0);
@@ -754,34 +752,5 @@ public class StudyModeFragment extends Fragment  {
         alertDialog.dismiss();
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent me){
-//        // Call onTouchEvent of SimpleGestureFilter class
-//        this.detector.onTouchEvent(me);
-//        return super.dispatchTouchEvent(me);
-//    }
-//    @Override
-//    public void onSwipe(int direction) {
-//        String str = "";
-//
-//        switch (direction) {
-//
-//            case SimpleGestureFilter.SWIPE_RIGHT :
-//                next.performClick();
-//                break;
-//            case SimpleGestureFilter.SWIPE_LEFT :
-//                priv.performClick();
-//                break;
-//            case SimpleGestureFilter.SWIPE_DOWN :
-//                break;
-//            case SimpleGestureFilter.SWIPE_UP :
-//                break;
-//
-//        }
-//    }
-//
-//    @Override
-//    public void onDoubleTap() {
-//        showReview();
-//    }
+
 }

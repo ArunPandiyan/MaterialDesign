@@ -166,7 +166,8 @@
             android:label="@string/Alarm_Settings"
             android:screenOrientation="portrait" />
         <activity android:name="technibits.com.pme.activity.WebviewActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity android:name="technibits.com.pme.activity.ShowPushNotificationActivity"
             android:screenOrientation="landscape"/>
         <activity

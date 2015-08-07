@@ -28,6 +28,7 @@ public class QuizActivity extends AppCompatActivity {
     public ExamFragment examfragment;
     public StudyModeFragment studyfragment;
     public Fragment frag;
+    String mailid="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class QuizActivity extends AppCompatActivity {
         choosedvalue = bundle.getString("choosedvalue");
         difficulty = bundle.getInt("difficulty");
 
-        String mailid= RemindMe.returnMail();
+         mailid= RemindMe.returnMail();
 //        String url = "http://www.jmbok.techtestbox.com/and/all.php?knowledgearea=" + knArea + "&group=" + prGroup + "&processname=" + prName + "&difficulty=" + prMode + "&mailid="+mailid;
         String url = "http://jmbok.techtestbox.com/and/get_questions.php?type="+type+"&value="+choosedvalue+"&difficulty="+difficulty+"&mailid="+mailid+"";
         url = url.replace(" ", "");

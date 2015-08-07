@@ -81,7 +81,7 @@ public class BuyProFragment extends Fragment {
 //        db.close();
 
 //        if (!mIsPremium) {
-        if(status.equalsIgnoreCase("free") && status==null){
+        if(status==null ||status.equalsIgnoreCase("free")  ){
 //            mServiceConn=RemindMe.
             mServiceConn = new ServiceConnection() {
                 @Override
